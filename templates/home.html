@@ -1,0 +1,422 @@
+{% extends 'base.html' %}
+
+{% block title %}EcoMesh — 100% Solar-Powered Decentralized Community Wi-Fi{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative pt-12 pb-24 lg:pt-20 lg:pb-32 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Pitch & CTAs -->
+      <div class="lg:col-span-7 space-y-8" data-aos="fade-up">
+        
+        <!-- Live Status Pill -->
+        <div class="inline-flex items-center space-x-2.5 px-4 py-2 rounded-full glass-panel border border-emerald-500/30 text-xs font-semibold text-emerald-300 shadow-lg shadow-emerald-500/10">
+          <span class="flex h-2.5 w-2.5 relative">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+          </span>
+          <span>Live Network Uptime: <span class="font-bold text-white">{{ avg_uptime }}%</span> • 100% Solar Powered</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+          Clean, Solar Internet for Students. <br/>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
+            Data That Never Expires.
+          </span>
+        </h1>
+
+        <p class="text-lg text-slate-300 max-w-2xl leading-relaxed">
+          Say goodbye to expensive cellular blackout drops, noisy diesel generators, and unfair data expirations. EcoMesh is a decentralized, off-grid solar Wi-Fi mesh delivering high-speed internet directly to your student hostel quarters.
+        </p>
+
+        <!-- CTA Action Buttons -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 pt-2">
+          <a href="#coverage" class="flex items-center justify-center space-x-2 px-7 py-4 text-base font-bold text-slate-950 bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-300 hover:from-emerald-300 hover:to-teal-300 rounded-2xl shadow-xl shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+            <i data-lucide="map-pin" class="w-5 h-5"></i>
+            <span>Check Node Coverage</span>
+          </a>
+          {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}" class="flex items-center justify-center space-x-2 px-7 py-4 text-base font-semibold text-slate-200 glass-panel hover:bg-slate-800/80 border border-slate-700/80 rounded-2xl transition duration-200">
+              <i data-lucide="layout-dashboard" class="w-5 h-5 text-emerald-400"></i>
+              <span>Open Data Dashboard</span>
+            </a>
+          {% else %}
+            <a href="{% url 'register' %}" class="flex items-center justify-center space-x-2 px-7 py-4 text-base font-semibold text-slate-200 glass-panel hover:bg-slate-800/80 border border-slate-700/80 rounded-2xl transition duration-200">
+              <i data-lucide="sparkles" class="w-5 h-5 text-emerald-400"></i>
+              <span>Get Connected Free</span>
+            </a>
+          {% endif %}
+        </div>
+
+        <!-- Social Proof Checklist -->
+        <div class="pt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-slate-400 font-medium">
+          <div class="flex items-center space-x-2">
+            <i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+            <span>Zero Expiration Rollover</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+            <span>100% Off-Grid LiFePO4</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+            <span>Up to 900 Mbps 5.8GHz</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Hero Visual Card: Solar Mesh Node Telemetry Preview -->
+      <div class="lg:col-span-5" data-aos="fade-left">
+        <div class="relative rounded-3xl p-1 bg-gradient-to-b from-emerald-500/30 via-slate-800/40 to-teal-500/20 shadow-2xl">
+          <div class="glass-panel rounded-[22px] p-6 sm:p-8 space-y-6">
+            
+            <!-- Telemetry Header -->
+            <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+              <div class="flex items-center space-x-3">
+                <div class="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                  <i data-lucide="sun-medium" class="w-6 h-6 animate-pulse"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-bold text-white">Cluster Telemetry</h3>
+                  <p class="text-xs text-slate-400 font-mono">Microgrid Solar Node Alpha-01</p>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 text-xs font-bold font-mono rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                ACTIVE
+              </span>
+            </div>
+
+            <!-- Solar Power Gauge & Metrics -->
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between text-xs font-semibold mb-1.5">
+                  <span class="text-slate-300 flex items-center space-x-1.5">
+                    <i data-lucide="battery-charging" class="w-4 h-4 text-emerald-400"></i>
+                    <span>Solar Battery Reserve</span>
+                  </span>
+                  <span class="text-emerald-400 font-mono font-bold">98% (2.4 kWh LiFePO4)</span>
+                </div>
+                <div class="w-full bg-slate-950 h-3 rounded-full overflow-hidden p-0.5 border border-slate-800">
+                  <div class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-500" style="width: 98%"></div>
+                </div>
+              </div>
+
+              <!-- Quick Telemetry Stats Grid -->
+              <div class="grid grid-cols-2 gap-3 pt-2">
+                <div class="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
+                  <span class="text-[11px] font-medium text-slate-400 block mb-1">Solar Generation</span>
+                  <span class="text-lg font-bold font-mono text-white flex items-center space-x-1">
+                    <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
+                    <span>385 W</span>
+                  </span>
+                  <span class="text-[10px] text-emerald-400 mt-1 block">MPPT Peak Tracked</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
+                  <span class="text-[11px] font-medium text-slate-400 block mb-1">Mesh Backhaul</span>
+                  <span class="text-lg font-bold font-mono text-white flex items-center space-x-1">
+                    <i data-lucide="activity" class="w-4 h-4 text-cyan-400"></i>
+                    <span>892 Mbps</span>
+                  </span>
+                  <span class="text-[10px] text-cyan-400 mt-1 block">5.8 GHz Low Latency</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Non-Expiring Data Highlight Banner -->
+            <div class="p-4 rounded-xl bg-gradient-to-r from-emerald-950/80 via-slate-900 to-teal-950/80 border border-emerald-500/30 flex items-center space-x-3">
+              <div class="p-2 rounded-lg bg-emerald-500/20 text-emerald-400 shrink-0">
+                <i data-lucide="infinity" class="w-5 h-5"></i>
+              </div>
+              <div class="text-xs">
+                <p class="font-bold text-white">Perpetual Rollover Policy</p>
+                <p class="text-slate-300">Data never expires at month-end. You paid for it, you keep it.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Impact & Live Sustainability Ticker -->
+<section class="border-y border-slate-800/80 bg-slate-900/40 backdrop-blur-md py-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      
+      <div data-aos="fade-up" data-aos-delay="100" class="space-y-1">
+        <div class="text-3xl sm:text-4xl font-extrabold text-white font-mono tracking-tight flex items-center justify-center space-x-1">
+          <span class="text-emerald-400">{{ avg_uptime }}</span>
+          <span>%</span>
+        </div>
+        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Clean Solar Uptime SLA</p>
+        <p class="text-[11px] text-emerald-400/80">30-Day Campus Record</p>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="200" class="space-y-1">
+        <div class="text-3xl sm:text-4xl font-extrabold text-white font-mono tracking-tight flex items-center justify-center space-x-1">
+          <span class="text-teal-300">{{ solar_co2_offset }}</span>
+          <span class="text-base text-slate-400">kg</span>
+        </div>
+        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Generator CO₂ Offset</p>
+        <p class="text-[11px] text-teal-400/80">Zero Diesel Fumes</p>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="300" class="space-y-1">
+        <div class="text-3xl sm:text-4xl font-extrabold text-white font-mono tracking-tight flex items-center justify-center space-x-1">
+          <span class="text-white">{{ connected_peers }}+</span>
+        </div>
+        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Connected Students</p>
+        <p class="text-[11px] text-slate-400">Off-Campus Hostels</p>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="400" class="space-y-1">
+        <div class="text-3xl sm:text-4xl font-extrabold text-white font-mono tracking-tight flex items-center justify-center space-x-1">
+          <span class="text-emerald-400">0</span>
+          <span class="text-base text-slate-400">Days</span>
+        </div>
+        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Data Expiration Period</p>
+        <p class="text-[11px] text-emerald-400/80">Perpetual Lifetime Rollover</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Live Nodes Around Me / Coverage Grid -->
+<section id="coverage" class="py-24 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12" data-aos="fade-up">
+      <div class="space-y-3">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-xs font-bold text-emerald-400">
+          <i data-lucide="radio-tower" class="w-3.5 h-3.5"></i>
+          <span>REAL-TIME MESH STATUS</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          Live Community Nodes Around You
+        </h2>
+        <p class="text-sm text-slate-400 max-w-xl">
+          Track live battery storage levels, signal frequencies, and upcoming scheduled maintenance windows across all deployed solar hubs.
+        </p>
+      </div>
+
+      <!-- Legend & Stats Pill -->
+      <div class="mt-6 md:mt-0 flex items-center space-x-3 text-xs font-medium">
+        <span class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-emerald-950/60 border border-emerald-500/30 text-emerald-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>{{ active_nodes_count }} Operational</span>
+        </span>
+        {% if maintenance_nodes_count %}
+        <span class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-amber-950/60 border border-amber-500/30 text-amber-300">
+          <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+          <span>{{ maintenance_nodes_count }} Maintenance</span>
+        </span>
+        {% endif %}
+        {% if offline_nodes_count %}
+        <span class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-rose-950/60 border border-rose-500/30 text-rose-300">
+          <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+          <span>{{ offline_nodes_count }} Offline</span>
+        </span>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Node Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for node in nodes %}
+        <div class="glass-panel glass-panel-hover rounded-2xl p-6 relative flex flex-col justify-between" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+          
+          <div>
+            <!-- Header: Node Name & Status Badge -->
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h3 class="text-base font-bold text-white group-hover:text-emerald-300 transition">{{ node.name }}</h3>
+                <p class="text-xs text-slate-400 flex items-center space-x-1 mt-0.5">
+                  <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-500"></i>
+                  <span>{{ node.location_area }}</span>
+                </p>
+              </div>
+
+              <!-- Status Badge -->
+              {% if node.status == 'ACTIVE' %}
+                <span class="px-2.5 py-1 text-[11px] font-bold font-mono tracking-wider rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center space-x-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                  <span>ACTIVE</span>
+                </span>
+              {% elif node.status == 'MAINTENANCE' %}
+                <span class="px-2.5 py-1 text-[11px] font-bold font-mono tracking-wider rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 flex items-center space-x-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                  <span>MAINTENANCE</span>
+                </span>
+              {% else %}
+                <span class="px-2.5 py-1 text-[11px] font-bold font-mono tracking-wider rounded-full bg-rose-500/15 text-rose-400 border border-rose-500/30 flex items-center space-x-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+                  <span>OFFLINE</span>
+                </span>
+              {% endif %}
+            </div>
+
+            <!-- Battery Level Indicator -->
+            <div class="space-y-1.5 py-3">
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-400 flex items-center space-x-1">
+                  <i data-lucide="battery" class="w-3.5 h-3.5 text-slate-400"></i>
+                  <span>Battery Health (LiFePO4)</span>
+                </span>
+                <span class="font-mono font-bold {% if node.battery_level >= 70 %}text-emerald-400{% elif node.battery_level >= 35 %}text-amber-400{% else %}text-rose-400{% endif %}">
+                  {{ node.battery_level }}%
+                </span>
+              </div>
+              <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden p-0.5 border border-slate-800">
+                <div class="h-full rounded-full transition-all duration-500 {% if node.battery_level >= 70 %}bg-gradient-to-r from-emerald-500 to-teal-400{% elif node.battery_level >= 35 %}bg-gradient-to-r from-amber-500 to-amber-300{% else %}bg-gradient-to-r from-rose-500 to-rose-400{% endif %}" style="width: {{ node.battery_level }}%"></div>
+              </div>
+            </div>
+
+            <!-- Node Metrics Table -->
+            <div class="grid grid-cols-2 gap-2 my-3 text-xs">
+              <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800/80">
+                <span class="text-[11px] text-slate-500 block">Signal Quality</span>
+                <span class="font-medium text-slate-200 flex items-center space-x-1 mt-0.5">
+                  <i data-lucide="wifi" class="w-3.5 h-3.5 text-emerald-400"></i>
+                  <span>{{ node.signal_quality }}</span>
+                </span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800/80">
+                <span class="text-[11px] text-slate-500 block">30d SLA Uptime</span>
+                <span class="font-mono font-bold text-white mt-0.5 block">
+                  {{ node.uptime_percentage }}%
+                </span>
+              </div>
+            </div>
+
+            <!-- Maintenance Notice Alert if active -->
+            {% if node.status == 'MAINTENANCE' or node.maintenance_note %}
+              <div class="mt-3 p-3 rounded-xl {% if node.status == 'MAINTENANCE' %}bg-amber-950/40 border border-amber-500/30 text-amber-200{% elif node.status == 'OFFLINE' %}bg-rose-950/40 border border-rose-500/30 text-rose-200{% else %}bg-slate-950/80 border border-slate-800 text-slate-300{% endif %} text-xs space-y-1">
+                <div class="flex items-center space-x-1.5 font-semibold">
+                  <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
+                  <span>{% if node.status == 'MAINTENANCE' %}Scheduled Maintenance Window{% elif node.status == 'OFFLINE' %}Field Dispatch Notice{% else %}Engineer Status Note{% endif %}</span>
+                </div>
+                <p class="text-[11px] opacity-90 leading-relaxed">{{ node.maintenance_note }}</p>
+                {% if node.next_maintenance_date %}
+                  <p class="text-[10px] font-mono text-slate-400 pt-1">Window: {{ node.next_maintenance_date|date:"M d, Y • H:i" }} UTC</p>
+                {% endif %}
+              </div>
+            {% endif %}
+
+          </div>
+
+          <!-- Bottom Action Link -->
+          <div class="pt-5 mt-4 border-t border-slate-800/80 flex items-center justify-between">
+            <span class="text-[11px] text-slate-400 font-mono">SSID: EcoMesh-{{ node.id }}</span>
+            <a href="{% url 'book_service' %}?node={{ node.id }}" class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center space-x-1 group">
+              <span>Book Technician</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"></i>
+            </a>
+          </div>
+
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<!-- How It Works (3 Steps) -->
+<section class="py-24 border-t border-slate-800/80 bg-slate-900/30">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-xs font-bold text-emerald-400 mb-3">
+        <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+        <span>HOW ECOMESH WORKS</span>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        Zero Diesel. Zero Outages. Zero Expiration.
+      </h2>
+      <p class="text-slate-400 text-sm mt-3">
+        We bypass brittle central telecom towers with rooftop solar micro-generators and high-speed directional mesh repeaters.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <!-- Step 1 -->
+      <div class="glass-panel rounded-2xl p-8 space-y-5 relative" data-aos="fade-up" data-aos-delay="100">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-extrabold text-lg">
+          01
+        </div>
+        <h3 class="text-xl font-bold text-white">100% Solar-Powered</h3>
+        <p class="text-sm text-slate-300 leading-relaxed">
+          Every node runs on dedicated high-efficiency monocrystalline solar panels paired with industrial LiFePO4 batteries. No grid blackouts, no generator noise.
+        </p>
+        <div class="text-xs font-mono text-emerald-400 flex items-center space-x-1.5 pt-2">
+          <i data-lucide="sun" class="w-4 h-4"></i>
+          <span>Day & Night Continuous Generation</span>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="glass-panel rounded-2xl p-8 space-y-5 relative" data-aos="fade-up" data-aos-delay="200">
+        <div class="w-12 h-12 rounded-2xl bg-teal-500/20 text-teal-300 border border-teal-500/30 flex items-center justify-center font-extrabold text-lg">
+          02
+        </div>
+        <h3 class="text-xl font-bold text-white">Dual-Band Mesh Routing</h3>
+        <p class="text-sm text-slate-300 leading-relaxed">
+          Nodes self-heal and dynamically route packets across 5.8 GHz and 2.4 GHz frequencies. If one rooftop mast is blocked, traffic hops instantaneously through peers.
+        </p>
+        <div class="text-xs font-mono text-teal-400 flex items-center space-x-1.5 pt-2">
+          <i data-lucide="git-branch" class="w-4 h-4"></i>
+          <span>Sub-15ms Local Peer Latency</span>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="glass-panel rounded-2xl p-8 space-y-5 relative" data-aos="fade-up" data-aos-delay="300">
+        <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 flex items-center justify-center font-extrabold text-lg">
+          03
+        </div>
+        <h3 class="text-xl font-bold text-white">Perpetual Non-Expiring Data</h3>
+        <p class="text-sm text-slate-300 leading-relaxed">
+          Top up with affordable physical scratch cards or instant online vouchers. Your megabytes never expire and rollover automatically until every byte is consumed.
+        </p>
+        <div class="text-xs font-mono text-cyan-400 flex items-center space-x-1.5 pt-2">
+          <i data-lucide="shield-check" class="w-4 h-4"></i>
+          <span>Lifetime Wallet Stacking</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- Call to Action Banner -->
+<section class="py-20 relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="rounded-3xl p-8 sm:p-12 bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 border border-emerald-500/40 relative overflow-hidden shadow-2xl" data-aos="zoom-in">
+      <div class="relative z-10 max-w-2xl space-y-6">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          Ready to experience reliable, blackout-proof solar internet?
+        </h2>
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+          Create your free student account today and get a 100 MB welcome grant. Connect your laptop and phone with your secure 8-character Wi-Fi PIN in seconds.
+        </p>
+        <div class="flex flex-wrap gap-4 pt-2">
+          <a href="{% url 'register' %}" class="px-8 py-4 text-sm font-bold text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl shadow-lg shadow-emerald-500/30 transition">
+            Create Free Account
+          </a>
+          <a href="{% url 'pricing' %}" class="px-8 py-4 text-sm font-semibold text-white glass-panel hover:bg-slate-800 rounded-xl transition">
+            View Voucher Rates
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

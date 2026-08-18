@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}Get Connected / Register — EcoMesh{% endblock %}
+
+{% block content %}
+<section class="min-h-[85vh] flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8 relative">
+  <div class="max-w-md w-full space-y-8" data-aos="fade-up">
+    
+    <!-- Header -->
+    <div class="text-center space-y-2">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-xs font-bold text-emerald-400">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+        <span>100 MB FREE WELCOME GRANT</span>
+      </div>
+      <h1 class="text-3xl font-extrabold text-white tracking-tight">Join the Solar Mesh</h1>
+      <p class="text-xs text-slate-400">Create your account to unlock perpetual non-expiring community Wi-Fi.</p>
+    </div>
+
+    <!-- Auth Card -->
+    <div class="glass-panel rounded-3xl p-8 shadow-2xl border border-slate-800 space-y-6">
+      
+      <!-- Tab Switcher -->
+      <div class="grid grid-cols-2 p-1 rounded-xl bg-slate-950/80 border border-slate-800 text-xs font-semibold text-center">
+        <a href="{% url 'login' %}" class="py-2.5 rounded-lg text-slate-400 hover:text-white transition">
+          Sign In
+        </a>
+        <a href="{% url 'register' %}" class="py-2.5 rounded-lg bg-emerald-500 text-slate-950 shadow-md">
+          Register New Account
+        </a>
+      </div>
+
+      <!-- Registration Form -->
+      <form method="POST" action="{% url 'register' %}" class="space-y-4">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+          <div class="p-3.5 rounded-xl bg-rose-950/60 border border-rose-500/40 text-rose-200 text-xs space-y-1">
+            {% for error in form.non_field_errors %}
+              <p class="flex items-center space-x-1.5">
+                <i data-lucide="alert-circle" class="w-4 h-4 text-rose-400 shrink-0"></i>
+                <span>{{ error }}</span>
+              </p>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <div class="space-y-1.5">
+          <label for="{{ form.username.id_for_label }}" class="block text-xs font-semibold text-slate-300">
+            Username
+          </label>
+          {{ form.username }}
+          {% if form.username.errors %}
+            <p class="text-xs text-rose-400 mt-1">{{ form.username.errors.0 }}</p>
+          {% endif %}
+        </div>
+
+        <div class="space-y-1.5">
+          <label for="{{ form.email.id_for_label }}" class="block text-xs font-semibold text-slate-300">
+            Student or Personal Email
+          </label>
+          {{ form.email }}
+          {% if form.email.errors %}
+            <p class="text-xs text-rose-400 mt-1">{{ form.email.errors.0 }}</p>
+          {% endif %}
+        </div>
+
+        <div class="space-y-1.5">
+          <label for="{{ form.password.id_for_label }}" class="block text-xs font-semibold text-slate-300">
+            Password (min 6 characters)
+          </label>
+          {{ form.password }}
+          {% if form.password.errors %}
+            <p class="text-xs text-rose-400 mt-1">{{ form.password.errors.0 }}</p>
+          {% endif %}
+        </div>
+
+        <div class="space-y-1.5">
+          <label for="{{ form.confirm_password.id_for_label }}" class="block text-xs font-semibold text-slate-300">
+            Confirm Password
+          </label>
+          {{ form.confirm_password }}
+          {% if form.confirm_password.errors %}
+            <p class="text-xs text-rose-400 mt-1">{{ form.confirm_password.errors.0 }}</p>
+          {% endif %}
+        </div>
+
+        <div class="space-y-1.5">
+          <label for="{{ form.assigned_node.id_for_label }}" class="block text-xs font-semibold text-slate-300">
+            Nearest Solar Node (Optional)
+          </label>
+          {{ form.assigned_node }}
+          <p class="text-[11px] text-slate-400">Select your hostel area or leave blank for nearest active node auto-assignment.</p>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 px-4 text-sm font-bold text-slate-950 bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-300 hover:to-teal-300 rounded-xl shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition transform active:scale-[0.99] mt-2">
+          Create Data Wallet & Connect
+        </button>
+      </form>
+
+      <!-- Welcome Grant Banner -->
+      <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-[11px] text-emerald-300 flex items-start space-x-2.5">
+        <i data-lucide="gift" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+        <span>Every new registration receives an instant <strong>100 MB perpetual welcome bonus</strong> and a personal 8-character Wi-Fi security PIN.</span>
+      </div>
+
+    </div>
+
+    <!-- Login Link Footer -->
+    <p class="text-center text-xs text-slate-400">
+      Already have an account?
+      <a href="{% url 'login' %}" class="font-bold text-emerald-400 hover:text-emerald-300">Log in here</a>
+    </p>
+
+  </div>
+</section>
+{% endblock %}
