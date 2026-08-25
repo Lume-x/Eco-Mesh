@@ -1,59 +1,58 @@
 {% extends 'base.html' %}
 
-{% block title %}Certified Technician Dispatch Portal — EcoMesh{% endblock %}
+{% block title %}Technician Operations Dashboard — EcoMesh{% endblock %}
 
 {% block content %}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
   
-  <!-- Top Portal Header -->
-  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800" data-aos="fade-down">
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200" data-aos="fade-down">
     <div class="space-y-1">
       <div class="flex items-center space-x-2">
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-white">
-          Certified Technician <span class="text-teal-400">Dispatch Portal</span>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+          Technician <span class="text-teal-700">Operations Dashboard</span>
         </h1>
-        <span class="px-2.5 py-0.5 text-[11px] font-bold font-mono bg-teal-500/20 text-teal-300 border border-teal-500/30 rounded-full">
-          FIELD OPERATIONS
+        <span class="badge-status badge-active">
+          ● FIELD OPERATIONS
         </span>
       </div>
-      <p class="text-xs text-slate-400">
-        Logged in as: <strong class="text-slate-200">{{ user.get_full_name|default:user.username }}</strong> • Manage assigned service tickets, log diagnostics, and update completion status.
+      <p class="text-xs text-slate-500">
+        Logged in as: <strong class="text-slate-800">{{ user.get_full_name|default:user.username }}</strong> • Manage assigned service tickets, log diagnostics, and update completion status.
       </p>
     </div>
 
-    <!-- Quick Status Counter Chips -->
+    <!-- Status Counters -->
     <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
-      <span class="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-300">
-        Total: <strong class="text-white">{{ total_count }}</strong>
+      <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-slate-700 shadow-sm">
+        Total: <strong class="text-slate-900">{{ total_count }}</strong>
       </span>
-      <span class="px-3 py-1.5 rounded-xl bg-amber-950/60 border border-amber-500/30 text-amber-300">
-        Pending: <strong class="text-amber-400">{{ pending_count }}</strong>
+      <span class="px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 shadow-sm">
+        Pending: <strong class="text-amber-700">{{ pending_count }}</strong>
       </span>
-      <span class="px-3 py-1.5 rounded-xl bg-purple-950/60 border border-purple-500/30 text-purple-300">
-        In Progress: <strong class="text-purple-400">{{ in_progress_count }}</strong>
+      <span class="px-3 py-1.5 rounded-xl bg-purple-50 border border-purple-200 text-purple-800 shadow-sm">
+        In Progress: <strong class="text-purple-700">{{ in_progress_count }}</strong>
       </span>
-      <span class="px-3 py-1.5 rounded-xl bg-emerald-950/60 border border-emerald-500/30 text-emerald-300">
-        Completed: <strong class="text-emerald-400">{{ completed_count }}</strong>
+      <span class="px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 shadow-sm">
+        Completed: <strong class="text-emerald-700">{{ completed_count }}</strong>
       </span>
     </div>
   </div>
 
   <!-- Filter Tabs -->
-  <div class="flex items-center space-x-2 border-b border-slate-800 pb-3 text-xs" data-aos="fade-up">
-    <span class="text-slate-400 font-semibold mr-2">Filter By Status:</span>
-    <a href="?status=ALL" class="px-3 py-1.5 rounded-xl transition {% if current_filter == 'ALL' %}bg-slate-800 text-white font-bold{% else %}text-slate-400 hover:text-white{% endif %}">
-      All Tickets ({{ total_count }})
+  <div class="flex flex-wrap items-center gap-2 pb-2 text-xs font-semibold" data-aos="fade-up">
+    <a href="?status=ALL" class="px-4 py-2 rounded-xl transition {% if current_filter == 'ALL' %}bg-slate-900 text-white shadow-sm{% else %}bg-white text-slate-600 hover:bg-slate-100 border border-slate-200{% endif %}">
+      All Requests ({{ total_count }})
     </a>
-    <a href="?status=PENDING" class="px-3 py-1.5 rounded-xl transition {% if current_filter == 'PENDING' %}bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold{% else %}text-slate-400 hover:text-amber-400{% endif %}">
+    <a href="?status=PENDING" class="px-4 py-2 rounded-xl transition {% if current_filter == 'PENDING' %}bg-amber-600 text-white shadow-sm{% else %}bg-white text-amber-800 hover:bg-amber-50 border border-amber-200{% endif %}">
       Pending Review ({{ pending_count }})
     </a>
-    <a href="?status=CONFIRMED" class="px-3 py-1.5 rounded-xl transition {% if current_filter == 'CONFIRMED' %}bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-bold{% else %}text-slate-400 hover:text-cyan-400{% endif %}">
+    <a href="?status=CONFIRMED" class="px-4 py-2 rounded-xl transition {% if current_filter == 'CONFIRMED' %}bg-sky-600 text-white shadow-sm{% else %}bg-white text-sky-800 hover:bg-sky-50 border border-sky-200{% endif %}">
       Confirmed ({{ confirmed_count }})
     </a>
-    <a href="?status=IN_PROGRESS" class="px-3 py-1.5 rounded-xl transition {% if current_filter == 'IN_PROGRESS' %}bg-purple-500/20 text-purple-300 border border-purple-500/30 font-bold{% else %}text-slate-400 hover:text-purple-400{% endif %}">
+    <a href="?status=IN_PROGRESS" class="px-4 py-2 rounded-xl transition {% if current_filter == 'IN_PROGRESS' %}bg-purple-600 text-white shadow-sm{% else %}bg-white text-purple-800 hover:bg-purple-50 border border-purple-200{% endif %}">
       In Progress ({{ in_progress_count }})
     </a>
-    <a href="?status=COMPLETED" class="px-3 py-1.5 rounded-xl transition {% if current_filter == 'COMPLETED' %}bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold{% else %}text-slate-400 hover:text-emerald-400{% endif %}">
+    <a href="?status=COMPLETED" class="px-4 py-2 rounded-xl transition {% if current_filter == 'COMPLETED' %}bg-emerald-600 text-white shadow-sm{% else %}bg-white text-emerald-800 hover:bg-emerald-50 border border-emerald-200{% endif %}">
       Completed ({{ completed_count }})
     </a>
   </div>
@@ -62,85 +61,87 @@
   {% if dispatches %}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" data-aos="fade-up">
       {% for dispatch in dispatches %}
-        <div class="glass-panel rounded-3xl p-6 sm:p-7 space-y-5 border {% if dispatch.status == 'PENDING' %}border-amber-500/30{% elif dispatch.status == 'IN_PROGRESS' %}border-purple-500/40{% elif dispatch.status == 'COMPLETED' %}border-emerald-500/30{% else %}border-slate-800{% endif %} shadow-xl">
+        <div class="saas-card p-6 sm:p-7 space-y-5 flex flex-col justify-between shadow-sm">
           
-          <!-- Card Header -->
-          <div class="flex items-start justify-between pb-3 border-b border-slate-800">
-            <div>
-              <span class="text-[10px] font-bold font-mono text-teal-400">DISPATCH TICKET #{{ dispatch.ticket_number }}</span>
-              <h3 class="text-base font-bold text-white">{{ dispatch.get_service_name }}</h3>
-              <p class="text-xs text-slate-400 mt-0.5">
-                Customer: <strong class="text-slate-200">{{ dispatch.user.username }}</strong> ({{ dispatch.user.email|default:"Student" }})
-              </p>
-            </div>
+          <div class="space-y-4">
+            <!-- Header -->
+            <div class="flex items-start justify-between pb-3 border-b border-slate-100">
+              <div>
+                <span class="text-[11px] font-bold font-mono text-teal-700">TICKET #{{ dispatch.ticket_number }}</span>
+                <h3 class="text-base font-bold text-slate-900 mt-0.5">{{ dispatch.get_service_name }}</h3>
+                <p class="text-xs text-slate-500 mt-0.5">
+                  Customer: <strong class="text-slate-800">{{ dispatch.user.username }}</strong> ({{ dispatch.user.email|default:"Student" }})
+                </p>
+              </div>
 
-            <!-- Status Badge -->
-            {% if dispatch.status == 'PENDING' %}
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                PENDING
-              </span>
-            {% elif dispatch.status == 'CONFIRMED' %}
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                CONFIRMED
-              </span>
-            {% elif dispatch.status == 'IN_PROGRESS' %}
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                IN PROGRESS
-              </span>
-            {% elif dispatch.status == 'COMPLETED' %}
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                COMPLETED
-              </span>
-            {% else %}
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">
-                CANCELLED
-              </span>
-            {% endif %}
-          </div>
-
-          <!-- Schedule & Location Info -->
-          <div class="grid grid-cols-2 gap-3 text-xs bg-slate-950/70 p-3.5 rounded-2xl border border-slate-800">
-            <div>
-              <span class="text-slate-400 block">Date & Time Slot:</span>
-              <span class="font-bold text-white font-mono">{{ dispatch.scheduled_date|date:"M d, Y" }} at {{ dispatch.scheduled_time|time:"h:i A" }}</span>
-            </div>
-            <div>
-              <span class="text-slate-400 block">Mesh Node:</span>
-              <span class="text-teal-300 font-semibold">{{ dispatch.node.name|default:"General Area" }}</span>
-            </div>
-            <div class="col-span-2 pt-1 border-t border-slate-800/80">
-              <span class="text-slate-400 block">Room / Hostel Destination:</span>
-              <span class="font-semibold text-white">{{ dispatch.address }}</span>
-              {% if dispatch.notes %}
-                <p class="text-[11px] text-slate-400 mt-0.5 italic">Customer Note: "{{ dispatch.notes }}"</p>
+              <!-- Status Badge -->
+              {% if dispatch.status == 'PENDING' %}
+                <span class="badge-status badge-pending">
+                  🟡 PENDING
+                </span>
+              {% elif dispatch.status == 'CONFIRMED' %}
+                <span class="badge-status badge-confirmed">
+                  🔵 CONFIRMED
+                </span>
+              {% elif dispatch.status == 'IN_PROGRESS' %}
+                <span class="badge-status badge-progress">
+                  🟠 IN PROGRESS
+                </span>
+              {% elif dispatch.status == 'COMPLETED' %}
+                <span class="badge-status badge-completed">
+                  🟢 COMPLETED
+                </span>
+              {% else %}
+                <span class="badge-status badge-cancelled">
+                  🔴 CANCELLED
+                </span>
               {% endif %}
+            </div>
+
+            <!-- Schedule & Location Info -->
+            <div class="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">
+              <div>
+                <span class="text-slate-500 block text-[11px]">Date & Time Slot:</span>
+                <span class="font-bold text-slate-900 font-mono">{{ dispatch.scheduled_date|date:"M d, Y" }} at {{ dispatch.scheduled_time|time:"h:i A" }}</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block text-[11px]">Mesh Node:</span>
+                <span class="text-slate-800 font-semibold">{{ dispatch.node.name|default:"General Area" }}</span>
+              </div>
+              <div class="col-span-2 pt-1 border-t border-slate-200">
+                <span class="text-slate-500 block text-[11px]">Room / Hostel Destination:</span>
+                <span class="font-semibold text-slate-900">{{ dispatch.address }}</span>
+                {% if dispatch.notes %}
+                  <p class="text-[11px] text-slate-500 mt-0.5 italic">Customer Note: "{{ dispatch.notes }}"</p>
+                {% endif %}
+              </div>
             </div>
           </div>
 
           <!-- Technician Action Form -->
-          <form method="POST" action="{% url 'technician_update_status' dispatch.id %}" class="space-y-3 pt-1">
+          <form method="POST" action="{% url 'technician_update_status' dispatch.id %}" class="space-y-3 pt-3 border-t border-slate-100">
             {% csrf_token %}
 
             <div class="space-y-1 text-xs">
-              <label class="block font-semibold text-slate-300">Update Ticket Status</label>
-              <select name="status" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 focus:border-teal-500">
-                <option value="PENDING" {% if dispatch.status == 'PENDING' %}selected{% endif %}>⏳ Pending Review</option>
-                <option value="CONFIRMED" {% if dispatch.status == 'CONFIRMED' %}selected{% endif %}>🚚 Confirmed & Dispatched</option>
-                <option value="IN_PROGRESS" {% if dispatch.status == 'IN_PROGRESS' %}selected{% endif %}>🔧 In Progress / Onsite</option>
-                <option value="COMPLETED" {% if dispatch.status == 'COMPLETED' %}selected{% endif %}>✅ Completed</option>
-                <option value="CANCELLED" {% if dispatch.status == 'CANCELLED' %}selected{% endif %}>✖ Cancelled</option>
+              <label class="block font-bold text-slate-700">Update Service Status</label>
+              <select name="status" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-slate-900 text-xs focus:ring-2 focus:ring-teal-500 focus:border-teal-500 shadow-sm">
+                <option value="PENDING" {% if dispatch.status == 'PENDING' %}selected{% endif %}>🟡 Pending Review</option>
+                <option value="CONFIRMED" {% if dispatch.status == 'CONFIRMED' %}selected{% endif %}>🔵 Confirmed & Dispatched</option>
+                <option value="IN_PROGRESS" {% if dispatch.status == 'IN_PROGRESS' %}selected{% endif %}>🟠 In Progress / Onsite</option>
+                <option value="COMPLETED" {% if dispatch.status == 'COMPLETED' %}selected{% endif %}>🟢 Completed</option>
+                <option value="CANCELLED" {% if dispatch.status == 'CANCELLED' %}selected{% endif %}>🔴 Cancelled</option>
               </select>
             </div>
 
             <div class="space-y-1 text-xs">
-              <label class="block font-semibold text-slate-300">Technician Work Summary & Resolution Notes</label>
-              <textarea name="technician_notes" rows="2" placeholder="e.g. RSSI reading -62dBm, azimuth aligned 14° North, PoE injector tested OK." class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:border-teal-500">{{ dispatch.technician_notes }}</textarea>
+              <label class="block font-bold text-slate-700">Technician Resolution Notes / Telemetry</label>
+              <textarea name="technician_notes" rows="2" placeholder="e.g. RSSI -62dBm optimal, azimuth aligned 14° North, PoE power test OK." class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 text-xs focus:ring-2 focus:ring-teal-500 focus:border-teal-500 shadow-sm">{{ dispatch.technician_notes }}</textarea>
             </div>
 
             <div class="flex justify-end pt-1">
-              <button type="submit" class="px-5 py-2 text-xs font-bold text-slate-950 bg-teal-400 hover:bg-teal-300 rounded-xl transition flex items-center space-x-1.5 shadow">
+              <button type="submit" class="px-5 py-2 text-xs font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-xl transition flex items-center space-x-1.5 shadow-sm">
                 <i data-lucide="save" class="w-3.5 h-3.5"></i>
-                <span>Save Ticket Update</span>
+                <span>Save Status & Notes</span>
               </button>
             </div>
 
@@ -150,12 +151,12 @@
       {% endfor %}
     </div>
   {% else %}
-    <div class="text-center py-16 glass-panel rounded-3xl border border-slate-800 space-y-3">
-      <div class="w-14 h-14 rounded-2xl bg-slate-950 text-slate-500 flex items-center justify-center mx-auto">
-        <i data-lucide="check-circle" class="w-7 h-7"></i>
+    <div class="text-center py-16 saas-card p-8 space-y-3 max-w-lg mx-auto" data-aos="fade-up">
+      <div class="w-14 h-14 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
+        <i data-lucide="check-circle" class="w-7 h-7 text-emerald-600"></i>
       </div>
-      <h3 class="text-base font-bold text-white">No Tickets Found</h3>
-      <p class="text-xs text-slate-400">There are no service tickets matching this status filter.</p>
+      <h3 class="text-base font-bold text-slate-900">No Tickets in this Category</h3>
+      <p class="text-xs text-slate-500">All dispatches in this category have been addressed.</p>
     </div>
   {% endif %}
 

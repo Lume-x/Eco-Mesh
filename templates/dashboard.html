@@ -1,62 +1,55 @@
 {% extends 'base.html' %}
 
-{% block title %}My Appointments & Data Dashboard — EcoMesh{% endblock %}
+{% block title %}Dashboard — EcoMesh{% endblock %}
 
 {% block content %}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
   
-  <!-- Welcome Topbar -->
-  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-800" data-aos="fade-down">
+  <!-- Header: Welcome back, [User Name] -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200" data-aos="fade-down">
     <div class="space-y-1">
       <div class="flex items-center space-x-2">
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-white">
-          Appointments & Dashboard, <span class="text-emerald-400">{{ user.username }}</span>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+          Welcome back, <span class="text-emerald-700">{{ user.username }}</span>
         </h1>
-        <span class="px-2.5 py-0.5 text-[11px] font-bold font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-full">
-          ACTIVE MEMBER
+        <span class="badge-status badge-active">
+          ● ACTIVE MEMBER
         </span>
       </div>
-      <p class="text-xs text-slate-400">
-        Account: <span class="text-slate-300">{{ user.email|default:"Registered Student" }}</span> • EcoMesh Technical Support Portal
+      <p class="text-xs text-slate-500">
+        Account: <span class="text-slate-700 font-medium">{{ user.email|default:"Registered Student" }}</span> • EcoMesh Technical Support & Dashboard
       </p>
     </div>
 
     <!-- Quick CTAs -->
     <div class="flex flex-wrap items-center gap-3">
       {% if is_technician %}
-        <a href="{% url 'technician_portal' %}" class="flex items-center space-x-1.5 px-4 py-2.5 text-xs font-bold text-teal-300 bg-teal-500/15 hover:bg-teal-500/25 border border-teal-500/30 rounded-xl transition">
-          <i data-lucide="hard-hat" class="w-4 h-4 text-teal-400"></i>
+        <a href="{% url 'technician_portal' %}" class="flex items-center space-x-1.5 px-4 py-2.5 text-xs font-bold text-teal-800 bg-teal-50 hover:bg-teal-100 border border-teal-200 rounded-xl transition">
+          <i data-lucide="hard-hat" class="w-4 h-4 text-teal-600"></i>
           <span>Technician Portal</span>
         </a>
       {% endif %}
 
-      {% if user.is_staff or user.is_superuser %}
-        <a href="{% url 'admin_scheduling' %}" class="flex items-center space-x-1.5 px-4 py-2.5 text-xs font-bold text-amber-300 bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 rounded-xl transition">
-          <i data-lucide="shield-check" class="w-4 h-4 text-amber-400"></i>
-          <span>Admin Dispatch</span>
-        </a>
-      {% endif %}
-
-      <a href="{% url 'book_service' %}" class="flex items-center space-x-2 px-5 py-2.5 text-xs font-bold text-slate-950 bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-300 hover:to-teal-300 rounded-xl shadow-lg shadow-emerald-500/20 transition">
-        <i data-lucide="calendar-plus" class="w-4 h-4"></i>
-        <span>Book a Technician</span>
+      <a href="{% url 'my_appointments' %}" class="flex items-center space-x-1.5 px-4 py-2.5 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-300 rounded-xl shadow-sm transition">
+        <i data-lucide="calendar" class="w-4 h-4 text-slate-500"></i>
+        <span>My Appointments</span>
       </a>
 
-      <a href="{% url 'logout' %}" class="flex items-center space-x-1.5 px-3.5 py-2.5 text-xs font-bold text-rose-400 hover:text-white bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 rounded-xl transition" title="Log Out">
-        <i data-lucide="log-out" class="w-4 h-4"></i>
-        <span>Log Out</span>
+      <a href="{% url 'book_service' %}" class="flex items-center space-x-2 px-5 py-2.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm hover:shadow-md transition">
+        <i data-lucide="calendar-plus" class="w-4 h-4"></i>
+        <span>Book a Technician</span>
       </a>
     </div>
   </div>
 
   <!-- System Maintenance Notice if any alerts -->
   {% if system_alerts %}
-    <div class="p-4 rounded-2xl bg-amber-950/40 border border-amber-500/40 text-amber-200 text-xs flex items-start space-x-3" data-aos="fade-up">
-      <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-400 shrink-0 mt-0.5"></i>
+    <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-start space-x-3" data-aos="fade-up">
+      <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
       <div>
-        <strong class="font-bold text-amber-300 block mb-0.5">Solar Mesh Cluster Advisory</strong>
+        <strong class="font-bold text-amber-900 block mb-0.5">Solar Mesh Cluster Advisory</strong>
         <span>Some solar nodes are currently undergoing technician diagnostics or battery maintenance:</span>
-        <ul class="list-disc list-inside mt-1 text-[11px] text-amber-300/90 space-y-0.5">
+        <ul class="list-disc list-inside mt-1 text-[11px] text-amber-800 space-y-0.5">
           {% for alert_node in system_alerts %}
             <li><strong>{{ alert_node.name }}</strong> ({{ alert_node.location_area }}): {{ alert_node.maintenance_note|default:"Standard field inspection in progress." }}</li>
           {% endfor %}
@@ -66,126 +59,119 @@
   {% endif %}
 
   <!-- ========================================================================= -->
-  <!-- HERO SECTION 1: UPCOMING TECHNICAL SERVICE APPOINTMENTS                   -->
+  <!-- 1. PROMINENT UPCOMING APPOINTMENT HERO CARD                               -->
   <!-- ========================================================================= -->
-  <div class="glass-panel rounded-3xl p-6 sm:p-8 space-y-6 border border-emerald-500/30 shadow-2xl bg-gradient-to-b from-slate-900 via-slate-900/95 to-slate-950" data-aos="fade-up">
+  <div class="saas-card p-6 sm:p-8 space-y-6 border border-emerald-200 shadow-md bg-gradient-to-br from-white via-white to-emerald-50/40" data-aos="fade-up">
     
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
       <div class="flex items-center space-x-3">
-        <div class="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-          <i data-lucide="calendar-clock" class="w-6 h-6"></i>
+        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+          <i data-lucide="calendar-clock" class="w-5 h-5"></i>
         </div>
         <div>
-          <h2 class="text-xl font-extrabold text-white">Upcoming Technician Dispatches</h2>
-          <p class="text-xs text-slate-400">Track on-site technician visits, scheduled slots, and assigned field engineers</p>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-800 font-mono block">UPCOMING APPOINTMENT</span>
+          <h2 class="text-xl font-extrabold text-slate-900">Next Scheduled Service</h2>
         </div>
       </div>
 
-      <a href="{% url 'book_service' %}" class="px-4 py-2 text-xs font-bold text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl transition flex items-center space-x-1.5 self-start sm:self-auto">
-        <i data-lucide="plus-circle" class="w-4 h-4"></i>
-        <span>+ Schedule New Service</span>
-      </a>
+      <div class="flex items-center space-x-2">
+        <a href="{% url 'my_appointments' %}" class="text-xs font-bold text-emerald-700 hover:text-emerald-800 hover:underline">
+          View All Appointments ({{ total_appointments_count }}) &rarr;
+        </a>
+      </div>
     </div>
 
-    {% if upcoming_schedules %}
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {% for appt in upcoming_schedules %}
-          <div class="p-6 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-4 relative overflow-hidden">
-            
-            <!-- Top Status Bar -->
-            <div class="flex items-start justify-between">
-              <div>
-                <span class="text-[10px] font-bold font-mono text-emerald-400 block mb-0.5">TICKET #{{ appt.ticket_number }}</span>
-                <h3 class="text-base font-bold text-white">{{ appt.get_service_name }}</h3>
-              </div>
-              
-              <!-- Status Badges -->
-              {% if appt.status == 'PENDING' %}
-                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                  ⏳ PENDING REVIEW
-                </span>
-              {% elif appt.status == 'CONFIRMED' %}
-                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                  🚚 CONFIRMED & DISPATCHED
-                </span>
-              {% elif appt.status == 'IN_PROGRESS' %}
-                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                  🔧 ONSITE / IN PROGRESS
-                </span>
-              {% endif %}
-            </div>
-
-            <!-- Details Grid -->
-            <div class="grid grid-cols-2 gap-3 text-xs pt-1">
-              <div>
-                <span class="text-slate-400 block">Appointment Date:</span>
-                <span class="font-bold text-white font-mono">{{ appt.scheduled_date|date:"M d, Y" }}</span>
-              </div>
-              <div>
-                <span class="text-slate-400 block">Time Window:</span>
-                <span class="font-bold text-emerald-300 font-mono">{{ appt.scheduled_time|time:"h:i A" }}</span>
-              </div>
-              <div>
-                <span class="text-slate-400 block">Target Mesh Node:</span>
-                <span class="text-slate-200">{{ appt.node.name|default:"General Area" }}</span>
-              </div>
-              <div>
-                <span class="text-slate-400 block">Assigned Technician:</span>
-                {% if appt.technician %}
-                  <span class="font-bold text-teal-300">{{ appt.technician.technician_profile.full_name|default:appt.technician.username }}</span>
-                {% else %}
-                  <span class="text-slate-400 italic">Assigning Field Engineer...</span>
-                {% endif %}
-              </div>
-            </div>
-
-            <div class="text-xs text-slate-300 bg-slate-900/60 p-3 rounded-xl border border-slate-800/80">
-              <span class="text-slate-400 block text-[11px]">Room / Destination Address:</span>
-              <span>{{ appt.address }}</span>
-              {% if appt.notes %}
-                <p class="text-[11px] text-slate-400 mt-1 italic">Note: "{{ appt.notes }}"</p>
-              {% endif %}
-            </div>
-
-            {% if appt.technician_notes %}
-              <div class="text-xs bg-teal-950/40 p-3 rounded-xl border border-teal-500/30 text-teal-200">
-                <span class="font-bold block text-[10px] uppercase text-teal-400">Technician Remarks:</span>
-                <span>{{ appt.technician_notes }}</span>
-              </div>
-            {% endif %}
-
-            <!-- Actions Footer -->
-            <div class="pt-2 flex items-center justify-between border-t border-slate-800">
-              <a href="{% url 'booking_confirmation' appt.id %}" class="text-xs font-semibold text-emerald-400 hover:underline">
-                View Receipt & Details &rarr;
-              </a>
-
-              {% if appt.status in 'PENDING,CONFIRMED' %}
-                <form method="POST" action="{% url 'cancel_service' appt.id %}" onsubmit="return confirm('Are you sure you want to cancel this service appointment?');">
-                  {% csrf_token %}
-                  <button type="submit" class="px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 text-xs font-semibold transition">
-                    Cancel Slot
-                  </button>
-                </form>
-              {% endif %}
-            </div>
-
+    {% if next_upcoming %}
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+        
+        <!-- Details Column -->
+        <div class="md:col-span-8 space-y-4">
+          <div class="space-y-1">
+            <span class="text-xs font-mono font-bold text-emerald-700">Ticket #{{ next_upcoming.ticket_number }}</span>
+            <h3 class="text-xl font-extrabold text-slate-900">{{ next_upcoming.get_service_name }}</h3>
           </div>
-        {% endfor %}
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+            <div class="p-3 rounded-xl bg-white border border-slate-200">
+              <span class="text-slate-500 block text-[11px]">Appointment Date</span>
+              <span class="font-bold text-slate-900 font-mono">{{ next_upcoming.scheduled_date|date:"M d, Y" }}</span>
+            </div>
+            <div class="p-3 rounded-xl bg-white border border-slate-200">
+              <span class="text-slate-500 block text-[11px]">Time Window</span>
+              <span class="font-bold text-emerald-700 font-mono">{{ next_upcoming.scheduled_time|time:"h:i A" }}</span>
+            </div>
+            <div class="p-3 rounded-xl bg-white border border-slate-200">
+              <span class="text-slate-500 block text-[11px]">Assigned Technician</span>
+              {% if next_upcoming.technician %}
+                <span class="font-bold text-slate-900">{{ next_upcoming.technician.technician_profile.full_name|default:next_upcoming.technician.username }}</span>
+              {% else %}
+                <span class="text-slate-500 italic">Assigning Field Engineer...</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="text-xs text-slate-600 bg-white p-3 rounded-xl border border-slate-200">
+            <span class="text-slate-500 block text-[11px]">Room / Hostel Address:</span>
+            <span class="font-semibold text-slate-800">{{ next_upcoming.address }}</span>
+            {% if next_upcoming.notes %}
+              <p class="text-[11px] text-slate-500 mt-1 italic">Customer Note: "{{ next_upcoming.notes }}"</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Status & Action Column -->
+        <div class="md:col-span-4 flex flex-col items-start md:items-end justify-between space-y-4 md:border-l md:border-slate-200 md:pl-6">
+          <div class="space-y-1 text-left md:text-right">
+            <span class="text-[11px] text-slate-500 block">Dispatch Status:</span>
+            {% if next_upcoming.status == 'PENDING' %}
+              <span class="badge-status badge-pending">
+                🟡 PENDING REVIEW
+              </span>
+            {% elif next_upcoming.status == 'CONFIRMED' %}
+              <span class="badge-status badge-confirmed">
+                🔵 CONFIRMED & DISPATCHED
+              </span>
+            {% elif next_upcoming.status == 'IN_PROGRESS' %}
+              <span class="badge-status badge-progress">
+                🟠 ONSITE / IN PROGRESS
+              </span>
+            {% else %}
+              <span class="badge-status badge-completed">
+                🟢 COMPLETED
+              </span>
+            {% endif %}
+          </div>
+
+          <div class="flex items-center space-x-2 w-full md:w-auto">
+            <a href="{% url 'booking_confirmation' next_upcoming.id %}" class="w-full md:w-auto px-4 py-2.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm text-center transition">
+              View Details
+            </a>
+
+            {% if next_upcoming.status in 'PENDING,CONFIRMED' %}
+              <form method="POST" action="{% url 'cancel_service' next_upcoming.id %}" onsubmit="return confirm('Are you sure you want to cancel this appointment slot?');">
+                {% csrf_token %}
+                <button type="submit" class="px-3 py-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition">
+                  Cancel
+                </button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+
       </div>
     {% else %}
       <div class="text-center py-10 space-y-3">
-        <div class="w-14 h-14 rounded-2xl bg-slate-950 border border-slate-800 text-slate-500 flex items-center justify-center mx-auto">
-          <i data-lucide="calendar" class="w-7 h-7"></i>
+        <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
+          <i data-lucide="calendar" class="w-6 h-6"></i>
         </div>
-        <h3 class="text-base font-bold text-white">No Active Service Appointments</h3>
-        <p class="text-xs text-slate-400 max-w-md mx-auto">
-          Need an antenna mounted on your hostel roof, weak signal realigned, or solar battery inspection?
+        <h3 class="text-base font-bold text-slate-900">No Upcoming Appointments</h3>
+        <p class="text-xs text-slate-500 max-w-md mx-auto">
+          Book a technician to schedule your first EcoMesh service or antenna inspection.
         </p>
         <div class="pt-2">
-          <a href="{% url 'book_service' %}" class="inline-flex items-center space-x-2 px-6 py-3 text-xs font-bold text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl transition shadow-lg">
+          <a href="{% url 'book_service' %}" class="inline-flex items-center space-x-2 px-6 py-3 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm transition">
             <i data-lucide="calendar-plus" class="w-4 h-4"></i>
-            <span>Book Your Free Technician Dispatch</span>
+            <span>Book a Technician</span>
           </a>
         </div>
       </div>
@@ -194,170 +180,143 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- SECTION 2: PREVIOUS SERVICE HISTORY                                       -->
+  <!-- 2. KPI METRICS SUMMARY ROW                                               -->
   <!-- ========================================================================= -->
-  {% if past_schedules %}
-    <div class="glass-panel rounded-3xl p-6 sm:p-8 space-y-4 border border-slate-800" data-aos="fade-up">
-      <h3 class="text-base font-bold text-white flex items-center space-x-2">
-        <i data-lucide="history" class="w-5 h-5 text-slate-400"></i>
-        <span>Previous Service History ({{ past_schedules.count }})</span>
-      </h3>
-
-      <div class="overflow-x-auto rounded-2xl border border-slate-800">
-        <table class="w-full text-left text-xs">
-          <thead class="bg-slate-950/90 text-slate-400 uppercase font-semibold border-b border-slate-800">
-            <tr>
-              <th class="py-3 px-4">Ticket</th>
-              <th class="py-3 px-4">Service</th>
-              <th class="py-3 px-4">Date & Time</th>
-              <th class="py-3 px-4">Node</th>
-              <th class="py-3 px-4">Status</th>
-              <th class="py-3 px-4">Technician Notes</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-800/60 bg-slate-900/30 text-slate-300">
-            {% for past in past_schedules %}
-              <tr class="hover:bg-slate-800/30 transition">
-                <td class="py-3 px-4 font-mono font-bold text-slate-300">#{{ past.ticket_number }}</td>
-                <td class="py-3 px-4 font-semibold text-white">{{ past.get_service_name }}</td>
-                <td class="py-3 px-4 font-mono">{{ past.scheduled_date|date:"M d, Y" }} • {{ past.scheduled_time|time:"h:i A" }}</td>
-                <td class="py-3 px-4">{{ past.node.name|default:"—" }}</td>
-                <td class="py-3 px-4">
-                  {% if past.status == 'COMPLETED' %}
-                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                      COMPLETED
-                    </span>
-                  {% else %}
-                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">
-                      CANCELLED
-                    </span>
-                  {% endif %}
-                </td>
-                <td class="py-3 px-4 text-[11px] text-slate-400 italic">
-                  {{ past.technician_notes|default:"No notes logged" }}
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" data-aos="fade-up">
+    
+    <div class="saas-card p-5 space-y-2">
+      <div class="flex items-center justify-between text-slate-500 text-xs font-semibold">
+        <span>Total Appointments</span>
+        <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
       </div>
+      <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-mono">{{ total_appointments_count }}</div>
+      <p class="text-[11px] text-slate-500">All-time service bookings</p>
     </div>
-  {% endif %}
+
+    <div class="saas-card p-5 space-y-2">
+      <div class="flex items-center justify-between text-emerald-800 text-xs font-semibold">
+        <span>Completed Services</span>
+        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+      </div>
+      <div class="text-2xl sm:text-3xl font-extrabold text-emerald-700 font-mono">{{ completed_services_count }}</div>
+      <p class="text-[11px] text-slate-500">Successfully resolved dispatches</p>
+    </div>
+
+    <div class="saas-card p-5 space-y-2">
+      <div class="flex items-center justify-between text-amber-800 text-xs font-semibold">
+        <span>Pending Requests</span>
+        <i data-lucide="clock" class="w-4 h-4 text-amber-600"></i>
+      </div>
+      <div class="text-2xl sm:text-3xl font-extrabold text-amber-700 font-mono">{{ pending_requests_count }}</div>
+      <p class="text-[11px] text-slate-500">Awaiting technician assignment</p>
+    </div>
+
+    <div class="saas-card p-5 space-y-2">
+      <div class="flex items-center justify-between text-slate-700 text-xs font-semibold">
+        <span>Current Data Balance</span>
+        <i data-lucide="wallet" class="w-4 h-4 text-slate-400"></i>
+      </div>
+      <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-mono">{{ current_balance_gb }} <span class="text-sm font-bold text-emerald-700">GB</span></div>
+      <p class="text-[11px] text-slate-500">Non-expiring lifetime data</p>
+    </div>
+
+  </div>
 
   <!-- ========================================================================= -->
-  <!-- SECTION 3: PERPETUAL DATA WALLET & WI-FI PIN (PRESERVED ECOMESH FEATURE)  -->
+  <!-- 3. SECONDARY SECTION: DATA WALLET & WI-FI ACCESS PIN                     -->
   <!-- ========================================================================= -->
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-8" data-aos="fade-up">
     
-    <!-- LEFT: Wallet Balance & Wi-Fi PIN (Col 7) -->
+    <!-- LEFT: Wallet & Wi-Fi PIN (Col 7) -->
     <div class="lg:col-span-7 space-y-6">
       
-      <div class="glass-panel rounded-3xl p-8 relative overflow-hidden border border-emerald-500/30 shadow-2xl bg-gradient-to-br from-slate-900 via-slate-900/90 to-emerald-950/40">
-        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+      <div class="saas-card p-6 sm:p-7 space-y-5">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
           <div class="flex items-center space-x-2.5">
-            <div class="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-              <i data-lucide="wallet" class="w-5 h-5"></i>
+            <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+              <i data-lucide="wifi" class="w-4 h-4"></i>
             </div>
             <div>
-              <h2 class="text-base font-bold text-white">Perpetual Data Wallet</h2>
-              <p class="text-[11px] text-slate-400">Non-expiring lifetime data balance</p>
+              <h3 class="text-sm font-bold text-slate-900">WPA3 Wi-Fi Access Credentials</h3>
+              <p class="text-xs text-slate-500">Use this PIN on the EcoMesh captive portal</p>
             </div>
           </div>
-          <span class="px-3 py-1 text-[11px] font-bold rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 flex items-center space-x-1.5">
-            <i data-lucide="infinity" class="w-3.5 h-3.5 text-emerald-400"></i>
-            <span>No Expiration</span>
+          <span class="badge-status badge-active">
+            CONNECTED
           </span>
         </div>
 
-        <div class="my-6">
-          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">Available Lifetime Allowance</span>
-          <div class="flex items-baseline space-x-2">
-            <span class="text-4xl sm:text-5xl font-extrabold text-white font-mono tracking-tight">{{ wallet.balance_in_gb }}</span>
-            <span class="text-xl font-bold text-emerald-400">GB</span>
-          </div>
-          <p class="text-xs text-slate-400 font-mono mt-1">({{ wallet.balance_mb|default:0 }} Megabytes remaining • Rollover: Permanent)</p>
-        </div>
-
-        <!-- Wi-Fi Access Key / PIN Box -->
-        <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <!-- PIN Box -->
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div class="space-y-0.5 text-center sm:text-left">
-            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">WPA3 Wi-Fi Access PIN</span>
-            <span class="text-xl font-bold font-mono text-emerald-400 tracking-widest">{{ wallet.wifi_access_key }}</span>
+            <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">Access Key / PIN</span>
+            <span class="text-xl font-bold font-mono text-emerald-700 tracking-widest">{{ wallet.wifi_access_key }}</span>
           </div>
-          <button id="copy-pin-btn" onclick="copyWifiKey('{{ wallet.wifi_access_key }}')" class="w-full sm:w-auto px-4 py-2 text-xs font-bold text-slate-200 bg-slate-800 hover:bg-slate-700 hover:text-white rounded-xl border border-slate-700 flex items-center justify-center space-x-1.5 transition">
+          <button id="copy-pin-btn" onclick="copyWifiKey('{{ wallet.wifi_access_key }}')" class="w-full sm:w-auto px-4 py-2 text-xs font-bold text-slate-700 bg-white hover:bg-slate-100 rounded-xl border border-slate-300 shadow-sm flex items-center justify-center space-x-1.5 transition">
             <i data-lucide="copy" class="w-3.5 h-3.5"></i>
             <span id="copy-pin-text">Copy Key</span>
           </button>
         </div>
-      </div>
 
-      <!-- Instant Voucher Redemption Card -->
-      <div class="glass-panel rounded-3xl p-6 sm:p-8 space-y-4 border border-slate-800">
-        <div class="flex items-center space-x-2.5">
-          <div class="p-2 rounded-xl bg-teal-500/20 text-teal-300 border border-teal-500/30">
-            <i data-lucide="credit-card" class="w-5 h-5"></i>
-          </div>
-          <div>
-            <h3 class="text-sm font-bold text-white">Redeem Top-Up Voucher</h3>
-            <p class="text-xs text-slate-400">Instantly stack megabytes from scratch cards or promo codes</p>
-          </div>
+        <!-- Top-up Form -->
+        <div class="pt-2 space-y-2">
+          <span class="text-xs font-bold text-slate-800 block">Redeem Top-Up Voucher</span>
+          <form method="POST" action="{% url 'redeem_voucher' %}" class="flex flex-col sm:flex-row gap-3">
+            {% csrf_token %}
+            <div class="flex-grow">
+              {{ redeem_form.code }}
+            </div>
+            <button type="submit" class="px-6 py-2.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm transition shrink-0 flex items-center justify-center space-x-1.5">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+              <span>Redeem Data</span>
+            </button>
+          </form>
         </div>
-
-        <form method="POST" action="{% url 'redeem_voucher' %}" class="flex flex-col sm:flex-row gap-3 pt-2">
-          {% csrf_token %}
-          <div class="flex-grow">
-            {{ redeem_form.code }}
-          </div>
-          <button type="submit" class="px-6 py-3 text-xs font-bold text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl shadow-md transition shrink-0 flex items-center justify-center space-x-1.5">
-            <i data-lucide="plus" class="w-4 h-4"></i>
-            <span>Redeem Data</span>
-          </button>
-        </form>
       </div>
 
     </div>
 
     <!-- RIGHT: Connected Node Status (Col 5) -->
     <div class="lg:col-span-5 space-y-6">
-      <div class="glass-panel rounded-3xl p-6 sm:p-8 space-y-5 border border-slate-800">
+      <div class="saas-card p-6 sm:p-7 space-y-4">
         
-        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
           <div class="flex items-center space-x-2.5">
-            <div class="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-              <i data-lucide="radio" class="w-5 h-5"></i>
+            <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+              <i data-lucide="radio" class="w-4 h-4"></i>
             </div>
             <div>
-              <h3 class="text-sm font-bold text-white">My Connected Solar Node</h3>
-              <p class="text-xs text-slate-400 font-mono">{{ wallet.assigned_node.name|default:"Auto-Assign Mesh Gateway" }}</p>
+              <h3 class="text-sm font-bold text-slate-900">Connected Solar Node</h3>
+              <p class="text-xs text-slate-500 font-mono">{{ wallet.assigned_node.name|default:"Auto-Assign Mesh Gateway" }}</p>
             </div>
           </div>
-          <span class="px-2.5 py-1 text-[11px] font-bold font-mono rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+          <span class="badge-status badge-active">
             ONLINE
           </span>
         </div>
 
         {% if wallet.assigned_node %}
-          <div class="space-y-3 text-xs">
-            <div class="flex justify-between py-2 border-b border-slate-800/80">
-              <span class="text-slate-400">Node Location Area:</span>
-              <span class="font-bold text-white">{{ wallet.assigned_node.location_area }}</span>
+          <div class="space-y-2.5 text-xs">
+            <div class="flex justify-between py-1 border-b border-slate-100">
+              <span class="text-slate-500">Node Location Area:</span>
+              <span class="font-bold text-slate-800">{{ wallet.assigned_node.location_area }}</span>
             </div>
-            <div class="flex justify-between py-2 border-b border-slate-800/80">
-              <span class="text-slate-400">LiFePO4 Battery Reserve:</span>
-              <span class="font-mono font-bold text-emerald-400">{{ wallet.assigned_node.battery_level }}%</span>
+            <div class="flex justify-between py-1 border-b border-slate-100">
+              <span class="text-slate-500">LiFePO4 Battery:</span>
+              <span class="font-mono font-bold text-emerald-700">{{ wallet.assigned_node.battery_level }}%</span>
             </div>
-            <div class="flex justify-between py-2 border-b border-slate-800/80">
-              <span class="text-slate-400">Signal Spectrum:</span>
-              <span class="font-mono text-slate-200">{{ wallet.assigned_node.signal_quality }}</span>
+            <div class="flex justify-between py-1 border-b border-slate-100">
+              <span class="text-slate-500">Signal Spectrum:</span>
+              <span class="font-mono text-slate-800">{{ wallet.assigned_node.signal_quality }}</span>
             </div>
-            <div class="flex justify-between py-2">
-              <span class="text-slate-400">30-Day SLA Uptime:</span>
-              <span class="font-mono font-bold text-white">{{ wallet.assigned_node.uptime_percentage }}%</span>
+            <div class="flex justify-between py-1">
+              <span class="text-slate-500">30-Day SLA Uptime:</span>
+              <span class="font-mono font-bold text-slate-900">{{ wallet.assigned_node.uptime_percentage }}%</span>
             </div>
           </div>
         {% endif %}
 
-        <a href="{% url 'book_service' %}{% if wallet.assigned_node %}?node={{ wallet.assigned_node.id }}{% endif %}" class="w-full py-3 px-4 text-xs font-bold text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl transition flex items-center justify-center space-x-1.5">
+        <a href="{% url 'book_service' %}{% if wallet.assigned_node %}?node={{ wallet.assigned_node.id }}{% endif %}" class="w-full py-2.5 px-4 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-xl transition flex items-center justify-center space-x-1.5">
           <i data-lucide="wrench" class="w-4 h-4"></i>
           <span>Schedule Support for this Node</span>
         </a>
@@ -367,174 +326,9 @@
 
   </div>
 
-  <!-- ========================================================================= -->
-  <!-- SECTION 4: ADMIN MANAGEMENT CONSOLES (Staff / Superuser Only)             -->
-  <!-- ========================================================================= -->
-  {% if user.is_staff or user.is_superuser %}
-    
-    <!-- ADMIN CONSOLE 1: Promo Code Generator & Tracker -->
-    <div class="glass-panel rounded-3xl p-6 sm:p-8 space-y-8 border-2 border-emerald-500/40 shadow-2xl bg-gradient-to-b from-slate-900 via-slate-900/90 to-slate-950" data-aos="fade-up">
-      
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800">
-        <div class="flex items-center space-x-3">
-          <div class="p-2.5 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30">
-            <i data-lucide="shield-check" class="w-6 h-6"></i>
-          </div>
-          <div>
-            <div class="flex items-center space-x-2">
-              <h2 class="text-xl font-extrabold text-white">Admin Promo Code Management Console</h2>
-              <span class="px-2.5 py-0.5 text-[10px] font-bold font-mono bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-full">
-                SUPERUSER PRIVILEGE
-              </span>
-            </div>
-            <p class="text-xs text-slate-400">Generate custom vouchers of any MB capacity & track real-time active vs redeemed statuses.</p>
-          </div>
-        </div>
-
-        <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
-          <span class="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-300">
-            Total: <strong class="text-white">{{ admin_vouchers.count }}</strong>
-          </span>
-          <span class="px-3 py-1.5 rounded-xl bg-emerald-950/60 border border-emerald-500/30 text-emerald-300">
-            Active: <strong class="text-emerald-400">{{ active_vouchers_count }}</strong>
-          </span>
-          <span class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-400">
-            Used: <strong class="text-slate-300">{{ used_vouchers_count }}</strong>
-          </span>
-        </div>
-      </div>
-
-      <div class="p-6 rounded-2xl bg-slate-950/70 border border-slate-800 space-y-4">
-        <h3 class="text-sm font-bold text-white flex items-center space-x-2">
-          <i data-lucide="plus-circle" class="w-4 h-4 text-emerald-400"></i>
-          <span>Generate New Data Promo Vouchers</span>
-        </h3>
-
-        <form method="POST" action="{% url 'admin_generate_voucher' %}" class="space-y-4">
-          {% csrf_token %}
-          <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
-            
-            <div class="sm:col-span-4 space-y-1.5">
-              <label class="block text-xs font-semibold text-slate-300">Data Amount in Megabytes (MB)</label>
-              {{ admin_voucher_form.data_amount_mb }}
-              <div class="flex flex-wrap gap-1.5 pt-1">
-                <button type="button" onclick="setMbAmount(1024)" class="px-2 py-0.5 text-[10px] font-mono rounded bg-slate-800 text-slate-300 hover:bg-emerald-500 hover:text-slate-950 transition">1GB (1024MB)</button>
-                <button type="button" onclick="setMbAmount(5120)" class="px-2 py-0.5 text-[10px] font-mono rounded bg-slate-800 text-slate-300 hover:bg-emerald-500 hover:text-slate-950 transition">5GB (5120MB)</button>
-                <button type="button" onclick="setMbAmount(10240)" class="px-2 py-0.5 text-[10px] font-mono rounded bg-slate-800 text-slate-300 hover:bg-emerald-500 hover:text-slate-950 transition">10GB (10240MB)</button>
-                <button type="button" onclick="setMbAmount(61440)" class="px-2 py-0.5 text-[10px] font-mono rounded bg-slate-800 text-slate-300 hover:bg-emerald-500 hover:text-slate-950 transition">60GB (61440MB)</button>
-              </div>
-            </div>
-
-            <div class="sm:col-span-5 space-y-1.5">
-              <label class="block text-xs font-semibold text-slate-300">Custom Promo Code (Optional)</label>
-              {{ admin_voucher_form.custom_code }}
-              <p class="text-[10px] text-slate-400">Leave blank to auto-generate randomized code.</p>
-            </div>
-
-            <div class="sm:col-span-3 space-y-1.5">
-              <label class="block text-xs font-semibold text-slate-300">Quantity</label>
-              {{ admin_voucher_form.quantity }}
-            </div>
-
-          </div>
-
-          <div class="pt-2 flex justify-end">
-            <button type="submit" class="px-6 py-3 text-xs font-bold text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl shadow-lg shadow-emerald-500/20 transition flex items-center space-x-1.5">
-              <i data-lucide="sparkles" class="w-4 h-4"></i>
-              <span>Generate Promo Code(s)</span>
-            </button>
-          </div>
-        </form>
-      </div>
-
-    </div>
-
-    <!-- ADMIN CONSOLE 2: Live Community Node Infrastructure Manager -->
-    <div class="glass-panel rounded-3xl p-6 sm:p-8 space-y-8 border-2 border-teal-500/40 shadow-2xl bg-gradient-to-b from-slate-900 via-slate-900/90 to-slate-950" data-aos="fade-up">
-      
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800">
-        <div class="flex items-center space-x-3">
-          <div class="p-2.5 rounded-xl bg-teal-500/20 text-teal-300 border border-teal-500/30">
-            <i data-lucide="radio-tower" class="w-6 h-6"></i>
-          </div>
-          <div>
-            <div class="flex items-center space-x-2">
-              <h2 class="text-xl font-extrabold text-white">Live Community Node Infrastructure Manager</h2>
-              <span class="px-2.5 py-0.5 text-[10px] font-bold font-mono bg-teal-500/20 text-teal-300 border border-teal-500/30 rounded-full">
-                ADMIN TOPOLOGY
-              </span>
-            </div>
-            <p class="text-xs text-slate-400">Deploy new solar mesh nodes, schedule maintenance windows, adjust battery telemetry, and manage active/offline modes.</p>
-          </div>
-        </div>
-
-        <button type="button" onclick="document.getElementById('add-node-card').classList.toggle('hidden')" class="px-4 py-2.5 text-xs font-bold text-slate-950 bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 rounded-xl shadow-lg shadow-teal-500/20 transition flex items-center space-x-1.5 self-start md:self-auto">
-          <i data-lucide="plus-circle" class="w-4 h-4"></i>
-          <span>+ Add New Live Node</span>
-        </button>
-      </div>
-
-      <!-- Add New Node Form -->
-      <div id="add-node-card" class="p-6 rounded-2xl bg-slate-950/80 border border-teal-500/30 space-y-4 hidden">
-        <h3 class="text-sm font-bold text-white flex items-center space-x-2">
-          <i data-lucide="radio" class="w-4 h-4 text-teal-400"></i>
-          <span>Deploy New Solar Mesh Gateway</span>
-        </h3>
-
-        <form method="POST" action="{% url 'admin_create_node' %}" class="space-y-4">
-          {% csrf_token %}
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="space-y-1.5">
-              <label class="block text-xs font-semibold text-slate-300">Node Identifier Name</label>
-              {{ admin_node_form.name }}
-            </div>
-            <div class="space-y-1.5">
-              <label class="block text-xs font-semibold text-slate-300">Location Area</label>
-              {{ admin_node_form.location_area }}
-            </div>
-            <div class="space-y-1.5">
-              <label class="block text-xs font-semibold text-slate-300">Battery Charge (%)</label>
-              {{ admin_node_form.battery_level }}
-            </div>
-            <div class="space-y-1.5">
-              <label class="block text-xs font-semibold text-slate-300">Operational Mode</label>
-              {{ admin_node_form.status }}
-            </div>
-            <div class="space-y-1.5">
-              <label class="block text-xs font-semibold text-slate-300">Signal Spectrum</label>
-              {{ admin_node_form.signal_quality }}
-            </div>
-            <div class="space-y-1.5">
-              <label class="block text-xs font-semibold text-slate-300">30-Day SLA Uptime (%)</label>
-              {{ admin_node_form.uptime_percentage }}
-            </div>
-            <div class="space-y-1.5">
-              <label class="block text-xs font-semibold text-slate-300">Next Scheduled Maintenance</label>
-              {{ admin_node_form.next_maintenance_date }}
-            </div>
-            <div class="space-y-1.5">
-              <label class="block text-xs font-semibold text-slate-300">Engineer / Status Note</label>
-              {{ admin_node_form.maintenance_note }}
-            </div>
-          </div>
-          <div class="pt-2 flex justify-end space-x-3">
-            <button type="button" onclick="document.getElementById('add-node-card').classList.add('hidden')" class="px-4 py-2 text-xs font-semibold text-slate-400 hover:text-white bg-slate-900 rounded-xl transition">
-              Cancel
-            </button>
-            <button type="submit" class="px-6 py-2.5 text-xs font-bold text-slate-950 bg-teal-400 hover:bg-teal-300 rounded-xl shadow-md transition flex items-center space-x-1.5">
-              <i data-lucide="upload-cloud" class="w-4 h-4"></i>
-              <span>Deploy Node to Network</span>
-            </button>
-          </div>
-        </form>
-      </div>
-
-    </div>
-  {% endif %}
-
 </div>
 
-<!-- Interactive Scripts -->
+<!-- Copy PIN Script -->
 <script>
   function copyWifiKey(key) {
     navigator.clipboard.writeText(key).then(() => {
@@ -546,13 +340,6 @@
         }, 2000);
       }
     });
-  }
-
-  function setMbAmount(val) {
-    const input = document.getElementById('id_data_amount_mb');
-    if (input) {
-      input.value = val;
-    }
   }
 </script>
 {% endblock %}

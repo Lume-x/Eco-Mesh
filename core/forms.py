@@ -3,13 +3,27 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-from .models import ServiceSchedule, Voucher, MeshNode, UserDataWallet
+from .models import ServiceSchedule, Voucher, MeshNode, UserDataWallet, ServiceType, TechnicianProfile
+
+
+TIME_SLOT_CHOICES = [
+    ('09:00:00', '09:00 AM (Morning Slot 1)'),
+    ('10:30:00', '10:30 AM (Morning Slot 2)'),
+    ('12:00:00', '12:00 PM (Midday Slot)'),
+    ('14:00:00', '02:00 PM (Afternoon Slot 1)'),
+    ('15:30:00', '03:30 PM (Afternoon Slot 2)'),
+    ('17:00:00', '05:00 PM (Evening Slot)'),
+]
+
+INPUT_CLASS = 'w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-150 text-sm shadow-sm'
+SELECT_CLASS = 'w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-150 text-sm shadow-sm'
+TEXTAREA_CLASS = 'w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-150 text-sm shadow-sm'
 
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={
-            'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200',
+            'class': INPUT_CLASS,
             'placeholder': 'Create a secure password (min 6 chars)'
         }),
         min_length=6,
@@ -17,14 +31,14 @@ class UserRegistrationForm(forms.ModelForm):
     )
     confirm_password = forms.CharField(
         widget=forms.PasswordInput(attrs={
-            'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200',
+            'class': INPUT_CLASS,
             'placeholder': 'Confirm your password'
         })
     )
     email = forms.EmailField(
         required=True,
         widget=forms.EmailInput(attrs={
-            'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200',
+            'class': INPUT_CLASS,
             'placeholder': 'student@university.edu or email@domain.com'
         })
     )
@@ -33,7 +47,7 @@ class UserRegistrationForm(forms.ModelForm):
         required=False,
         empty_label="Auto-assign nearest operational node",
         widget=forms.Select(attrs={
-            'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200'
+            'class': SELECT_CLASS
         })
     )
 
@@ -42,7 +56,7 @@ class UserRegistrationForm(forms.ModelForm):
         fields = ['username', 'email', 'password']
         widgets = {
             'username': forms.TextInput(attrs={
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200',
+                'class': INPUT_CLASS,
                 'placeholder': 'Choose a unique username'
             }),
         }
@@ -67,12 +81,11 @@ class UserRegistrationForm(forms.ModelForm):
         user.set_password(self.cleaned_data['password'])
         if commit:
             user.save()
-            # Initialize UserDataWallet with optional assigned node
             assigned_node = self.cleaned_data.get('assigned_node')
             if not assigned_node:
                 assigned_node = MeshNode.objects.filter(status='ACTIVE').first()
             
-            # Start new student users with 500 MB welcome grant
+            # 500 MB welcome grant for new student registration
             UserDataWallet.objects.get_or_create(
                 user=user,
                 defaults={'balance_mb': 500, 'assigned_node': assigned_node}
@@ -83,14 +96,14 @@ class UserRegistrationForm(forms.ModelForm):
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200',
-            'placeholder': 'Your username'
+            'class': INPUT_CLASS,
+            'placeholder': 'Enter your username'
         })
     )
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={
-            'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200',
-            'placeholder': 'Your password'
+            'class': INPUT_CLASS,
+            'placeholder': 'Enter your password'
         })
     )
 
@@ -99,10 +112,10 @@ class VoucherRedeemForm(forms.Form):
     code = forms.CharField(
         max_length=32,
         widget=forms.TextInput(attrs={
-            'class': 'w-full uppercase font-mono tracking-widest px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-emerald-400 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200',
-            'placeholder': 'e.g. ECO-10GB-SUN'
+            'class': INPUT_CLASS + ' font-mono uppercase tracking-wider',
+            'placeholder': 'e.g. ECO-10GB-XYZ123'
         }),
-        help_text="Enter the 12-16 character code printed on your EcoMesh scratch card."
+        help_text="Enter your 16-character scratch card voucher or promotional code."
     )
 
     def clean_code(self):
@@ -112,24 +125,11 @@ class VoucherRedeemForm(forms.Form):
         return code
 
 
-from .models import ServiceSchedule, Voucher, MeshNode, UserDataWallet, ServiceType, TechnicianProfile
-
-
-TIME_SLOT_CHOICES = [
-    ('09:00:00', '09:00 AM (Morning Slot 1)'),
-    ('10:30:00', '10:30 AM (Morning Slot 2)'),
-    ('12:00:00', '12:00 PM (Midday Slot)'),
-    ('14:00:00', '02:00 PM (Afternoon Slot 1)'),
-    ('15:30:00', '03:30 PM (Afternoon Slot 2)'),
-    ('17:00:00', '05:00 PM (Evening Slot)'),
-]
-
-
 class ServiceScheduleForm(forms.ModelForm):
     scheduled_time = forms.ChoiceField(
         choices=TIME_SLOT_CHOICES,
         widget=forms.Select(attrs={
-            'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200 font-mono'
+            'class': SELECT_CLASS + ' font-mono'
         }),
         help_text="Choose from our standard 90-minute field dispatch slots."
     )
@@ -139,22 +139,22 @@ class ServiceScheduleForm(forms.ModelForm):
         fields = ['service_type', 'node', 'address', 'scheduled_date', 'scheduled_time', 'notes']
         widgets = {
             'service_type': forms.Select(attrs={
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200'
+                'class': SELECT_CLASS
             }),
             'node': forms.Select(attrs={
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200'
+                'class': SELECT_CLASS
             }),
             'address': forms.TextInput(attrs={
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200',
+                'class': INPUT_CLASS,
                 'placeholder': 'e.g. Room 304, Hostel B Annex, South Campus'
             }),
             'scheduled_date': forms.DateInput(attrs={
                 'type': 'date',
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200 font-mono'
+                'class': INPUT_CLASS + ' font-mono'
             }),
             'notes': forms.Textarea(attrs={
                 'rows': 3,
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200',
+                'class': TEXTAREA_CLASS,
                 'placeholder': 'Provide any helpful context (e.g. weak Wi-Fi in room corner, 3rd floor balcony access, inverter blinking red).'
             }),
         }
@@ -172,11 +172,11 @@ class TechnicianStatusUpdateForm(forms.ModelForm):
         fields = ['status', 'technician_notes']
         widgets = {
             'status': forms.Select(attrs={
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200'
+                'class': SELECT_CLASS
             }),
             'technician_notes': forms.Textarea(attrs={
                 'rows': 3,
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200',
+                'class': TEXTAREA_CLASS,
                 'placeholder': 'Log work summary, antenna alignment readings (RSSI/SNR), or hardware replacement details.'
             })
         }
@@ -188,7 +188,7 @@ class AdminAssignTechnicianForm(forms.ModelForm):
         required=False,
         empty_label="-- Unassigned (Assign Later) --",
         widget=forms.Select(attrs={
-            'class': 'w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 focus:border-emerald-500 text-xs'
+            'class': SELECT_CLASS + ' text-xs py-1.5'
         })
     )
 
@@ -197,7 +197,7 @@ class AdminAssignTechnicianForm(forms.ModelForm):
         fields = ['technician', 'status']
         widgets = {
             'status': forms.Select(attrs={
-                'class': 'w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 focus:border-emerald-500 text-xs'
+                'class': SELECT_CLASS + ' text-xs py-1.5'
             })
         }
 
@@ -207,13 +207,13 @@ class AdminServiceTypeForm(forms.ModelForm):
         model = ServiceType
         fields = ['name', 'code', 'description', 'estimated_duration_minutes', 'price', 'icon_name', 'badge_color', 'is_active']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100'}),
-            'code': forms.TextInput(attrs={'class': 'w-full uppercase font-mono px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100'}),
-            'description': forms.Textarea(attrs={'rows': 2, 'class': 'w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100'}),
-            'estimated_duration_minutes': forms.NumberInput(attrs={'class': 'w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100'}),
-            'price': forms.TextInput(attrs={'class': 'w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100'}),
-            'icon_name': forms.TextInput(attrs={'class': 'w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100'}),
-            'badge_color': forms.TextInput(attrs={'class': 'w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100'}),
+            'name': forms.TextInput(attrs={'class': INPUT_CLASS}),
+            'code': forms.TextInput(attrs={'class': INPUT_CLASS + ' uppercase font-mono'}),
+            'description': forms.Textarea(attrs={'rows': 2, 'class': TEXTAREA_CLASS}),
+            'estimated_duration_minutes': forms.NumberInput(attrs={'class': INPUT_CLASS}),
+            'price': forms.TextInput(attrs={'class': INPUT_CLASS}),
+            'icon_name': forms.TextInput(attrs={'class': INPUT_CLASS}),
+            'badge_color': forms.TextInput(attrs={'class': INPUT_CLASS}),
         }
 
 
@@ -222,35 +222,29 @@ class AdminGenerateVoucherForm(forms.Form):
         min_value=100,
         initial=1024,
         widget=forms.NumberInput(attrs={
-            'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition font-mono',
+            'class': INPUT_CLASS + ' font-mono',
             'placeholder': 'Amount in MB (e.g. 1024, 5120, 10240, 61440)'
         }),
         help_text="1 GB = 1024 MB, 5 GB = 5120 MB, 10 GB = 10240 MB, 60 GB = 61440 MB"
     )
     custom_code = forms.CharField(
-        required=False,
         max_length=32,
+        required=False,
         widget=forms.TextInput(attrs={
-            'class': 'w-full uppercase font-mono tracking-wider px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-emerald-400 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition',
-            'placeholder': 'Optional custom code (e.g. SPECIAL-PROMO-10GB)'
+            'class': INPUT_CLASS + ' font-mono uppercase',
+            'placeholder': 'e.g. PROMO-FUTO-5GB (Optional)'
         }),
-        help_text="Leave blank to auto-generate a secure randomized promo code."
+        help_text="Optional custom alphanumeric code. Leave blank to auto-generate."
     )
     quantity = forms.IntegerField(
         min_value=1,
         max_value=100,
         initial=1,
         widget=forms.NumberInput(attrs={
-            'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition font-mono',
-            'placeholder': 'Quantity (1-100)'
+            'class': INPUT_CLASS,
+            'placeholder': 'Quantity of vouchers to generate (1-100)'
         })
     )
-
-    def clean_custom_code(self):
-        code = self.cleaned_data.get('custom_code', '').strip().upper()
-        if code and Voucher.objects.filter(code=code).exists():
-            raise ValidationError(f"A promo voucher with code '{code}' already exists.")
-        return code
 
 
 class AdminMeshNodeForm(forms.ModelForm):
@@ -259,36 +253,40 @@ class AdminMeshNodeForm(forms.ModelForm):
         fields = ['name', 'location_area', 'battery_level', 'status', 'signal_quality', 'uptime_percentage', 'next_maintenance_date', 'maintenance_note']
         widgets = {
             'name': forms.TextInput(attrs={
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition',
-                'placeholder': 'e.g. Hall 4 Rooftop Node'
+                'class': INPUT_CLASS,
+                'placeholder': 'Node Name (e.g. Hostel B - Rooftop Relay)'
             }),
             'location_area': forms.TextInput(attrs={
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition',
-                'placeholder': 'Campus Zone'
+                'class': INPUT_CLASS,
+                'placeholder': 'Location Area (e.g. Campus Zone)'
             }),
             'battery_level': forms.NumberInput(attrs={
-                'min': '0',
-                'max': '100',
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition font-mono'
+                'class': INPUT_CLASS,
+                'min': 0,
+                'max': 100,
+                'placeholder': 'Battery Charge % (0-100)'
             }),
             'status': forms.Select(attrs={
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition'
+                'class': SELECT_CLASS
             }),
-            'signal_quality': forms.Select(attrs={
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition'
+            'signal_quality': forms.TextInput(attrs={
+                'class': INPUT_CLASS,
+                'placeholder': 'Optimal / Good / Fair'
             }),
             'uptime_percentage': forms.NumberInput(attrs={
+                'class': INPUT_CLASS,
                 'step': '0.1',
-                'min': '0',
-                'max': '100',
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition font-mono'
+                'min': 0,
+                'max': 100,
+                'placeholder': '99.8'
             }),
             'next_maintenance_date': forms.DateTimeInput(attrs={
                 'type': 'datetime-local',
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition'
+                'class': INPUT_CLASS + ' font-mono'
             }),
-            'maintenance_note': forms.TextInput(attrs={
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition',
-                'placeholder': 'e.g. Scheduled battery upgrade or solar realigning note'
+            'maintenance_note': forms.Textarea(attrs={
+                'rows': 2,
+                'class': TEXTAREA_CLASS,
+                'placeholder': 'Field engineer notes on solar array, antenna alignment, or battery telemetry.'
             }),
         }

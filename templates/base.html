@@ -4,13 +4,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}EcoMesh — Technical Service & Maintenance Scheduling{% endblock %}</title>
-  <meta name="description" content="{% block meta_description %}Schedule on-site technical service, antenna mounting, and solar mesh diagnostics for your EcoMesh community Wi-Fi connection.{% endblock %}">
+  <title>{% block title %}EcoMesh — Solar-Powered Community Wi-Fi & Technical Service Scheduling{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}EcoMesh provides reliable community Wi-Fi connectivity powered by decentralized solar infrastructure. Schedule on-site technical support and node maintenance.{% endblock %}">
 
-  <!-- Local Guarnateed Fallback Stylesheet -->
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Guaranteed Local Fallback Stylesheet -->
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-  <!-- Tailwind CSS CDN Fallback + CDN Play -->
+  <!-- Tailwind CSS CDN Fallback + CDN Play Script -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -19,7 +24,7 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
             mono: ['"JetBrains Mono"', 'monospace'],
           },
           colors: {
@@ -49,71 +54,55 @@
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
   <style>
-    /* Inline essential resets for reliable dark theme */
+    /* Essential Clean SaaS Resets */
     body {
-      background-color: #030712 !important;
-      color: #f8fafc !important;
-    }
-    .glass-panel {
-      background: rgba(11, 17, 32, 0.85) !important;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(31, 41, 61, 0.8) !important;
-    }
-    .glass-panel-hover:hover {
-      border-color: rgba(52, 211, 153, 0.4) !important;
-      transform: translateY(-2px);
+      background-color: #f8fafc !important;
+      color: #0f172a !important;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-emerald-500 selection:text-slate-950">
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col antialiased selection:bg-emerald-600 selection:text-white">
 
   <!-- Top Announcement Bar -->
-  <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 border-b border-emerald-500/20 text-xs py-2 px-4 text-center text-slate-300 flex items-center justify-center space-x-2">
-    <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping mr-1"></span>
-    <span class="font-medium">⚡ EcoMesh Technical Service Dispatch: Certified Student Field Engineers Available Today</span>
-    <a href="{% url 'book_service' %}" class="underline text-emerald-400 font-bold hover:text-emerald-300 ml-2">Book a Service &rarr;</a>
-  </div>
-
-  <!-- Ambient Solar Mesh Background Glows -->
-  <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10">
-    <div class="absolute -top-40 -right-40 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
-    <div class="absolute top-1/3 -left-40 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl"></div>
-    <div class="absolute -bottom-40 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl"></div>
+  <div class="bg-emerald-900 text-emerald-100 text-xs py-2 px-4 text-center font-medium flex items-center justify-center space-x-2 border-b border-emerald-800">
+    <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-1"></span>
+    <span>⚡ EcoMesh Certified Field Engineers On Duty • Average Onsite SLA: <strong class="text-white">Under 24 Hours</strong></span>
+    <a href="{% url 'book_service' %}" class="underline text-emerald-300 hover:text-white font-bold ml-2">Book a Technician &rarr;</a>
   </div>
 
   <!-- Navigation Bar -->
-  <header class="sticky top-0 z-50 glass-panel border-b border-slate-800/80">
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all duration-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
         
         <!-- Logo -->
         <a href="{% url 'home' %}" class="flex items-center space-x-3 group">
-          <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-600 via-teal-500 to-emerald-400 p-0.5 shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform duration-300">
-            <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-              <i data-lucide="wrench" class="w-5 h-5 text-emerald-400 group-hover:rotate-12 transition-transform duration-300"></i>
-            </div>
+          <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 group-hover:scale-105 transition-transform duration-200">
+            <i data-lucide="radio" class="w-5 h-5"></i>
           </div>
           <div>
             <div class="flex items-center space-x-1.5">
-              <span class="text-xl font-extrabold tracking-tight text-white">Eco<span class="text-emerald-400">Mesh</span></span>
-              <span class="px-1.5 py-0.5 text-[10px] font-bold font-mono tracking-wider bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 rounded">SERVICE SCHEDULER</span>
+              <span class="text-xl font-extrabold tracking-tight text-slate-900">Eco<span class="text-emerald-600">Mesh</span></span>
+              <span class="px-2 py-0.5 text-[10px] font-bold font-mono tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-md">SERVICE SCHEDULER</span>
             </div>
-            <p class="text-[11px] text-slate-400 font-medium tracking-wide">Technical Support & Solar Wi-Fi</p>
+            <p class="text-[11px] text-slate-500 font-medium tracking-wide">Solar Wi-Fi & Technical Support</p>
           </div>
         </a>
 
         <!-- Desktop Navigation Links -->
         <nav class="hidden md:flex items-center space-x-1">
-          <a href="{% url 'home' %}" class="px-3.5 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition duration-150">Home</a>
-          <a href="{% url 'book_service' %}" class="px-3.5 py-2 text-sm font-bold text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/10 rounded-lg transition duration-150 flex items-center space-x-1.5">
-            <i data-lucide="calendar-plus" class="w-4 h-4"></i>
+          <a href="{% url 'home' %}" class="px-3.5 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition duration-150">Home</a>
+          <a href="{% url 'services' %}" class="px-3.5 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition duration-150">Services</a>
+          <a href="{% url 'book_service' %}" class="px-3.5 py-2 text-sm font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 rounded-lg transition duration-150 flex items-center space-x-1.5">
+            <i data-lucide="calendar-plus" class="w-4 h-4 text-emerald-600"></i>
             <span>Book a Technician</span>
           </a>
-          <a href="{% url 'home' %}#services" class="px-3.5 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition duration-150">Services</a>
-          <a href="{% url 'home' %}#coverage" class="px-3.5 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition duration-150">Mesh Nodes</a>
-          <a href="{% url 'pricing' %}" class="px-3.5 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition duration-150">Vouchers</a>
-          <a href="{% url 'about' %}" class="px-3.5 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition duration-150">About</a>
+          {% if user.is_authenticated %}
+            <a href="{% url 'my_appointments' %}" class="px-3.5 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition duration-150">My Appointments</a>
+          {% endif %}
+          <a href="{% url 'pricing' %}" class="px-3.5 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition duration-150">Vouchers</a>
+          <a href="{% url 'about' %}" class="px-3.5 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition duration-150">About</a>
         </nav>
 
         <!-- Dynamic Auth Actions -->
@@ -121,31 +110,35 @@
           {% if user.is_authenticated %}
             
             {% if user.is_staff or user.is_superuser or user.technician_profile %}
-              <a href="{% url 'technician_portal' %}" class="flex items-center space-x-1.5 px-3 py-2 text-xs font-bold text-teal-300 bg-teal-500/15 hover:bg-teal-500/25 border border-teal-500/30 rounded-xl transition duration-150" title="Technician Dispatch Console">
-                <i data-lucide="hard-hat" class="w-4 h-4 text-teal-400"></i>
+              <a href="{% url 'technician_portal' %}" class="flex items-center space-x-1.5 px-3 py-2 text-xs font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200 rounded-xl transition duration-150" title="Technician Portal">
+                <i data-lucide="hard-hat" class="w-4 h-4 text-teal-600"></i>
                 <span>Tech Portal</span>
               </a>
             {% endif %}
 
             {% if user.is_staff or user.is_superuser %}
-              <a href="{% url 'admin_scheduling' %}" class="flex items-center space-x-1.5 px-3 py-2 text-xs font-bold text-amber-300 bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 rounded-xl transition duration-150" title="Admin Scheduling Console">
-                <i data-lucide="shield-check" class="w-4 h-4 text-amber-400"></i>
-                <span>Admin Dispatch</span>
+              <a href="{% url 'admin_scheduling' %}" class="flex items-center space-x-1.5 px-3 py-2 text-xs font-bold text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-xl transition duration-150" title="Admin Dispatch Console">
+                <i data-lucide="shield-check" class="w-4 h-4 text-amber-600"></i>
+                <span>Admin Console</span>
               </a>
             {% endif %}
 
-            <a href="{% url 'dashboard' %}" class="flex items-center space-x-2 px-3.5 py-2 text-sm font-semibold text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 rounded-xl transition duration-200">
-              <i data-lucide="layout-dashboard" class="w-4 h-4 text-emerald-400"></i>
-              <span>My Appointments</span>
+            <a href="{% url 'dashboard' %}" class="flex items-center space-x-2 px-3.5 py-2 text-sm font-semibold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-xl border border-slate-200 transition duration-150">
+              <i data-lucide="layout-dashboard" class="w-4 h-4 text-slate-600"></i>
+              <span>Dashboard</span>
             </a>
-            
-            <a href="{% url 'logout' %}" class="flex items-center space-x-1.5 px-3 py-2 text-xs font-bold text-rose-400 hover:text-white bg-rose-500/10 hover:bg-rose-600/30 border border-rose-500/30 rounded-xl transition duration-150 shadow-sm" title="Sign out of EcoMesh">
+
+            <a href="{% url 'profile' %}" class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs border border-emerald-200 hover:bg-emerald-200 transition" title="My Account Profile">
+              {{ user.username|slice:":1"|upper }}
+            </a>
+
+            <a href="{% url 'logout' %}" class="flex items-center space-x-1.5 px-3 py-2 text-xs font-bold text-rose-600 hover:text-white bg-rose-50 hover:bg-rose-600 border border-rose-200 rounded-xl transition duration-150" title="Sign out of EcoMesh">
               <i data-lucide="log-out" class="w-4 h-4"></i>
               <span>Log Out</span>
             </a>
           {% else %}
-            <a href="{% url 'login' %}" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition duration-150">Sign In</a>
-            <a href="{% url 'book_service' %}" class="flex items-center space-x-2 px-5 py-2.5 text-sm font-bold text-slate-950 bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-300 hover:to-teal-300 rounded-xl shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition-all duration-200">
+            <a href="{% url 'login' %}" class="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-slate-900 transition duration-150">Sign In</a>
+            <a href="{% url 'book_service' %}" class="flex items-center space-x-2 px-5 py-2.5 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm hover:shadow-md hover:scale-[1.01] active:scale-[0.99] transition-all duration-150">
               <i data-lucide="calendar" class="w-4 h-4"></i>
               <span>Book a Technician</span>
             </a>
@@ -154,7 +147,7 @@
 
         <!-- Mobile Menu Toggle -->
         <div class="flex md:hidden">
-          <button id="mobile-menu-btn" type="button" class="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg focus:outline-none" aria-label="Open Navigation Menu">
+          <button id="mobile-menu-btn" type="button" class="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg focus:outline-none" aria-label="Open Navigation Menu">
             <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
           </button>
         </div>
@@ -162,26 +155,27 @@
     </div>
 
     <!-- Mobile Navigation Drawer -->
-    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-800/80 bg-slate-950/95 backdrop-blur-xl px-4 pt-3 pb-6 space-y-2">
-      <a href="{% url 'home' %}" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-800">Home</a>
-      <a href="{% url 'book_service' %}" class="block px-3 py-2.5 rounded-lg text-base font-bold text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20">📅 Book a Technician</a>
-      <a href="{% url 'home' %}#services" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-800">Technical Services</a>
-      <a href="{% url 'home' %}#coverage" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-800">Live Coverage Grid</a>
-      <a href="{% url 'pricing' %}" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-800">Perpetual Vouchers</a>
+    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-2 shadow-lg">
+      <a href="{% url 'home' %}" class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-100">Home</a>
+      <a href="{% url 'book_service' %}" class="block px-3 py-2.5 rounded-lg text-sm font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100">📅 Book a Technician</a>
+      <a href="{% url 'services' %}" class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-100">Technical Services</a>
+      <a href="{% url 'pricing' %}" class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-100">Perpetual Vouchers</a>
+      <a href="{% url 'about' %}" class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-100">About & Mission</a>
       
-      <div class="pt-4 border-t border-slate-800 space-y-2">
+      <div class="pt-4 border-t border-slate-200 space-y-2">
         {% if user.is_authenticated %}
-          <a href="{% url 'dashboard' %}" class="block w-full text-center px-4 py-2.5 text-sm font-semibold text-slate-950 bg-emerald-400 rounded-xl">My Appointments & Dashboard</a>
+          <a href="{% url 'dashboard' %}" class="block w-full text-center px-4 py-2.5 text-sm font-semibold text-white bg-emerald-600 rounded-xl">User Dashboard</a>
+          <a href="{% url 'my_appointments' %}" class="block w-full text-center px-4 py-2.5 text-sm font-semibold text-slate-700 bg-slate-100 rounded-xl">My Appointments</a>
           {% if user.is_staff or user.is_superuser or user.technician_profile %}
-            <a href="{% url 'technician_portal' %}" class="block w-full text-center px-4 py-2.5 text-sm font-bold text-teal-300 bg-teal-500/20 rounded-xl border border-teal-500/30">Technician Portal</a>
+            <a href="{% url 'technician_portal' %}" class="block w-full text-center px-4 py-2.5 text-sm font-bold text-teal-800 bg-teal-50 rounded-xl border border-teal-200">Technician Dispatch Portal</a>
           {% endif %}
           {% if user.is_staff or user.is_superuser %}
-            <a href="{% url 'admin_scheduling' %}" class="block w-full text-center px-4 py-2.5 text-sm font-bold text-amber-300 bg-amber-500/20 rounded-xl border border-amber-500/30">Admin Dispatch Center</a>
+            <a href="{% url 'admin_scheduling' %}" class="block w-full text-center px-4 py-2.5 text-sm font-bold text-amber-800 bg-amber-50 rounded-xl border border-amber-200">Admin Console</a>
           {% endif %}
-          <a href="{% url 'logout' %}" class="block w-full text-center px-4 py-2.5 text-sm font-bold text-rose-400 hover:text-white bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 rounded-xl">Log Out ({{ user.username }})</a>
+          <a href="{% url 'logout' %}" class="block w-full text-center px-4 py-2.5 text-sm font-bold text-rose-600 hover:text-white bg-rose-50 hover:bg-rose-600 border border-rose-200 rounded-xl">Log Out ({{ user.username }})</a>
         {% else %}
-          <a href="{% url 'login' %}" class="block w-full text-center px-4 py-2.5 text-sm font-medium text-slate-300 hover:bg-slate-800 rounded-xl">Sign In</a>
-          <a href="{% url 'book_service' %}" class="block w-full text-center px-4 py-2.5 text-sm font-bold text-slate-950 bg-emerald-400 rounded-xl">Book a Technician</a>
+          <a href="{% url 'login' %}" class="block w-full text-center px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-xl">Sign In</a>
+          <a href="{% url 'book_service' %}" class="block w-full text-center px-4 py-2.5 text-sm font-bold text-white bg-emerald-600 rounded-xl">Book a Technician</a>
         {% endif %}
       </div>
     </div>
@@ -191,20 +185,20 @@
   {% if messages %}
     <div class="max-w-4xl mx-auto px-4 sm:px-6 w-full pt-4 z-40">
       {% for message in messages %}
-        <div class="flex items-center justify-between p-4 mb-3 rounded-xl border backdrop-blur-lg shadow-xl transition-all duration-300 {% if message.tags == 'emerald' or message.tags == 'success' %}bg-emerald-950/70 border-emerald-500/40 text-emerald-200{% elif message.tags == 'amber' or message.tags == 'warning' %}bg-amber-950/70 border-amber-500/40 text-amber-200{% elif message.tags == 'rose' or message.tags == 'error' %}bg-rose-950/70 border-rose-500/40 text-rose-200{% else %}bg-slate-900/80 border-slate-700 text-slate-200{% endif %}" role="alert">
+        <div class="flex items-center justify-between p-4 mb-3 rounded-xl border shadow-sm transition-all duration-200 {% if message.tags == 'emerald' or message.tags == 'success' %}bg-emerald-50 border-emerald-200 text-emerald-800{% elif message.tags == 'amber' or message.tags == 'warning' %}bg-amber-50 border-amber-200 text-amber-800{% elif message.tags == 'rose' or message.tags == 'error' %}bg-rose-50 border-rose-200 text-rose-800{% else %}bg-sky-50 border-sky-200 text-sky-800{% endif %}" role="alert">
           <div class="flex items-center space-x-3">
             {% if message.tags == 'emerald' or message.tags == 'success' %}
-              <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400 shrink-0"></i>
+              <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 shrink-0"></i>
             {% elif message.tags == 'amber' or message.tags == 'warning' %}
-              <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-400 shrink-0"></i>
+              <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 shrink-0"></i>
             {% elif message.tags == 'rose' or message.tags == 'error' %}
-              <i data-lucide="x-circle" class="w-5 h-5 text-rose-400 shrink-0"></i>
+              <i data-lucide="x-circle" class="w-5 h-5 text-rose-600 shrink-0"></i>
             {% else %}
-              <i data-lucide="info" class="w-5 h-5 text-cyan-400 shrink-0"></i>
+              <i data-lucide="info" class="w-5 h-5 text-sky-600 shrink-0"></i>
             {% endif %}
             <p class="text-sm font-medium">{{ message }}</p>
           </div>
-          <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-white p-1 rounded-md transition" aria-label="Dismiss">
+          <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-slate-600 p-1 rounded-md transition" aria-label="Dismiss">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
@@ -219,81 +213,81 @@
   </main>
 
   <!-- Footer Section -->
-  <footer class="bg-slate-950 border-t border-slate-900 text-slate-400 mt-20">
+  <footer class="bg-white border-t border-slate-200 text-slate-600 mt-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
         
         <!-- Brand Summary -->
         <div class="md:col-span-1 space-y-4">
           <div class="flex items-center space-x-2">
-            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-              <i data-lucide="wrench" class="w-4 h-4"></i>
+            <div class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white">
+              <i data-lucide="radio" class="w-4 h-4"></i>
             </div>
-            <span class="text-lg font-bold text-white tracking-tight">Eco<span class="text-emerald-400">Mesh</span></span>
+            <span class="text-lg font-bold text-slate-900 tracking-tight">Eco<span class="text-emerald-600">Mesh</span></span>
           </div>
-          <p class="text-xs leading-relaxed text-slate-400">
-            Personal scheduling platform for on-site EcoMesh technical services, antenna alignment, and solar mesh maintenance for student communities.
+          <p class="text-xs leading-relaxed text-slate-500">
+            Professional personal scheduling web application for on-site EcoMesh technical support, antenna alignment, and solar mesh node servicing.
           </p>
           <!-- SDG Impact Badges -->
-          <div class="flex flex-wrap items-center gap-2 pt-2">
-            <div class="px-2.5 py-1 rounded bg-rose-500/10 border border-rose-500/30 text-[10px] font-bold text-rose-400 flex items-center space-x-1">
+          <div class="flex flex-wrap items-center gap-2 pt-1">
+            <span class="px-2.5 py-1 rounded-md bg-rose-50 border border-rose-200 text-[10px] font-bold text-rose-700 flex items-center space-x-1">
               <i data-lucide="graduation-cap" class="w-3 h-3"></i>
               <span>SDG 4 Education</span>
-            </div>
-            <div class="px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/30 text-[10px] font-bold text-amber-400 flex items-center space-x-1">
+            </span>
+            <span class="px-2.5 py-1 rounded-md bg-amber-50 border border-amber-200 text-[10px] font-bold text-amber-700 flex items-center space-x-1">
               <i data-lucide="sun" class="w-3 h-3"></i>
               <span>SDG 7 Clean Energy</span>
-            </div>
-            <div class="px-2.5 py-1 rounded bg-teal-500/10 border border-teal-500/30 text-[10px] font-bold text-teal-400 flex items-center space-x-1">
+            </span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-50 border border-emerald-200 text-[10px] font-bold text-emerald-700 flex items-center space-x-1">
               <i data-lucide="cpu" class="w-3 h-3"></i>
               <span>SDG 9 Infrastructure</span>
-            </div>
+            </span>
           </div>
         </div>
 
         <!-- Quick Links -->
         <div>
-          <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-200 mb-4">Technical Services</h4>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 mb-4">Technical Services</h4>
           <ul class="space-y-2.5 text-xs">
-            <li><a href="{% url 'book_service' %}?service=INSTALL" class="hover:text-emerald-400 transition">Antenna Setup & Mounting</a></li>
-            <li><a href="{% url 'book_service' %}?service=REALIGN" class="hover:text-emerald-400 transition">Signal Realignment & Boost</a></li>
-            <li><a href="{% url 'book_service' %}?service=SOLAR_REPAIR" class="hover:text-emerald-400 transition">Solar Battery Maintenance</a></li>
-            <li><a href="{% url 'book_service' %}?service=EMERGENCY" class="hover:text-emerald-400 transition">Emergency Offline Repair</a></li>
+            <li><a href="{% url 'book_service' %}?service=REALIGN" class="hover:text-emerald-600 transition">Connection Troubleshooting</a></li>
+            <li><a href="{% url 'book_service' %}?service=SOLAR_REPAIR" class="hover:text-emerald-600 transition">Mesh Node Maintenance</a></li>
+            <li><a href="{% url 'book_service' %}?service=INSTALL" class="hover:text-emerald-600 transition">Equipment Inspection</a></li>
+            <li><a href="{% url 'book_service' %}?service=EMERGENCY" class="hover:text-emerald-600 transition">Emergency Diagnostics</a></li>
           </ul>
         </div>
 
         <!-- Portal & Service -->
         <div>
-          <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-200 mb-4">Scheduling & Portal</h4>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 mb-4">Service & Scheduling</h4>
           <ul class="space-y-2.5 text-xs">
-            <li><a href="{% url 'book_service' %}" class="text-emerald-400 font-bold hover:underline transition">Book a Technician Dispatch</a></li>
-            <li><a href="{% url 'dashboard' %}" class="hover:text-emerald-400 transition">My Appointments & Status</a></li>
-            <li><a href="{% url 'technician_portal' %}" class="hover:text-emerald-400 transition">Certified Technician Portal</a></li>
-            <li><a href="{% url 'admin_scheduling' %}" class="hover:text-emerald-400 transition">Admin Dispatch Center</a></li>
+            <li><a href="{% url 'book_service' %}" class="text-emerald-700 font-bold hover:underline transition">Book a Technician Dispatch</a></li>
+            <li><a href="{% url 'my_appointments' %}" class="hover:text-emerald-600 transition">My Appointments</a></li>
+            <li><a href="{% url 'technician_portal' %}" class="hover:text-emerald-600 transition">Technician Operations Portal</a></li>
+            <li><a href="{% url 'admin_scheduling' %}" class="hover:text-emerald-600 transition">Admin Dispatch Console</a></li>
           </ul>
         </div>
 
         <!-- Real-Time Status SLA -->
-        <div class="space-y-4">
-          <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-200">Dispatch Response SLA</h4>
-          <div class="p-4 rounded-xl glass-panel border border-slate-800">
-            <div class="flex items-center space-x-2 text-xs font-semibold text-emerald-400 mb-1">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span>Field Engineers on Duty</span>
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900">Field Response SLA</h4>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center space-x-2 text-xs font-bold text-emerald-700">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+              <span>Field Engineers on Standby</span>
             </div>
-            <p class="text-[11px] text-slate-400">Average Onsite Arrival Time: <strong class="text-slate-200">Under 24 Hours</strong></p>
-            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mt-3">
-              <div class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full" style="width: 98%"></div>
+            <p class="text-[11px] text-slate-500">Average Onsite Arrival Time: <strong class="text-slate-900 font-semibold">Under 24 Hours</strong></p>
+            <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+              <div class="bg-emerald-600 h-full rounded-full" style="width: 98%"></div>
             </div>
           </div>
-          <p class="text-[11px] text-slate-400">Powered by 100% solar microgrids & certified student technicians.</p>
+          <p class="text-[11px] text-slate-400">100% solar microgrid powered • Certified student engineers.</p>
         </div>
 
       </div>
 
-      <div class="border-t border-slate-900 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400">
-        <p>&copy; 2026 EcoMesh Technical Services. SEN 310 Personal Scheduling Application.</p>
-        <p class="mt-2 sm:mt-0 font-mono text-[11px] text-slate-400">Built with Python & Django • Powered by ☀️ Sun</p>
+      <div class="border-t border-slate-200 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
+        <p>&copy; 2026 EcoMesh Networks Inc. SEN 310 Personal Scheduling Application.</p>
+        <p class="mt-2 sm:mt-0 font-mono text-[11px] text-slate-500">Built with Python & Django • Powered by ☀️ Clean Solar</p>
       </div>
     </div>
   </footer>
@@ -301,21 +295,18 @@
   <!-- Scripts -->
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
   <script>
-    // Initialize AOS animations
     if (typeof AOS !== 'undefined') {
       AOS.init({
-        duration: 650,
+        duration: 500,
         once: true,
         easing: 'ease-out-cubic',
       });
     }
 
-    // Initialize Lucide Icons
     if (typeof lucide !== 'undefined') {
       lucide.createIcons();
     }
 
-    // Mobile Menu Toggle
     const mobileBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     if (mobileBtn && mobileMenu) {

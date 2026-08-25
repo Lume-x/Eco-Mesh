@@ -23,8 +23,8 @@ from .forms import (
 
 
 def home_view(request):
-    """Public landing page featuring technician scheduling, service categories, and live solar mesh metrics."""
-    nodes = MeshNode.objects.all()
+    """Modern SaaS landing page featuring technical scheduling, service categories, and live solar mesh metrics."""
+    nodes = MeshNode.objects.all().order_by('name')
     active_nodes = nodes.filter(status='ACTIVE')
     maintenance_nodes = nodes.filter(status='MAINTENANCE')
     offline_nodes = nodes.filter(status='OFFLINE')
@@ -41,13 +41,13 @@ def home_view(request):
     # Technical Services Available
     service_types = ServiceType.objects.filter(is_active=True)
     if not service_types.exists():
-        # Fallback dynamic defaults if not seeded yet
         default_services = [
-            {'name': 'New Node Setup & Antenna Mounting', 'code': 'INSTALL', 'description': 'Mount high-gain directional receiver antenna aligned to nearest solar mast with low-loss RF cabling.', 'estimated_duration_minutes': 60, 'price': 'Free for Active Students', 'icon_name': 'radio', 'badge_color': 'emerald'},
-            {'name': 'Signal Alignment & Azimuth Range Boost', 'code': 'REALIGN', 'description': 'RF spectrum analysis, antenna azimuth optimization, and interference elimination for ultra-low latency.', 'estimated_duration_minutes': 45, 'price': 'Free for Active Students', 'icon_name': 'activity', 'badge_color': 'teal'},
-            {'name': 'Solar Battery & Inverter Servicing', 'code': 'SOLAR_REPAIR', 'description': 'LiFePO4 battery cell balancing, MPPT solar controller check, and microgrid power health diagnostics.', 'estimated_duration_minutes': 90, 'price': 'Free for Hosters', 'icon_name': 'sun', 'badge_color': 'amber'},
-            {'name': 'Emergency Offline Diagnostics & Repair', 'code': 'EMERGENCY', 'description': 'Rapid on-site emergency dispatch for sudden signal drops, router failures, or weather damage.', 'estimated_duration_minutes': 30, 'price': 'Priority Dispatch', 'icon_name': 'zap', 'badge_color': 'rose'},
-            {'name': 'Captive Portal & Router Configuration', 'code': 'ROUTER_CONFIG', 'description': 'Custom SSID setup, WPA3 enterprise key configuration, and multi-device connection troubleshooting.', 'estimated_duration_minutes': 30, 'price': 'Free for Campus Students', 'icon_name': 'wifi', 'badge_color': 'cyan'},
+            {'name': 'Connection Troubleshooting & Signal Realignment', 'code': 'REALIGN', 'description': 'RF spectrum analysis, antenna azimuth optimization, and interference elimination for ultra-low latency.', 'estimated_duration_minutes': 45, 'price': 'Free for Active Students', 'icon_name': 'activity', 'badge_color': 'teal'},
+            {'name': 'Mesh Node Maintenance & Solar Diagnostics', 'code': 'SOLAR_REPAIR', 'description': 'LiFePO4 battery cell balancing, MPPT solar controller check, and microgrid power health diagnostics.', 'estimated_duration_minutes': 90, 'price': 'Complimentary', 'icon_name': 'sun', 'badge_color': 'amber'},
+            {'name': 'Equipment Inspection & New Node Setup', 'code': 'INSTALL', 'description': 'Mount high-gain directional receiver antenna aligned to nearest solar mast with low-loss RF cabling.', 'estimated_duration_minutes': 60, 'price': 'Free for Active Students', 'icon_name': 'radio', 'badge_color': 'emerald'},
+            {'name': 'Emergency Offline Diagnostics & Rapid Repair', 'code': 'EMERGENCY', 'description': 'Rapid on-site emergency dispatch for sudden signal drops, router failures, or weather damage.', 'estimated_duration_minutes': 30, 'price': 'Priority Dispatch', 'icon_name': 'zap', 'badge_color': 'rose'},
+            {'name': 'Captive Portal & Router Configuration', 'code': 'ROUTER_CONFIG', 'description': 'Custom SSID setup, WPA3 enterprise key configuration, and multi-device connection troubleshooting.', 'estimated_duration_minutes': 30, 'price': 'Free Support', 'icon_name': 'wifi', 'badge_color': 'cyan'},
+            {'name': 'Ethernet Cabling & Hardware Drop', 'code': 'REPAIR', 'description': 'RJ45 connector crimping, Cat6 cable drops to study desks, and hardware health auditing.', 'estimated_duration_minutes': 60, 'price': 'Hardware Included', 'icon_name': 'cpu', 'badge_color': 'purple'},
         ]
     else:
         default_services = service_types
@@ -70,6 +70,12 @@ def home_view(request):
         'active_technicians_count': active_technicians_count,
     }
     return render(request, 'home.html', context)
+
+
+def services_view(request):
+    """Dedicated technical services directory."""
+    services = ServiceType.objects.filter(is_active=True)
+    return render(request, 'services.html', {'services': services})
 
 
 def about_view(request):
@@ -98,7 +104,7 @@ def pricing_view(request):
             'data_gb': 1,
             'price': '₦100',
             'popular': False,
-            'description': 'Quick top-up for instant research papers, assignment lookups, and WhatsApp messaging.',
+            'description': 'Quick top-up for instant research papers, assignment lookups, and messaging.',
             'features': ['1 GB Perpetual Data (Never Expires)', '5.8 GHz & 2.4 GHz Access', 'Up to 2 Active Devices', 'Instant Scratch Card Top-Up'],
             'cta_code': 'STARTER-1GB',
         },
@@ -191,20 +197,28 @@ def logout_view(request):
 
 @login_required
 def dashboard_view(request):
-    """User Dashboard: Technician Service Appointments & Scheduling History as top priority, plus Data Wallet."""
+    """User Dashboard: Prominent Upcoming Appointment Hero, KPI stats, and secondary data wallet."""
     wallet, _ = UserDataWallet.objects.get_or_create(user=request.user)
     
-    # If user has no assigned node yet, link to first active node
     if not wallet.assigned_node:
         first_active = MeshNode.objects.filter(status='ACTIVE').first()
         if first_active:
             wallet.assigned_node = first_active
             wallet.save()
 
-    # User appointments (Upcoming vs Past)
+    # User appointments
     schedules = request.user.schedules.all().order_by('-scheduled_date', '-scheduled_time')
-    upcoming_schedules = schedules.filter(status__in=['PENDING', 'CONFIRMED', 'IN_PROGRESS'])
+    upcoming_schedules = schedules.filter(status__in=['PENDING', 'CONFIRMED', 'IN_PROGRESS']).order_by('scheduled_date', 'scheduled_time')
     past_schedules = schedules.filter(status__in=['COMPLETED', 'CANCELLED'])
+
+    # Next single upcoming appointment for the hero card
+    next_upcoming = upcoming_schedules.first()
+
+    # KPI stats
+    total_appointments_count = schedules.count()
+    completed_services_count = schedules.filter(status='COMPLETED').count()
+    pending_requests_count = schedules.filter(status='PENDING').count()
+    current_balance_gb = wallet.balance_in_gb
 
     redeem_form = VoucherRedeemForm()
     available_nodes = MeshNode.objects.all().order_by('-status', 'name')
@@ -212,25 +226,6 @@ def dashboard_view(request):
 
     # Active system alerts (nodes undergoing maintenance or offline)
     system_alerts = MeshNode.objects.exclude(status='ACTIVE')
-
-    # Admin management tools
-    admin_vouchers = None
-    admin_voucher_form = None
-    admin_node_form = None
-    active_vouchers_count = 0
-    used_vouchers_count = 0
-    if request.user.is_staff or request.user.is_superuser:
-        admin_vouchers = Voucher.objects.all().order_by('-id')
-        active_vouchers_count = admin_vouchers.filter(is_redeemed=False).count()
-        used_vouchers_count = admin_vouchers.filter(is_redeemed=True).count()
-        admin_voucher_form = AdminGenerateVoucherForm()
-        admin_node_form = AdminMeshNodeForm(initial={
-            'location_area': 'Campus Zone',
-            'battery_level': 100,
-            'status': 'ACTIVE',
-            'signal_quality': 'Optimal',
-            'uptime_percentage': 99.8
-        })
 
     is_technician = hasattr(request.user, 'technician_profile') or request.user.is_staff or request.user.is_superuser
 
@@ -240,26 +235,60 @@ def dashboard_view(request):
         'schedules': schedules,
         'upcoming_schedules': upcoming_schedules,
         'past_schedules': past_schedules,
+        'next_upcoming': next_upcoming,
+        'total_appointments_count': total_appointments_count,
+        'completed_services_count': completed_services_count,
+        'pending_requests_count': pending_requests_count,
+        'current_balance_gb': current_balance_gb,
         'available_nodes': available_nodes,
         'service_types': service_types,
         'system_alerts': system_alerts,
         'is_technician': is_technician,
-        'admin_vouchers': admin_vouchers,
-        'admin_voucher_form': admin_voucher_form,
-        'admin_node_form': admin_node_form,
-        'active_vouchers_count': active_vouchers_count,
-        'used_vouchers_count': used_vouchers_count,
     }
     return render(request, 'dashboard.html', context)
 
 
 @login_required
+def my_appointments_view(request):
+    """Dedicated Appointment Management page with status filter tabs."""
+    schedules = request.user.schedules.all().order_by('-scheduled_date', '-scheduled_time')
+    
+    # Status tab filter from GET query: ALL, UPCOMING, PENDING, CONFIRMED, COMPLETED, CANCELLED
+    status_filter = request.GET.get('status', 'ALL').upper()
+
+    if status_filter == 'UPCOMING':
+        filtered_schedules = schedules.filter(status__in=['PENDING', 'CONFIRMED', 'IN_PROGRESS'])
+    elif status_filter in ['PENDING', 'CONFIRMED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED']:
+        filtered_schedules = schedules.filter(status=status_filter)
+    else:
+        filtered_schedules = schedules
+
+    context = {
+        'schedules': filtered_schedules,
+        'total_count': schedules.count(),
+        'upcoming_count': schedules.filter(status__in=['PENDING', 'CONFIRMED', 'IN_PROGRESS']).count(),
+        'pending_count': schedules.filter(status='PENDING').count(),
+        'confirmed_count': schedules.filter(status='CONFIRMED').count(),
+        'completed_count': schedules.filter(status='COMPLETED').count(),
+        'cancelled_count': schedules.filter(status='CANCELLED').count(),
+        'current_filter': status_filter,
+    }
+    return render(request, 'appointments.html', context)
+
+
+@login_required
+def profile_view(request):
+    """User Account Profile & Wi-Fi Credentials."""
+    wallet, _ = UserDataWallet.objects.get_or_create(user=request.user)
+    return render(request, 'profile.html', {'wallet': wallet})
+
+
+@login_required
 def book_service_view(request):
-    """Book a new technician dispatch with service pre-selection and conflict validation."""
+    """Multi-step professional technical booking experience with live availability validation."""
     wallet = getattr(request.user, 'wallet', None)
     initial_data = {}
     
-    # Pre-select service or node if passed in GET query
     service_code = request.GET.get('service')
     node_id = request.GET.get('node')
     if service_code:
@@ -275,7 +304,6 @@ def book_service_view(request):
             schedule = form.save(commit=False)
             schedule.user = request.user
             
-            # Link service_type_ref if matching record exists
             st_ref = ServiceType.objects.filter(code=schedule.service_type).first()
             if st_ref:
                 schedule.service_type_ref = st_ref
@@ -303,12 +331,17 @@ def book_service_view(request):
         form = ServiceScheduleForm(initial=initial_data)
 
     service_types = ServiceType.objects.filter(is_active=True)
-    return render(request, 'book_service.html', {'form': form, 'service_types': service_types})
+    mesh_nodes = MeshNode.objects.all().order_by('-status', 'name')
+    return render(request, 'book_service.html', {
+        'form': form,
+        'service_types': service_types,
+        'mesh_nodes': mesh_nodes
+    })
 
 
 @login_required
 def booking_confirmation_view(request, schedule_id):
-    """Display receipt and confirmation summary for a booked service appointment."""
+    """Display confirmation screen with booking details, assigned tech, and next steps."""
     schedule = get_object_or_404(ServiceSchedule, id=schedule_id, user=request.user)
     return render(request, 'booking_confirmation.html', {'schedule': schedule})
 
@@ -325,43 +358,45 @@ def cancel_service_view(request, schedule_id):
         else:
             messages.warning(request, "This appointment cannot be cancelled in its current state.")
 
+    # Redirect to appointments if referred, otherwise dashboard
+    next_url = request.META.get('HTTP_REFERER')
+    if next_url and 'appointments' in next_url:
+        return redirect('my_appointments')
     return redirect('dashboard')
 
 
 @login_required
 def technician_portal_view(request):
-    """Dedicated Field Technician Portal to view assigned dispatches, update status, and add work notes."""
+    """Dedicated Field Technician Portal: Today's schedule, upcoming requests, and work notes."""
     is_tech = hasattr(request.user, 'technician_profile') or request.user.is_staff or request.user.is_superuser
     if not is_tech:
         messages.warning(request, "Access restricted. You need technician credentials to view the Technician Portal.")
         return redirect('dashboard')
 
-    # Get technician's assigned dispatches (or all dispatches if superuser/admin)
     if request.user.is_superuser or request.user.is_staff:
         dispatches = ServiceSchedule.objects.all().order_by('-scheduled_date', '-scheduled_time')
     else:
         dispatches = ServiceSchedule.objects.filter(technician=request.user).order_by('-scheduled_date', '-scheduled_time')
 
-    # Status filter from GET query
+    today = timezone.localdate()
+    todays_dispatches = dispatches.filter(scheduled_date=today)
+    upcoming_dispatches = dispatches.filter(scheduled_date__gt=today)
+
     status_filter = request.GET.get('status', 'ALL')
     if status_filter != 'ALL':
         filtered_dispatches = dispatches.filter(status=status_filter)
     else:
         filtered_dispatches = dispatches
 
-    # Counts
-    pending_count = dispatches.filter(status='PENDING').count()
-    confirmed_count = dispatches.filter(status='CONFIRMED').count()
-    in_progress_count = dispatches.filter(status='IN_PROGRESS').count()
-    completed_count = dispatches.filter(status='COMPLETED').count()
-
     context = {
         'dispatches': filtered_dispatches,
+        'todays_dispatches': todays_dispatches,
+        'upcoming_dispatches': upcoming_dispatches,
         'total_count': dispatches.count(),
-        'pending_count': pending_count,
-        'confirmed_count': confirmed_count,
-        'in_progress_count': in_progress_count,
-        'completed_count': completed_count,
+        'pending_count': dispatches.filter(status='PENDING').count(),
+        'confirmed_count': dispatches.filter(status='CONFIRMED').count(),
+        'in_progress_count': dispatches.filter(status='IN_PROGRESS').count(),
+        'completed_count': dispatches.filter(status='COMPLETED').count(),
         'current_filter': status_filter,
     }
     return render(request, 'technician_portal.html', context)
@@ -385,7 +420,6 @@ def technician_update_status_view(request, schedule_id):
         if tech_notes:
             schedule.technician_notes = tech_notes.strip()
         
-        # If unassigned and tech updates, auto-assign this technician
         if not schedule.technician and hasattr(request.user, 'technician_profile'):
             schedule.technician = request.user
 
@@ -397,7 +431,7 @@ def technician_update_status_view(request, schedule_id):
 
 @login_required
 def admin_scheduling_dashboard_view(request):
-    """Administrator Command Center for scheduling, technician assignment, and service metrics."""
+    """Administrator Management Dashboard for appointments, technicians, nodes, users, and vouchers."""
     if not (request.user.is_staff or request.user.is_superuser):
         messages.error(request, "Unauthorized. Only administrators can access this console.")
         return redirect('dashboard')
@@ -405,6 +439,9 @@ def admin_scheduling_dashboard_view(request):
     all_schedules = ServiceSchedule.objects.all().order_by('-scheduled_date', '-scheduled_time')
     technicians = User.objects.filter(technician_profile__isnull=False)
     service_types = ServiceType.objects.all()
+    mesh_nodes = MeshNode.objects.all().order_by('-status', 'name')
+    all_users = User.objects.all().order_by('-date_joined')
+    all_vouchers = Voucher.objects.all().order_by('-id')
 
     # Handle technician assignment POST
     if request.method == 'POST' and 'assign_technician' in request.POST:
@@ -426,15 +463,30 @@ def admin_scheduling_dashboard_view(request):
         messages.success(request, f"Updated Ticket #{schedule.ticket_number}: Technician assigned & status set to '{schedule.get_status_display()}'.")
         return redirect('admin_scheduling')
 
+    admin_voucher_form = AdminGenerateVoucherForm()
+    admin_node_form = AdminMeshNodeForm(initial={
+        'location_area': 'Campus Zone',
+        'battery_level': 100,
+        'status': 'ACTIVE',
+        'signal_quality': 'Optimal',
+        'uptime_percentage': 99.8
+    })
+
     context = {
         'all_schedules': all_schedules,
         'technicians': technicians,
         'service_types': service_types,
-        'total_bookings': all_schedules.count(),
-        'pending_bookings': all_schedules.filter(status='PENDING').count(),
-        'in_progress_bookings': all_schedules.filter(status='IN_PROGRESS').count(),
-        'completed_bookings': all_schedules.filter(status='COMPLETED').count(),
-        'unassigned_bookings': all_schedules.filter(technician__isnull=True, status__in=['PENDING', 'CONFIRMED']).count(),
+        'mesh_nodes': mesh_nodes,
+        'all_users': all_users,
+        'all_vouchers': all_vouchers,
+        'total_users_count': all_users.count(),
+        'total_techs_count': technicians.count(),
+        'upcoming_appointments_count': all_schedules.filter(status__in=['PENDING', 'CONFIRMED', 'IN_PROGRESS']).count(),
+        'active_nodes_count': mesh_nodes.filter(status='ACTIVE').count(),
+        'pending_services_count': all_schedules.filter(status='PENDING').count(),
+        'completed_services_count': all_schedules.filter(status='COMPLETED').count(),
+        'admin_voucher_form': admin_voucher_form,
+        'admin_node_form': admin_node_form,
     }
     return render(request, 'admin_scheduling.html', context)
 
@@ -456,7 +508,7 @@ def api_check_availability(request):
     return JsonResponse({'booked_slots': booked_formatted})
 
 
-# --- Existing Node & Voucher Admin Endpoints Preserved ---
+# --- Preserved Node & Voucher Admin Endpoints ---
 
 @login_required
 def admin_create_node_view(request):
@@ -475,7 +527,7 @@ def admin_create_node_view(request):
                 for err in errs:
                     messages.error(request, f"{field.replace('_', ' ').title()}: {err}")
 
-    return redirect('dashboard')
+    return redirect('admin_scheduling')
 
 
 @login_required
@@ -511,7 +563,7 @@ def admin_update_node_view(request, node_id):
         node.save()
         messages.success(request, f"Updated telemetry & status for '{node.name}' (Status: {node.get_status_display()}).")
 
-    return redirect('dashboard')
+    return redirect('admin_scheduling')
 
 
 @login_required
@@ -527,7 +579,7 @@ def admin_delete_node_view(request, node_id):
         node.delete()
         messages.info(request, f"🗑️ Mesh Node '{name}' has been deleted from active network topology.")
 
-    return redirect('dashboard')
+    return redirect('admin_scheduling')
 
 
 @login_required
@@ -568,7 +620,7 @@ def admin_generate_voucher_view(request):
                 for err in errs:
                     messages.error(request, f"{field.replace('_', ' ').title()}: {err}")
 
-    return redirect('dashboard')
+    return redirect('admin_scheduling')
 
 
 @login_required

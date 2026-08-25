@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile — EcoMesh{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+  
+  <div class="flex items-center space-x-4 pb-6 border-b border-slate-200" data-aos="fade-down">
+    <div class="w-16 h-16 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-extrabold text-2xl shadow-sm">
+      {{ user.username|slice:":1"|upper }}
+    </div>
+    <div class="space-y-1">
+      <div class="flex items-center space-x-2">
+        <h1 class="text-2xl font-extrabold text-slate-900">{{ user.get_full_name|default:user.username }}</h1>
+        <span class="badge-status badge-active">
+          ● VERIFIED
+        </span>
+      </div>
+      <p class="text-xs text-slate-500 font-mono">{{ user.email|default:"Registered Student Member" }}</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-aos="fade-up">
+    
+    <!-- Account Information -->
+    <div class="saas-card p-6 space-y-4">
+      <h3 class="text-sm font-bold text-slate-900 flex items-center space-x-2 pb-3 border-b border-slate-100">
+        <i data-lucide="user" class="w-4 h-4 text-emerald-600"></i>
+        <span>Account Credentials</span>
+      </h3>
+      
+      <div class="space-y-3 text-xs">
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span class="text-slate-500">Username:</span>
+          <span class="font-bold text-slate-800 font-mono">{{ user.username }}</span>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span class="text-slate-500">Email Address:</span>
+          <span class="text-slate-800">{{ user.email|default:"Not Provided" }}</span>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span class="text-slate-500">Member Since:</span>
+          <span class="font-mono text-slate-800">{{ user.date_joined|date:"M d, Y" }}</span>
+        </div>
+        <div class="flex justify-between py-1">
+          <span class="text-slate-500">Account Type:</span>
+          <span class="font-bold text-emerald-700">{% if user.is_staff %}Staff / Technician{% else %}Student Member{% endif %}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wi-Fi Key & Solar Node -->
+    <div class="saas-card p-6 space-y-4">
+      <h3 class="text-sm font-bold text-slate-900 flex items-center space-x-2 pb-3 border-b border-slate-100">
+        <i data-lucide="wifi" class="w-4 h-4 text-emerald-600"></i>
+        <span>Network Credentials</span>
+      </h3>
+
+      <div class="space-y-3 text-xs">
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span class="text-slate-500">WPA3 Wi-Fi Access Key:</span>
+          <span class="font-mono font-bold text-emerald-700 text-sm tracking-wider">{{ wallet.wifi_access_key }}</span>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span class="text-slate-500">Assigned Node:</span>
+          <span class="font-bold text-slate-800">{{ wallet.assigned_node.name|default:"Auto-Assigned" }}</span>
+        </div>
+        <div class="flex justify-between py-1">
+          <span class="text-slate-500">Perpetual Data Balance:</span>
+          <span class="font-bold font-mono text-emerald-700">{{ wallet.balance_in_gb }} GB</span>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <a href="{% url 'my_appointments' %}" class="w-full py-2.5 px-4 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-xl transition flex items-center justify-center space-x-1.5">
+          <i data-lucide="calendar" class="w-4 h-4"></i>
+          <span>View My Service Appointments</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

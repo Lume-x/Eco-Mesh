@@ -1,39 +1,40 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Founder & Architecture Lead — EcoMesh{% endblock %}
+{% block title %}Founder & Leadership — EcoMesh{% endblock %}
 
 {% block content %}
-<section class="py-20 border-b border-slate-800/80">
+<section class="py-16 bg-white border-b border-slate-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl space-y-4" data-aos="fade-up">
-      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-xs font-bold text-emerald-400">
-        <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800">
+        <i data-lucide="cpu" class="w-3.5 h-3.5 text-emerald-600"></i>
         <span>LEADERSHIP & ARCHITECTURE</span>
       </div>
-      <h1 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
         Building the Future of Decentralized Community Broadband.
       </h1>
-      <p class="text-base sm:text-lg text-slate-300">
+      <p class="text-sm sm:text-base text-slate-600">
         Engineered for off-grid resilience, 100% solar microgrid autonomy, and non-expiring data accessibility.
       </p>
     </div>
   </div>
 </section>
 
-<section class="py-24">
+<section class="py-16 bg-slate-50">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <!-- Founder Spotlight Card -->
-    <div class="glass-panel rounded-3xl p-8 sm:p-12 border border-emerald-500/30 shadow-2xl relative overflow-hidden" data-aos="fade-up">
+    <div class="saas-card p-8 sm:p-12 shadow-md relative overflow-hidden" data-aos="fade-up">
       
       <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
         
         <!-- Left: Founder Portrait -->
         <div class="md:col-span-5">
-          <div class="relative w-full aspect-[3/4] rounded-2xl overflow-hidden bg-slate-900 border-2 border-emerald-500/40 shadow-xl shadow-emerald-500/10 group">
-            <img src="{{ founder.avatar }}" alt="{{ founder.name }}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
-            <span class="absolute bottom-4 left-4 px-3 py-1 text-xs font-bold font-mono rounded-lg bg-slate-950/90 backdrop-blur-md text-emerald-400 border border-emerald-500/40">
+          <div class="relative w-full aspect-[3/4] rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm group">
+            <img src="{% static 'images/founder.png' %}" alt="{{ founder.name }}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent"></div>
+            <span class="absolute bottom-4 left-4 px-3 py-1 text-xs font-bold font-mono rounded-lg bg-white/90 backdrop-blur-md text-emerald-800 border border-emerald-200 shadow-sm">
               {{ founder.badge }}
             </span>
           </div>
@@ -43,56 +44,50 @@
         <div class="md:col-span-7 space-y-6">
           
           <div class="space-y-2">
-            <div class="inline-flex items-center space-x-2 px-2.5 py-1 rounded bg-emerald-500/15 text-emerald-300 text-xs font-bold font-mono">
+            <div class="inline-flex items-center space-x-2 px-2.5 py-1 rounded bg-emerald-50 text-emerald-800 text-xs font-bold font-mono">
               <span>FOUNDER</span>
             </div>
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">{{ founder.name }}</h2>
-            <p class="text-sm font-semibold text-emerald-400">{{ founder.role }}</p>
-            <p class="text-xs text-slate-400 font-mono">{{ founder.sub }}</p>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">{{ founder.name }}</h2>
+            <p class="text-sm font-semibold text-emerald-700">{{ founder.role }}</p>
+            <p class="text-xs text-slate-500 font-mono">{{ founder.sub }}</p>
           </div>
 
-          <div class="border-t border-slate-800/80 pt-4">
-            <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+          <div class="border-t border-slate-100 pt-4">
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
               {{ founder.bio }}
             </p>
           </div>
 
           <!-- Focus Areas Pills -->
-          <div class="space-y-2 pt-2">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block">Core Architectural Domains:</span>
+          <div class="space-y-2 pt-1">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500 block">Core Architectural Domains:</span>
             <div class="flex flex-wrap gap-2 text-xs">
-              <span class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-300 flex items-center space-x-1.5">
-                <i data-lucide="git-merge" class="w-3.5 h-3.5 text-emerald-400"></i>
+              <span class="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center space-x-1.5 font-medium">
+                <i data-lucide="git-merge" class="w-3.5 h-3.5 text-emerald-600"></i>
                 <span>Decentralized Mesh Routing</span>
               </span>
-              <span class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-300 flex items-center space-x-1.5">
-                <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i>
+              <span class="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center space-x-1.5 font-medium">
+                <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-600"></i>
                 <span>Embedded Solar Telemetry</span>
               </span>
-              <span class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-300 flex items-center space-x-1.5">
-                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-cyan-400"></i>
-                <span>WPA3 Perpetual Data Wallets</span>
+              <span class="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center space-x-1.5 font-medium">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-teal-600"></i>
+                <span>Perpetual Data Wallets</span>
               </span>
-              <span class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-300 flex items-center space-x-1.5">
-                <i data-lucide="zap" class="w-3.5 h-3.5 text-teal-400"></i>
+              <span class="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center space-x-1.5 font-medium">
+                <i data-lucide="zap" class="w-3.5 h-3.5 text-emerald-600"></i>
                 <span>Off-Grid Microgrid Resilience</span>
               </span>
             </div>
           </div>
 
-          <!-- Social Links -->
-          <div class="pt-4 border-t border-slate-800/80 flex items-center space-x-3 text-slate-400">
-            <a href="#" class="p-2.5 rounded-xl bg-slate-900 hover:text-emerald-400 hover:bg-slate-800 transition" aria-label="GitHub Profile">
-              <i data-lucide="github" class="w-4 h-4"></i>
+          <!-- Direct Dispatch Contact -->
+          <div class="pt-4 border-t border-slate-100 flex items-center space-x-4 text-xs font-semibold text-slate-600">
+            <a href="{% url 'book_service' %}" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-sm transition">
+              Book Technical Consultation
             </a>
-            <a href="#" class="p-2.5 rounded-xl bg-slate-900 hover:text-emerald-400 hover:bg-slate-800 transition" aria-label="LinkedIn Profile">
-              <i data-lucide="linkedin" class="w-4 h-4"></i>
-            </a>
-            <a href="#" class="p-2.5 rounded-xl bg-slate-900 hover:text-emerald-400 hover:bg-slate-800 transition" aria-label="Twitter / X Profile">
-              <i data-lucide="twitter" class="w-4 h-4"></i>
-            </a>
-            <a href="mailto:founder@ecomesh.network" class="p-2.5 rounded-xl bg-slate-900 hover:text-emerald-400 hover:bg-slate-800 transition" aria-label="Email Founder">
-              <i data-lucide="mail" class="w-4 h-4"></i>
+            <a href="mailto:founder@ecomesh.network" class="hover:text-emerald-700 transition">
+              founder@ecomesh.network
             </a>
           </div>
 
@@ -100,19 +95,6 @@
 
       </div>
 
-    </div>
-
-    <!-- Join Field Deployment Banner -->
-    <div class="mt-16 p-8 sm:p-10 rounded-3xl glass-panel border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-6" data-aos="fade-up">
-      <div class="space-y-2 max-w-xl">
-        <h3 class="text-xl font-bold text-white">Join the Campus Deployment Network</h3>
-        <p class="text-xs text-slate-300 leading-relaxed">
-          We train student engineers across universities to deploy and manage rooftop solar nodes, monitor battery banks, and expand local community mesh coverage.
-        </p>
-      </div>
-      <a href="{% url 'book_service' %}" class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl transition shrink-0">
-        Request Node Site Survey
-      </a>
     </div>
 
   </div>

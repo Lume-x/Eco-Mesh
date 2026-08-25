@@ -164,9 +164,10 @@ class EcoMeshSchedulingWorkflowTests(TestCase):
             password="adminpassword123"
         )
 
-    def test_public_pages_render_with_scheduling_focus(self):
+    def test_public_pages_render_with_saas_scheduling_focus(self):
         routes = [
             reverse('home'),
+            reverse('services'),
             reverse('about'),
             reverse('team'),
             reverse('pricing'),
@@ -177,18 +178,16 @@ class EcoMeshSchedulingWorkflowTests(TestCase):
             response = self.client.get(url)
             self.assertEqual(response.status_code, 200, f"Failed on URL: {url}")
         
-        # Home must prominently feature technician scheduling
+        # Home must prominently feature headline and CTA
         home_res = self.client.get(reverse('home'))
-        self.assertContains(home_res, "Schedule EcoMesh")
-        self.assertContains(home_res, "Technical Support")
+        self.assertContains(home_res, "Stay Connected. Get Technical Support When You Need It.")
         self.assertContains(home_res, "Book a Technician")
+        self.assertContains(home_res, "Technical Services")
 
     def test_complete_booking_workflow(self):
-        # 1. Login
         self.client.login(username="demouser", password="demopassword123")
         booking_date = (timezone.localdate() + datetime.timedelta(days=2)).isoformat()
 
-        # 2. Submit booking form
         response = self.client.post(reverse('book_service'), {
             'service_type': 'INSTALL',
             'node': self.node.id,
@@ -202,13 +201,12 @@ class EcoMeshSchedulingWorkflowTests(TestCase):
         schedule = ServiceSchedule.objects.filter(user=self.user, address='Room 408, Hostel B').first()
         self.assertIsNotNone(schedule)
         self.assertEqual(schedule.status, 'PENDING')
-        self.assertContains(response, "Technician Dispatch Confirmed")
+        self.assertContains(response, "Booking Confirmed")
         self.assertContains(response, schedule.ticket_number)
 
-    def test_dashboard_displays_upcoming_and_past_appointments(self):
+    def test_dashboard_displays_upcoming_and_kpis(self):
         self.client.login(username="demouser", password="demopassword123")
         
-        # Create an upcoming appointment
         future_date = timezone.localdate() + datetime.timedelta(days=3)
         appt = ServiceSchedule.objects.create(
             user=self.user,
@@ -223,9 +221,32 @@ class EcoMeshSchedulingWorkflowTests(TestCase):
 
         response = self.client.get(reverse('dashboard'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Upcoming Technician Dispatches")
+        self.assertContains(response, "Welcome back,")
+        self.assertContains(response, "UPCOMING APPOINTMENT")
         self.assertContains(response, appt.ticket_number)
-        self.assertContains(response, "John Doe")
+        self.assertContains(response, "Total Appointments")
+
+    def test_my_appointments_page_and_tabs(self):
+        self.client.login(username="demouser", password="demopassword123")
+        future_date = timezone.localdate() + datetime.timedelta(days=3)
+        appt = ServiceSchedule.objects.create(
+            user=self.user,
+            node=self.node,
+            service_type="INSTALL",
+            address="Room 101",
+            scheduled_date=future_date,
+            scheduled_time=datetime.time(10, 30),
+            status="PENDING"
+        )
+
+        res_all = self.client.get(reverse('my_appointments'))
+        self.assertEqual(res_all.status_code, 200)
+        self.assertContains(res_all, "My Appointments")
+        self.assertContains(res_all, appt.ticket_number)
+
+        res_pending = self.client.get(reverse('my_appointments') + "?status=PENDING")
+        self.assertEqual(res_pending.status_code, 200)
+        self.assertContains(res_pending, appt.ticket_number)
 
     def test_cancel_appointment_action(self):
         self.client.login(username="demouser", password="demopassword123")
@@ -268,7 +289,6 @@ class EcoMeshSchedulingWorkflowTests(TestCase):
         self.assertEqual(portal_res.status_code, 200)
         self.assertContains(portal_res, appt.ticket_number)
 
-        # Tech marks In Progress and Completed
         update_res = self.client.post(reverse('technician_update_status', args=[appt.id]), {
             'status': 'COMPLETED',
             'technician_notes': 'Antenna aligned perfectly. Signal -58dBm.'
@@ -293,10 +313,9 @@ class EcoMeshSchedulingWorkflowTests(TestCase):
 
         admin_page = self.client.get(reverse('admin_scheduling'))
         self.assertEqual(admin_page.status_code, 200)
-        self.assertContains(admin_page, "Admin Scheduling")
+        self.assertContains(admin_page, "Admin Operations")
         self.assertContains(admin_page, unassigned_appt.ticket_number)
 
-        # Admin assigns tech_john
         assign_res = self.client.post(reverse('admin_scheduling'), {
             'assign_technician': '1',
             'schedule_id': unassigned_appt.id,
