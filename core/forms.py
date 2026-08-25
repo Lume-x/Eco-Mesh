@@ -15,9 +15,9 @@ TIME_SLOT_CHOICES = [
     ('17:00:00', '05:00 PM (Evening Slot)'),
 ]
 
-INPUT_CLASS = 'w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-150 text-sm shadow-sm'
-SELECT_CLASS = 'w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-150 text-sm shadow-sm'
-TEXTAREA_CLASS = 'w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-150 text-sm shadow-sm'
+INPUT_CLASS = 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/25 transition duration-200 text-sm shadow-inner'
+SELECT_CLASS = 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-white focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/25 transition duration-200 text-sm shadow-inner'
+TEXTAREA_CLASS = 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/25 transition duration-200 text-sm shadow-inner'
 
 
 class UserRegistrationForm(forms.ModelForm):

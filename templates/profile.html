@@ -3,77 +3,77 @@
 {% block title %}My Profile — EcoMesh{% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-10">
   
-  <div class="flex items-center space-x-4 pb-6 border-b border-slate-200" data-aos="fade-down">
-    <div class="w-16 h-16 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-extrabold text-2xl shadow-sm">
+  <div class="flex items-center space-x-5 pb-6 border-b border-white/10" data-aos="fade-down">
+    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 text-slate-950 flex items-center justify-center font-black text-2xl shadow-lg shadow-emerald-500/25">
       {{ user.username|slice:":1"|upper }}
     </div>
     <div class="space-y-1">
-      <div class="flex items-center space-x-2">
-        <h1 class="text-2xl font-extrabold text-slate-900">{{ user.get_full_name|default:user.username }}</h1>
+      <div class="flex items-center space-x-3">
+        <h1 class="text-2xl sm:text-3xl font-black text-white">{{ user.get_full_name|default:user.username }}</h1>
         <span class="badge-status badge-active">
           ● VERIFIED
         </span>
       </div>
-      <p class="text-xs text-slate-500 font-mono">{{ user.email|default:"Registered Student Member" }}</p>
+      <p class="text-xs text-slate-400 font-mono">{{ user.email|default:"Registered Student Member" }}</p>
     </div>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-aos="fade-up">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8" data-aos="fade-up">
     
     <!-- Account Information -->
-    <div class="saas-card p-6 space-y-4">
-      <h3 class="text-sm font-bold text-slate-900 flex items-center space-x-2 pb-3 border-b border-slate-100">
-        <i data-lucide="user" class="w-4 h-4 text-emerald-600"></i>
+    <div class="cyber-card p-7 space-y-5">
+      <h3 class="text-sm font-extrabold text-white flex items-center space-x-2 pb-3 border-b border-white/10">
+        <i data-lucide="user" class="w-4 h-4 text-emerald-400"></i>
         <span>Account Credentials</span>
       </h3>
       
-      <div class="space-y-3 text-xs">
-        <div class="flex justify-between py-1 border-b border-slate-100">
-          <span class="text-slate-500">Username:</span>
-          <span class="font-bold text-slate-800 font-mono">{{ user.username }}</span>
+      <div class="space-y-3.5 text-xs">
+        <div class="flex justify-between py-1 border-b border-white/5">
+          <span class="text-slate-400">Username:</span>
+          <span class="font-bold text-white font-mono">{{ user.username }}</span>
         </div>
-        <div class="flex justify-between py-1 border-b border-slate-100">
-          <span class="text-slate-500">Email Address:</span>
-          <span class="text-slate-800">{{ user.email|default:"Not Provided" }}</span>
+        <div class="flex justify-between py-1 border-b border-white/5">
+          <span class="text-slate-400">Email Address:</span>
+          <span class="text-slate-200">{{ user.email|default:"Not Provided" }}</span>
         </div>
-        <div class="flex justify-between py-1 border-b border-slate-100">
-          <span class="text-slate-500">Member Since:</span>
-          <span class="font-mono text-slate-800">{{ user.date_joined|date:"M d, Y" }}</span>
+        <div class="flex justify-between py-1 border-b border-white/5">
+          <span class="text-slate-400">Member Since:</span>
+          <span class="font-mono text-slate-300">{{ user.date_joined|date:"M d, Y" }}</span>
         </div>
         <div class="flex justify-between py-1">
-          <span class="text-slate-500">Account Type:</span>
-          <span class="font-bold text-emerald-700">{% if user.is_staff %}Staff / Technician{% else %}Student Member{% endif %}</span>
+          <span class="text-slate-400">Account Type:</span>
+          <span class="font-bold text-emerald-400 font-mono">{% if user.is_staff %}Staff / Technician{% else %}Student Member{% endif %}</span>
         </div>
       </div>
     </div>
 
     <!-- Wi-Fi Key & Solar Node -->
-    <div class="saas-card p-6 space-y-4">
-      <h3 class="text-sm font-bold text-slate-900 flex items-center space-x-2 pb-3 border-b border-slate-100">
-        <i data-lucide="wifi" class="w-4 h-4 text-emerald-600"></i>
+    <div class="cyber-card p-7 space-y-5">
+      <h3 class="text-sm font-extrabold text-white flex items-center space-x-2 pb-3 border-b border-white/10">
+        <i data-lucide="wifi" class="w-4 h-4 text-cyan-400"></i>
         <span>Network Credentials</span>
       </h3>
 
-      <div class="space-y-3 text-xs">
-        <div class="flex justify-between py-1 border-b border-slate-100">
-          <span class="text-slate-500">WPA3 Wi-Fi Access Key:</span>
-          <span class="font-mono font-bold text-emerald-700 text-sm tracking-wider">{{ wallet.wifi_access_key }}</span>
+      <div class="space-y-3.5 text-xs">
+        <div class="flex justify-between py-1 border-b border-white/5">
+          <span class="text-slate-400">WPA3 Access Key:</span>
+          <span class="font-mono font-black text-emerald-400 text-sm tracking-wider">{{ wallet.wifi_access_key }}</span>
         </div>
-        <div class="flex justify-between py-1 border-b border-slate-100">
-          <span class="text-slate-500">Assigned Node:</span>
-          <span class="font-bold text-slate-800">{{ wallet.assigned_node.name|default:"Auto-Assigned" }}</span>
+        <div class="flex justify-between py-1 border-b border-white/5">
+          <span class="text-slate-400">Assigned Node:</span>
+          <span class="font-bold text-white">{{ wallet.assigned_node.name|default:"Auto-Assigned" }}</span>
         </div>
         <div class="flex justify-between py-1">
-          <span class="text-slate-500">Perpetual Data Balance:</span>
-          <span class="font-bold font-mono text-emerald-700">{{ wallet.balance_in_gb }} GB</span>
+          <span class="text-slate-400">Data Balance:</span>
+          <span class="font-bold font-mono text-cyan-300">{{ wallet.balance_in_gb }} GB</span>
         </div>
       </div>
 
       <div class="pt-2">
-        <a href="{% url 'my_appointments' %}" class="w-full py-2.5 px-4 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-xl transition flex items-center justify-center space-x-1.5">
-          <i data-lucide="calendar" class="w-4 h-4"></i>
+        <a href="{% url 'my_appointments' %}" class="w-full btn-secondary-glass text-xs font-bold py-2.5 px-4 flex items-center justify-center space-x-2">
+          <i data-lucide="calendar" class="w-4 h-4 text-emerald-400"></i>
           <span>View My Service Appointments</span>
         </a>
       </div>

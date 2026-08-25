@@ -3,79 +3,79 @@
 {% block title %}Book a Technician Dispatch — EcoMesh{% endblock %}
 
 {% block content %}
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
   
   <!-- Breadcrumb -->
-  <nav class="flex items-center space-x-2 text-xs text-slate-500" data-aos="fade-down">
-    <a href="{% url 'home' %}" class="hover:text-emerald-600 transition flex items-center space-x-1">
+  <nav class="flex items-center space-x-2 text-xs text-slate-400 font-mono" data-aos="fade-down">
+    <a href="{% url 'home' %}" class="hover:text-emerald-400 transition flex items-center space-x-1">
       <i data-lucide="home" class="w-3.5 h-3.5"></i>
       <span>Home</span>
     </a>
     <span>/</span>
-    <a href="{% url 'dashboard' %}" class="hover:text-emerald-600 transition">Dashboard</a>
+    <a href="{% url 'dashboard' %}" class="hover:text-emerald-400 transition">Dashboard</a>
     <span>/</span>
-    <span class="text-slate-900 font-semibold">Schedule Technician</span>
+    <span class="text-emerald-400 font-bold">Schedule Technician</span>
   </nav>
 
   <!-- Header -->
-  <div class="space-y-2" data-aos="fade-up">
-    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800">
-      <i data-lucide="calendar-plus" class="w-3.5 h-3.5 text-emerald-600"></i>
+  <div class="space-y-3" data-aos="fade-up">
+    <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-bold text-emerald-400">
+      <i data-lucide="calendar-plus" class="w-3.5 h-3.5 text-emerald-400"></i>
       <span>ON-SITE FIELD DISPATCH</span>
     </div>
-    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Schedule an On-Site Technician</h1>
-    <p class="text-sm text-slate-600 max-w-2xl">
+    <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight">Schedule an On-Site Technician</h1>
+    <p class="text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
       Complete the 5 simple steps below to schedule a certified field engineer visit for your room or solar mesh gateway.
     </p>
   </div>
 
   <!-- Multi-Step Progress Indicator -->
-  <div class="saas-card p-4 sm:p-6" data-aos="fade-up">
-    <div class="flex items-center justify-between max-w-3xl mx-auto text-xs font-semibold">
+  <div class="cyber-card p-5 sm:p-7" data-aos="fade-up">
+    <div class="flex items-center justify-between max-w-3xl mx-auto text-xs font-bold font-mono">
       
       <!-- Step 1 -->
-      <div class="flex flex-col items-center space-y-1.5 text-emerald-700">
-        <div class="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shadow-sm">
+      <div class="flex flex-col items-center space-y-2 text-emerald-400">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 text-slate-950 flex items-center justify-center font-black shadow-lg shadow-emerald-500/30">
           1
         </div>
         <span class="hidden sm:inline">Select Service</span>
       </div>
 
-      <div class="flex-grow h-0.5 bg-emerald-200 mx-2"></div>
+      <div class="flex-grow h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 mx-2"></div>
 
       <!-- Step 2 -->
-      <div class="flex flex-col items-center space-y-1.5 text-slate-600">
-        <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+      <div class="flex flex-col items-center space-y-2 text-slate-300">
+        <div class="w-9 h-9 rounded-full bg-slate-800 border border-emerald-500/40 text-emerald-400 flex items-center justify-center font-bold">
           2
         </div>
         <span class="hidden sm:inline">Mesh Node</span>
       </div>
 
-      <div class="flex-grow h-0.5 bg-slate-200 mx-2"></div>
+      <div class="flex-grow h-0.5 bg-white/10 mx-2"></div>
 
       <!-- Step 3 -->
-      <div class="flex flex-col items-center space-y-1.5 text-slate-600">
-        <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+      <div class="flex flex-col items-center space-y-2 text-slate-400">
+        <div class="w-9 h-9 rounded-full bg-slate-800/80 border border-white/10 text-slate-300 flex items-center justify-center font-bold">
           3
         </div>
         <span class="hidden sm:inline">Choose Date</span>
       </div>
 
-      <div class="flex-grow h-0.5 bg-slate-200 mx-2"></div>
+      <div class="flex-grow h-0.5 bg-white/10 mx-2"></div>
 
       <!-- Step 4 -->
-      <div class="flex flex-col items-center space-y-1.5 text-slate-600">
-        <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+      <div class="flex flex-col items-center space-y-2 text-slate-400">
+        <div class="w-9 h-9 rounded-full bg-slate-800/80 border border-white/10 text-slate-300 flex items-center justify-center font-bold">
           4
         </div>
         <span class="hidden sm:inline">Time Slot</span>
       </div>
 
-      <div class="flex-grow h-0.5 bg-slate-200 mx-2"></div>
+      <div class="flex-grow h-0.5 bg-white/10 mx-2"></div>
 
       <!-- Step 5 -->
-      <div class="flex flex-col items-center space-y-1.5 text-slate-600">
-        <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 border border-slate-300 flex items-center justify-center font-bold">
+      <div class="flex flex-col items-center space-y-2 text-slate-500">
+        <div class="w-9 h-9 rounded-full bg-slate-900 border border-white/10 text-slate-500 flex items-center justify-center font-bold">
           5
         </div>
         <span class="hidden sm:inline">Confirm</span>
@@ -88,16 +88,16 @@
     
     <!-- LEFT: Booking Form (Col 7) -->
     <div class="lg:col-span-7" data-aos="fade-right">
-      <div class="saas-card p-6 sm:p-8 space-y-6 shadow-sm">
+      <div class="cyber-card p-6 sm:p-8 space-y-6">
         
         <form method="POST" action="{% url 'book_service' %}" class="space-y-6" id="booking-form">
           {% csrf_token %}
 
           {% if form.non_field_errors %}
-            <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs space-y-1">
+            <div class="p-4 rounded-xl bg-rose-950/80 border border-rose-500/40 text-rose-300 text-xs space-y-1">
               {% for error in form.non_field_errors %}
-                <p class="flex items-center space-x-1.5">
-                  <i data-lucide="alert-circle" class="w-4 h-4 text-rose-600 shrink-0"></i>
+                <p class="flex items-center space-x-2 font-medium">
+                  <i data-lucide="alert-circle" class="w-4 h-4 text-rose-400 shrink-0"></i>
                   <span>{{ error }}</span>
                 </p>
               {% endfor %}
@@ -106,23 +106,23 @@
 
           <!-- Step 1: Service Selection -->
           <div class="space-y-2">
-            <label for="{{ form.service_type.id_for_label }}" class="block text-xs font-bold uppercase tracking-wider text-slate-700">
-              Step 1: Select Technical Service <span class="text-rose-500">*</span>
+            <label for="{{ form.service_type.id_for_label }}" class="block text-xs font-bold uppercase tracking-wider text-slate-300 font-mono">
+              Step 1: Select Technical Service <span class="text-rose-400">*</span>
             </label>
             {{ form.service_type }}
             {% if form.service_type.errors %}
-              <p class="text-xs text-rose-600 mt-1">{{ form.service_type.errors.0 }}</p>
+              <p class="text-xs text-rose-400 mt-1 font-semibold">{{ form.service_type.errors.0 }}</p>
             {% endif %}
           </div>
 
           <!-- Step 2: Mesh Node Selection -->
           <div class="space-y-2">
-            <label for="{{ form.node.id_for_label }}" class="block text-xs font-bold uppercase tracking-wider text-slate-700">
-              Step 2: Select Mesh Node / Location Zone <span class="text-rose-500">*</span>
+            <label for="{{ form.node.id_for_label }}" class="block text-xs font-bold uppercase tracking-wider text-slate-300 font-mono">
+              Step 2: Select Mesh Node / Location Zone <span class="text-rose-400">*</span>
             </label>
             {{ form.node }}
             {% if form.node.errors %}
-              <p class="text-xs text-rose-600 mt-1">{{ form.node.errors.0 }}</p>
+              <p class="text-xs text-rose-400 mt-1 font-semibold">{{ form.node.errors.0 }}</p>
             {% endif %}
           </div>
 
@@ -130,59 +130,59 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             
             <div class="space-y-2">
-              <label for="{{ form.scheduled_date.id_for_label }}" class="block text-xs font-bold uppercase tracking-wider text-slate-700">
-                Step 3: Appointment Date <span class="text-rose-500">*</span>
+              <label for="{{ form.scheduled_date.id_for_label }}" class="block text-xs font-bold uppercase tracking-wider text-slate-300 font-mono">
+                Step 3: Appointment Date <span class="text-rose-400">*</span>
               </label>
               {{ form.scheduled_date }}
               {% if form.scheduled_date.errors %}
-                <p class="text-xs text-rose-600 mt-1">{{ form.scheduled_date.errors.0 }}</p>
+                <p class="text-xs text-rose-400 mt-1 font-semibold">{{ form.scheduled_date.errors.0 }}</p>
               {% endif %}
             </div>
 
             <div class="space-y-2">
-              <label for="{{ form.scheduled_time.id_for_label }}" class="block text-xs font-bold uppercase tracking-wider text-slate-700">
-                Step 4: Available Time Slot <span class="text-rose-500">*</span>
+              <label for="{{ form.scheduled_time.id_for_label }}" class="block text-xs font-bold uppercase tracking-wider text-slate-300 font-mono">
+                Step 4: Available Time Slot <span class="text-rose-400">*</span>
               </label>
               {{ form.scheduled_time }}
               {% if form.scheduled_time.errors %}
-                <p class="text-xs text-rose-600 mt-1">{{ form.scheduled_time.errors.0 }}</p>
+                <p class="text-xs text-rose-400 mt-1 font-semibold">{{ form.scheduled_time.errors.0 }}</p>
               {% endif %}
             </div>
 
           </div>
 
           <!-- Conflict Warning Alert Box -->
-          <div id="slot-conflict-alert" class="hidden p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-center space-x-2">
-            <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600 shrink-0"></i>
+          <div id="slot-conflict-alert" class="hidden p-4 rounded-xl bg-amber-950/70 border border-amber-500/40 text-amber-300 text-xs flex items-center space-x-2.5">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400 shrink-0"></i>
             <span id="slot-conflict-msg">Checking slot availability...</span>
           </div>
 
           <!-- Step 5: Address & Notes -->
-          <div class="space-y-4 pt-2 border-t border-slate-100">
+          <div class="space-y-4 pt-2 border-t border-white/10">
             <div class="space-y-2">
-              <label for="{{ form.address.id_for_label }}" class="block text-xs font-bold uppercase tracking-wider text-slate-700">
-                Step 5: Room Number / Hostel Address <span class="text-rose-500">*</span>
+              <label for="{{ form.address.id_for_label }}" class="block text-xs font-bold uppercase tracking-wider text-slate-300 font-mono">
+                Step 5: Room Number / Hostel Address <span class="text-rose-400">*</span>
               </label>
               {{ form.address }}
               {% if form.address.errors %}
-                <p class="text-xs text-rose-600 mt-1">{{ form.address.errors.0 }}</p>
+                <p class="text-xs text-rose-400 mt-1 font-semibold">{{ form.address.errors.0 }}</p>
               {% endif %}
             </div>
 
             <div class="space-y-2">
-              <label for="{{ form.notes.id_for_label }}" class="block text-xs font-bold uppercase tracking-wider text-slate-700">
+              <label for="{{ form.notes.id_for_label }}" class="block text-xs font-bold uppercase tracking-wider text-slate-300 font-mono">
                 Additional Instructions / Issue Description (Optional)
               </label>
               {{ form.notes }}
               {% if form.notes.errors %}
-                <p class="text-xs text-rose-600 mt-1">{{ form.notes.errors.0 }}</p>
+                <p class="text-xs text-rose-400 mt-1 font-semibold">{{ form.notes.errors.0 }}</p>
               {% endif %}
             </div>
           </div>
 
           <!-- Submit Button -->
           <div class="pt-2">
-            <button type="submit" class="w-full py-4 px-6 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-md hover:shadow-lg transition transform active:scale-[0.99] flex items-center justify-center space-x-2">
+            <button type="submit" class="w-full btn-primary-glow py-4 text-sm font-black flex items-center justify-center space-x-2">
               <i data-lucide="check-circle" class="w-5 h-5"></i>
               <span>Confirm & Book Technician Dispatch</span>
             </button>
@@ -193,44 +193,44 @@
       </div>
     </div>
 
-    <!-- RIGHT: Summary Sidebar & Policy (Col 5) -->
+    <!-- RIGHT: Summary Sidebar (Col 5) -->
     <div class="lg:col-span-5 space-y-6" data-aos="fade-left">
       
       <!-- Live Selection Summary Card -->
-      <div class="saas-card p-6 space-y-4">
-        <h3 class="text-sm font-bold text-slate-900 flex items-center space-x-2 pb-3 border-b border-slate-100">
-          <i data-lucide="clipboard-list" class="w-4 h-4 text-emerald-600"></i>
+      <div class="cyber-card p-6 space-y-5">
+        <h3 class="text-sm font-extrabold text-white flex items-center space-x-2 pb-3 border-b border-white/10">
+          <i data-lucide="clipboard-list" class="w-4 h-4 text-emerald-400"></i>
           <span>Booking Summary</span>
         </h3>
 
-        <div class="space-y-3 text-xs">
-          <div class="flex justify-between py-1 border-b border-slate-100">
-            <span class="text-slate-500">Service Duration:</span>
-            <span class="font-bold text-slate-800 font-mono">~45–90 Mins</span>
+        <div class="space-y-3.5 text-xs">
+          <div class="flex justify-between py-1 border-b border-white/5">
+            <span class="text-slate-400">Service Duration:</span>
+            <span class="font-bold text-white font-mono">~45–90 Mins</span>
           </div>
-          <div class="flex justify-between py-1 border-b border-slate-100">
-            <span class="text-slate-500">Callout Fee:</span>
-            <span class="font-bold text-emerald-700 font-mono">₦0 (Free for Students)</span>
+          <div class="flex justify-between py-1 border-b border-white/5">
+            <span class="text-slate-400">Callout Fee:</span>
+            <span class="font-bold text-emerald-400 font-mono">₦0 (Free for Students)</span>
           </div>
-          <div class="flex justify-between py-1 border-b border-slate-100">
-            <span class="text-slate-500">Field Engineer SLA:</span>
-            <span class="font-bold text-slate-800">Under 24 Hours</span>
+          <div class="flex justify-between py-1 border-b border-white/5">
+            <span class="text-slate-400">Field Engineer SLA:</span>
+            <span class="font-bold text-white font-mono">Under 24 Hours</span>
           </div>
           <div class="flex justify-between py-1">
-            <span class="text-slate-500">Collision Checking:</span>
-            <span class="font-bold text-emerald-700">Automated</span>
+            <span class="text-slate-400">Collision Checking:</span>
+            <span class="font-bold text-emerald-400">Automated</span>
           </div>
         </div>
       </div>
 
       <!-- Service Guarantees -->
-      <div class="saas-card p-6 space-y-3">
-        <h3 class="text-sm font-bold text-slate-900 flex items-center space-x-2">
-          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+      <div class="cyber-card p-6 space-y-3">
+        <h3 class="text-sm font-extrabold text-white flex items-center space-x-2">
+          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
           <span>What Happens Next?</span>
         </h3>
         
-        <div class="space-y-2 text-xs text-slate-600">
+        <div class="space-y-2 text-xs text-slate-300 leading-relaxed">
           <p>1. Your ticket is assigned to a certified campus field technician.</p>
           <p>2. The technician arrives at your room with RF diagnostic tools and test antennas.</p>
           <p>3. You receive live resolution remarks and ticket updates in your dashboard.</p>
@@ -238,13 +238,13 @@
       </div>
 
       <!-- Support Hotline -->
-      <div class="p-5 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs space-y-1">
-        <span class="font-bold text-emerald-900 flex items-center space-x-1.5">
-          <i data-lucide="phone-call" class="w-4 h-4 text-emerald-600"></i>
+      <div class="p-5 rounded-2xl bg-gradient-to-br from-emerald-950/70 to-slate-900/90 border border-emerald-500/30 text-xs space-y-1.5 shadow-lg">
+        <span class="font-bold text-emerald-300 flex items-center space-x-2">
+          <i data-lucide="phone-call" class="w-4 h-4 text-emerald-400"></i>
           <span>Urgent Hardware Blackout?</span>
         </span>
-        <p class="text-emerald-800">
-          Contact our campus emergency dispatch team at <strong class="text-emerald-950">+234 812 000 ECOMESH</strong>.
+        <p class="text-slate-300">
+          Contact our campus emergency dispatch team at <strong class="text-emerald-400 font-mono">+234 812 000 ECOMESH</strong>.
         </p>
       </div>
 
@@ -296,7 +296,7 @@
             Array.from(timeSelect.options).forEach(opt => {
               if (booked.includes(opt.value)) {
                 opt.text = opt.text.replace(' (BOOKED)', '') + ' (BOOKED)';
-                opt.style.color = '#dc2626';
+                opt.style.color = '#fb7185';
               } else {
                 opt.text = opt.text.replace(' (BOOKED)', '');
                 opt.style.color = '';

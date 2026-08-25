@@ -3,30 +3,30 @@
 {% block title %}Admin Operations Management Dashboard — EcoMesh{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
   
   <!-- Header -->
-  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200" data-aos="fade-down">
-    <div class="space-y-1">
-      <div class="flex items-center space-x-2">
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
-          Admin Operations <span class="text-emerald-700">Dashboard</span>
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/10" data-aos="fade-down">
+    <div class="space-y-1.5">
+      <div class="flex items-center space-x-3">
+        <h1 class="text-2xl sm:text-3xl font-black text-white">
+          Admin Operations <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Dashboard</span>
         </h1>
         <span class="badge-status badge-confirmed">
           ● SUPERUSER CONSOLE
         </span>
       </div>
-      <p class="text-xs text-slate-500">
+      <p class="text-xs text-slate-400">
         Global technician dispatches, node infrastructure topology, user wallets, and promotional code allocations.
       </p>
     </div>
 
     <!-- Quick Navigation -->
     <div class="flex items-center space-x-3">
-      <a href="{% url 'dashboard' %}" class="px-4 py-2 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 rounded-xl border border-slate-300 shadow-sm transition">
+      <a href="{% url 'dashboard' %}" class="btn-secondary-glass text-xs font-bold px-4 py-2.5">
         &larr; User Dashboard
       </a>
-      <a href="{% url 'book_service' %}" class="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm transition">
+      <a href="{% url 'book_service' %}" class="btn-primary-glow text-xs font-extrabold px-5 py-2.5">
         + Create Booking
       </a>
     </div>
@@ -35,49 +35,49 @@
   <!-- Summary Metric KPI Cards -->
   <div class="grid grid-cols-2 sm:grid-cols-5 gap-4" data-aos="fade-up">
     
-    <div class="saas-card p-4 space-y-1">
-      <span class="text-slate-500 text-[11px] font-semibold block">Total Users</span>
-      <div class="text-2xl font-extrabold text-slate-900 font-mono">{{ total_users_count }}</div>
+    <div class="cyber-card p-5 space-y-1">
+      <span class="text-slate-400 text-[10px] font-bold uppercase font-mono block">Total Users</span>
+      <div class="text-3xl font-black text-white font-mono">{{ total_users_count }}</div>
     </div>
 
-    <div class="saas-card p-4 space-y-1">
-      <span class="text-teal-700 text-[11px] font-semibold block">Total Technicians</span>
-      <div class="text-2xl font-extrabold text-teal-800 font-mono">{{ total_techs_count }}</div>
+    <div class="cyber-card p-5 space-y-1">
+      <span class="text-teal-400 text-[10px] font-bold uppercase font-mono block">Total Technicians</span>
+      <div class="text-3xl font-black text-teal-400 font-mono">{{ total_techs_count }}</div>
     </div>
 
-    <div class="saas-card p-4 space-y-1">
-      <span class="text-sky-700 text-[11px] font-semibold block">Upcoming Appointments</span>
-      <div class="text-2xl font-extrabold text-sky-800 font-mono">{{ upcoming_appointments_count }}</div>
+    <div class="cyber-card p-5 space-y-1">
+      <span class="text-cyan-400 text-[10px] font-bold uppercase font-mono block">Upcoming Slots</span>
+      <div class="text-3xl font-black text-cyan-400 font-mono">{{ upcoming_appointments_count }}</div>
     </div>
 
-    <div class="saas-card p-4 space-y-1">
-      <span class="text-emerald-700 text-[11px] font-semibold block">Active Mesh Nodes</span>
-      <div class="text-2xl font-extrabold text-emerald-800 font-mono">{{ active_nodes_count }}</div>
+    <div class="cyber-card p-5 space-y-1">
+      <span class="text-emerald-400 text-[10px] font-bold uppercase font-mono block">Active Nodes</span>
+      <div class="text-3xl font-black text-emerald-400 font-mono">{{ active_nodes_count }}</div>
     </div>
 
-    <div class="saas-card p-4 space-y-1 col-span-2 sm:col-span-1">
-      <span class="text-amber-700 text-[11px] font-semibold block">Pending Services</span>
-      <div class="text-2xl font-extrabold text-amber-800 font-mono">{{ pending_services_count }}</div>
+    <div class="cyber-card p-5 space-y-1 col-span-2 sm:col-span-1">
+      <span class="text-amber-400 text-[10px] font-bold uppercase font-mono block">Pending Services</span>
+      <div class="text-3xl font-black text-amber-400 font-mono">{{ pending_services_count }}</div>
     </div>
 
   </div>
 
   <!-- Management Section 1: All Campus Appointments & Technician Dispatching -->
-  <div class="saas-card p-6 sm:p-8 space-y-6 shadow-sm" data-aos="fade-up">
+  <div class="cyber-card p-6 sm:p-8 space-y-6" data-aos="fade-up">
     
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
       <div>
-        <h2 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
-          <i data-lucide="calendar-check" class="w-5 h-5 text-emerald-600"></i>
+        <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+          <i data-lucide="calendar-check" class="w-5 h-5 text-emerald-400"></i>
           <span>Service Appointments & Technician Dispatching ({{ all_schedules.count }})</span>
         </h2>
-        <p class="text-xs text-slate-500">Assign certified technicians and manage status transitions across all campus nodes</p>
+        <p class="text-xs text-slate-400">Assign certified technicians and manage status transitions across all campus nodes</p>
       </div>
     </div>
 
-    <div class="overflow-x-auto rounded-xl border border-slate-200">
+    <div class="overflow-x-auto rounded-xl border border-white/10">
       <table class="w-full text-left text-xs">
-        <thead class="bg-slate-50 text-slate-600 uppercase font-semibold border-b border-slate-200">
+        <thead class="bg-slate-900/90 text-slate-300 uppercase font-mono border-b border-white/10">
           <tr>
             <th class="py-3 px-4">Ticket</th>
             <th class="py-3 px-4">Customer</th>
@@ -87,31 +87,31 @@
             <th class="py-3 px-4">Assigned Technician & Action</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-slate-100 bg-white text-slate-700">
+        <tbody class="divide-y divide-white/5 bg-slate-950/40 text-slate-300">
           {% for item in all_schedules %}
-            <tr class="hover:bg-slate-50 transition">
+            <tr class="hover:bg-white/5 transition">
               
               <!-- Ticket Ref -->
-              <td class="py-3 px-4 font-mono font-bold text-emerald-800">
+              <td class="py-3 px-4 font-mono font-bold text-emerald-400">
                 #{{ item.ticket_number }}
               </td>
 
               <!-- Customer -->
               <td class="py-3 px-4">
-                <strong class="text-slate-900 block">{{ item.user.username }}</strong>
-                <span class="text-[10px] text-slate-500">{{ item.address }}</span>
+                <strong class="text-white block">{{ item.user.username }}</strong>
+                <span class="text-[10px] text-slate-400">{{ item.address }}</span>
               </td>
 
               <!-- Service & Node -->
               <td class="py-3 px-4">
-                <span class="font-semibold text-slate-900 block">{{ item.get_service_name }}</span>
-                <span class="text-[10px] text-teal-700 font-mono">{{ item.node.name|default:"General Area" }}</span>
+                <span class="font-bold text-slate-200 block">{{ item.get_service_name }}</span>
+                <span class="text-[10px] text-teal-400 font-mono">{{ item.node.name|default:"General Area" }}</span>
               </td>
 
               <!-- Slot -->
               <td class="py-3 px-4 font-mono">
-                <span class="text-slate-900 font-bold block">{{ item.scheduled_date|date:"M d, Y" }}</span>
-                <span class="text-emerald-700 text-[11px]">{{ item.scheduled_time|time:"h:i A" }}</span>
+                <span class="text-white font-bold block">{{ item.scheduled_date|date:"M d, Y" }}</span>
+                <span class="text-emerald-400 text-[11px]">{{ item.scheduled_time|time:"h:i A" }}</span>
               </td>
 
               <!-- Status -->
@@ -136,7 +136,7 @@
                   <input type="hidden" name="assign_technician" value="1">
                   <input type="hidden" name="schedule_id" value="{{ item.id }}">
 
-                  <select name="technician_id" class="px-2.5 py-1 text-xs bg-white border border-slate-300 rounded-lg text-slate-800 focus:ring-1 focus:ring-emerald-500">
+                  <select name="technician_id" class="px-2.5 py-1 text-xs bg-slate-900 border border-slate-700 rounded-lg text-slate-200 focus:ring-1 focus:ring-emerald-400">
                     <option value="">-- Assign Tech --</option>
                     {% for tech in technicians %}
                       <option value="{{ tech.id }}" {% if item.technician_id == tech.id %}selected{% endif %}>
@@ -145,7 +145,7 @@
                     {% endfor %}
                   </select>
 
-                  <select name="status" class="px-2 py-1 text-xs bg-white border border-slate-300 rounded-lg text-slate-800 focus:ring-1 focus:ring-emerald-500">
+                  <select name="status" class="px-2 py-1 text-xs bg-slate-900 border border-slate-700 rounded-lg text-slate-200 focus:ring-1 focus:ring-emerald-400">
                     <option value="PENDING" {% if item.status == 'PENDING' %}selected{% endif %}>Pending</option>
                     <option value="CONFIRMED" {% if item.status == 'CONFIRMED' %}selected{% endif %}>Confirmed</option>
                     <option value="IN_PROGRESS" {% if item.status == 'IN_PROGRESS' %}selected{% endif %}>In Progress</option>
@@ -153,7 +153,7 @@
                     <option value="CANCELLED" {% if item.status == 'CANCELLED' %}selected{% endif %}>Cancelled</option>
                   </select>
 
-                  <button type="submit" class="px-3 py-1 text-[11px] font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition shrink-0 shadow-sm">
+                  <button type="submit" class="btn-primary-glow text-[11px] font-bold px-3 py-1 shrink-0">
                     Save
                   </button>
                 </form>
@@ -172,56 +172,56 @@
   </div>
 
   <!-- Management Section 2: Mesh Node Infrastructure & Maintenance -->
-  <div class="saas-card p-6 sm:p-8 space-y-6 shadow-sm" data-aos="fade-up">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+  <div class="cyber-card p-6 sm:p-8 space-y-6" data-aos="fade-up">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
       <div>
-        <h2 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
-          <i data-lucide="radio-tower" class="w-5 h-5 text-emerald-600"></i>
+        <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+          <i data-lucide="radio-tower" class="w-5 h-5 text-emerald-400"></i>
           <span>Community Mesh Nodes Topology ({{ mesh_nodes.count }})</span>
         </h2>
-        <p class="text-xs text-slate-500">Monitor solar battery levels, set maintenance schedules, and adjust active nodes</p>
+        <p class="text-xs text-slate-400">Monitor solar battery levels, set maintenance schedules, and adjust active nodes</p>
       </div>
 
-      <button type="button" onclick="document.getElementById('add-node-drawer').classList.toggle('hidden')" class="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition flex items-center space-x-1.5 self-start sm:self-auto shadow-sm">
+      <button type="button" onclick="document.getElementById('add-node-drawer').classList.toggle('hidden')" class="btn-primary-glow text-xs font-bold px-4 py-2 flex items-center space-x-1.5 self-start sm:self-auto">
         <i data-lucide="plus-circle" class="w-4 h-4"></i>
         <span>+ Deploy New Node</span>
       </button>
     </div>
 
     <!-- Add Node Form -->
-    <div id="add-node-drawer" class="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-4 hidden">
-      <h3 class="text-sm font-bold text-slate-900">Deploy New Solar Mesh Node</h3>
+    <div id="add-node-drawer" class="p-6 rounded-2xl bg-slate-900/90 border border-white/10 space-y-4 hidden shadow-2xl">
+      <h3 class="text-sm font-bold text-white">Deploy New Solar Mesh Node</h3>
       <form method="POST" action="{% url 'admin_create_node' %}" class="space-y-4">
         {% csrf_token %}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="space-y-1">
-            <label class="block text-xs font-semibold text-slate-700">Node Name</label>
+            <label class="block text-xs font-semibold text-slate-300">Node Name</label>
             {{ admin_node_form.name }}
           </div>
           <div class="space-y-1">
-            <label class="block text-xs font-semibold text-slate-700">Location Area</label>
+            <label class="block text-xs font-semibold text-slate-300">Location Area</label>
             {{ admin_node_form.location_area }}
           </div>
           <div class="space-y-1">
-            <label class="block text-xs font-semibold text-slate-700">Battery Level (%)</label>
+            <label class="block text-xs font-semibold text-slate-300">Battery Level (%)</label>
             {{ admin_node_form.battery_level }}
           </div>
           <div class="space-y-1">
-            <label class="block text-xs font-semibold text-slate-700">Operational Mode</label>
+            <label class="block text-xs font-semibold text-slate-300">Operational Mode</label>
             {{ admin_node_form.status }}
           </div>
         </div>
         <div class="flex justify-end space-x-3 pt-2">
-          <button type="button" onclick="document.getElementById('add-node-drawer').classList.add('hidden')" class="px-4 py-2 text-xs font-semibold text-slate-600 bg-white border border-slate-300 rounded-xl">Cancel</button>
-          <button type="submit" class="px-5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm">Deploy Node</button>
+          <button type="button" onclick="document.getElementById('add-node-drawer').classList.add('hidden')" class="btn-secondary-glass text-xs px-4 py-2">Cancel</button>
+          <button type="submit" class="btn-primary-glow text-xs font-bold px-5 py-2">Deploy Node</button>
         </div>
       </form>
     </div>
 
     <!-- Nodes Table -->
-    <div class="overflow-x-auto rounded-xl border border-slate-200">
+    <div class="overflow-x-auto rounded-xl border border-white/10">
       <table class="w-full text-left text-xs">
-        <thead class="bg-slate-50 text-slate-600 uppercase font-semibold border-b border-slate-200">
+        <thead class="bg-slate-900/90 text-slate-300 uppercase font-mono border-b border-white/10">
           <tr>
             <th class="py-3 px-4">Node Name</th>
             <th class="py-3 px-4">Location</th>
@@ -231,10 +231,10 @@
             <th class="py-3 px-4 text-right">Actions</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-slate-100 bg-white text-slate-700">
+        <tbody class="divide-y divide-white/5 bg-slate-950/40 text-slate-300">
           {% for node in mesh_nodes %}
-            <tr class="hover:bg-slate-50 transition">
-              <td class="py-3 px-4 font-bold text-slate-900">{{ node.name }}</td>
+            <tr class="hover:bg-white/5 transition">
+              <td class="py-3 px-4 font-bold text-white">{{ node.name }}</td>
               <td class="py-3 px-4">{{ node.location_area }}</td>
               <td class="py-3 px-4">
                 {% if node.status == 'ACTIVE' %}
@@ -245,12 +245,12 @@
                   <span class="badge-status badge-cancelled">OFFLINE</span>
                 {% endif %}
               </td>
-              <td class="py-3 px-4 font-mono font-bold text-emerald-700">{{ node.battery_level }}%</td>
-              <td class="py-3 px-4 font-mono">{{ node.uptime_percentage }}%</td>
+              <td class="py-3 px-4 font-mono font-bold text-emerald-400">{{ node.battery_level }}%</td>
+              <td class="py-3 px-4 font-mono font-bold text-white">{{ node.uptime_percentage }}%</td>
               <td class="py-3 px-4 text-right">
                 <form method="POST" action="{% url 'admin_delete_node' node.id %}" onsubmit="return confirm('Delete this node from topology?');" class="inline">
                   {% csrf_token %}
-                  <button type="submit" class="text-rose-600 hover:text-rose-800 font-semibold text-xs">Delete</button>
+                  <button type="submit" class="text-rose-400 hover:text-rose-300 font-semibold text-xs">Delete</button>
                 </form>
               </td>
             </tr>
@@ -262,36 +262,36 @@
   </div>
 
   <!-- Management Section 3: Promotional Vouchers -->
-  <div class="saas-card p-6 sm:p-8 space-y-6 shadow-sm" data-aos="fade-up">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+  <div class="cyber-card p-6 sm:p-8 space-y-6" data-aos="fade-up">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
       <div>
-        <h2 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
-          <i data-lucide="credit-card" class="w-5 h-5 text-emerald-600"></i>
+        <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+          <i data-lucide="credit-card" class="w-5 h-5 text-emerald-400"></i>
           <span>Promotional Data Vouchers Generator & Tracker</span>
         </h2>
-        <p class="text-xs text-slate-500">Generate custom vouchers in megabytes and monitor redemptions</p>
+        <p class="text-xs text-slate-400">Generate custom vouchers in megabytes and monitor redemptions</p>
       </div>
     </div>
 
     <!-- Generator Form -->
-    <form method="POST" action="{% url 'admin_generate_voucher' %}" class="space-y-4 p-5 rounded-2xl bg-slate-50 border border-slate-200">
+    <form method="POST" action="{% url 'admin_generate_voucher' %}" class="space-y-4 p-5 rounded-2xl bg-slate-900/90 border border-white/10">
       {% csrf_token %}
       <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
         <div class="sm:col-span-5 space-y-1">
-          <label class="block text-xs font-bold text-slate-700">Data Amount in Megabytes (MB)</label>
+          <label class="block text-xs font-bold text-slate-300 font-mono">Data Amount in Megabytes (MB)</label>
           {{ admin_voucher_form.data_amount_mb }}
         </div>
         <div class="sm:col-span-4 space-y-1">
-          <label class="block text-xs font-bold text-slate-700">Custom Code (Optional)</label>
+          <label class="block text-xs font-bold text-slate-300 font-mono">Custom Code (Optional)</label>
           {{ admin_voucher_form.custom_code }}
         </div>
         <div class="sm:col-span-3 space-y-1">
-          <label class="block text-xs font-bold text-slate-700">Quantity</label>
+          <label class="block text-xs font-bold text-slate-300 font-mono">Quantity</label>
           {{ admin_voucher_form.quantity }}
         </div>
       </div>
       <div class="flex justify-end pt-1">
-        <button type="submit" class="px-5 py-2.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm transition flex items-center space-x-1.5">
+        <button type="submit" class="btn-primary-glow text-xs font-bold px-6 py-2.5 flex items-center space-x-1.5">
           <i data-lucide="sparkles" class="w-4 h-4"></i>
           <span>Generate Vouchers</span>
         </button>

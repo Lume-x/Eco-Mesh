@@ -4,18 +4,18 @@
 
 {% block content %}
 <!-- Header Hero -->
-<section class="py-16 bg-white border-b border-slate-200">
+<section class="py-20 border-b border-white/10 relative overflow-hidden">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="max-w-3xl space-y-4" data-aos="fade-up">
-      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800">
-        <i data-lucide="sun" class="w-3.5 h-3.5 text-emerald-600"></i>
+    <div class="max-w-3xl space-y-6" data-aos="fade-up">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-bold text-emerald-400">
+        <i data-lucide="sun" class="w-3.5 h-3.5 text-emerald-400"></i>
         <span>OUR MISSION & ARCHITECTURE</span>
       </div>
-      <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+      <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight">
         Democratizing Connectivity with <br/>
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">Clean Solar Mesh Networks.</span>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">Clean Solar Mesh Networks.</span>
       </h1>
-      <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+      <p class="text-base sm:text-lg text-slate-300 leading-relaxed">
         Legacy telecom giants neglect student hostels and peri-urban communities with congested cellular towers, frequent blackout collapses, and extractive 30-day data expiration countdowns. EcoMesh exists to replace diesel dependency with clean, decentralized community infrastructure.
       </p>
     </div>
@@ -23,38 +23,44 @@
 </section>
 
 <!-- The Problem & Solution Breakdown -->
-<section class="py-16 bg-slate-50 border-b border-slate-200">
+<section class="py-24 border-b border-white/10">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
       
       <div class="space-y-6" data-aos="fade-right">
-        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-xs font-bold text-rose-800">
-          <i data-lucide="alert-octagon" class="w-3.5 h-3.5 text-rose-600"></i>
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-xs font-bold text-rose-400">
+          <i data-lucide="alert-octagon" class="w-3.5 h-3.5 text-rose-400"></i>
           <span>THE STATUS QUO PROBLEM</span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+        <h2 class="text-3xl font-black text-white">
           Why Traditional Telecom Fails Off-Campus Students
         </h2>
-        <div class="space-y-3 text-xs sm:text-sm text-slate-600">
-          <div class="flex items-start space-x-3 p-4 rounded-xl saas-card">
-            <i data-lucide="zap-off" class="w-5 h-5 text-rose-600 shrink-0 mt-0.5"></i>
+        <div class="space-y-4 text-sm text-slate-300">
+          <div class="flex items-start space-x-4 p-5 rounded-2xl cyber-card">
+            <div class="w-10 h-10 rounded-xl bg-rose-500/15 text-rose-400 flex items-center justify-center shrink-0">
+              <i data-lucide="zap-off" class="w-5 h-5"></i>
+            </div>
             <div>
-              <strong class="text-slate-900 block mb-1">Blackout Collapses & Diesel Scarcity</strong>
+              <strong class="text-white block mb-1">Blackout Collapses & Diesel Scarcity</strong>
               When the municipal grid drops, cellular base stations rely on noisy diesel generators. When fuel runs out, entire campus hostels suffer total blackout connectivity drops during exam weeks.
             </div>
           </div>
-          <div class="flex items-start space-x-3 p-4 rounded-xl saas-card">
-            <i data-lucide="clock-4" class="w-5 h-5 text-rose-600 shrink-0 mt-0.5"></i>
+          <div class="flex items-start space-x-4 p-5 rounded-2xl cyber-card">
+            <div class="w-10 h-10 rounded-xl bg-rose-500/15 text-rose-400 flex items-center justify-center shrink-0">
+              <i data-lucide="clock-4" class="w-5 h-5"></i>
+            </div>
             <div>
-              <strong class="text-slate-900 block mb-1">Artificial Expiration & Stolen Megabytes</strong>
+              <strong class="text-white block mb-1">Artificial Expiration & Stolen Megabytes</strong>
               Carriers systematically wipe unused data balances at the end of 30 days, forcing cash-strapped students to continually repurchase megabytes they already paid for.
             </div>
           </div>
-          <div class="flex items-start space-x-3 p-4 rounded-xl saas-card">
-            <i data-lucide="network" class="w-5 h-5 text-rose-600 shrink-0 mt-0.5"></i>
+          <div class="flex items-start space-x-4 p-5 rounded-2xl cyber-card">
+            <div class="w-10 h-10 rounded-xl bg-rose-500/15 text-rose-400 flex items-center justify-center shrink-0">
+              <i data-lucide="network" class="w-5 h-5"></i>
+            </div>
             <div>
-              <strong class="text-slate-900 block mb-1">Severe Evening Congestion</strong>
+              <strong class="text-white block mb-1">Severe Evening Congestion</strong>
               Thousands of students competing for the same 4G/5G mast leads to packet loss exceeding 40% between 7 PM and 11 PM.
             </div>
           </div>
@@ -62,32 +68,38 @@
       </div>
 
       <div class="space-y-6" data-aos="fade-left">
-        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800">
-          <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i>
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-bold text-emerald-400">
+          <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-400"></i>
           <span>THE ECOMESH SOLUTION</span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+        <h2 class="text-3xl font-black text-white">
           The Solar-Powered Mesh Architecture
         </h2>
-        <div class="space-y-3 text-xs sm:text-sm text-slate-600">
-          <div class="flex items-start space-x-3 p-4 rounded-xl saas-card">
-            <i data-lucide="sun" class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"></i>
+        <div class="space-y-4 text-sm text-slate-300">
+          <div class="flex items-start space-x-4 p-5 rounded-2xl cyber-card">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0">
+              <i data-lucide="sun" class="w-5 h-5"></i>
+            </div>
             <div>
-              <strong class="text-slate-900 block mb-1">100% Off-Grid Solar Autonomy</strong>
+              <strong class="text-white block mb-1">100% Off-Grid Solar Autonomy</strong>
               Each node is an independent micro-generator equipped with 400W Monocrystalline PV and 2.4kWh Lithium Iron Phosphate (LiFePO4) storage, giving 72 hours of autonomy even in continuous rain.
             </div>
           </div>
-          <div class="flex items-start space-x-3 p-4 rounded-xl saas-card">
-            <i data-lucide="infinity" class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"></i>
+          <div class="flex items-start space-x-4 p-5 rounded-2xl cyber-card">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0">
+              <i data-lucide="infinity" class="w-5 h-5"></i>
+            </div>
             <div>
-              <strong class="text-slate-900 block mb-1">Perpetual Non-Expiring Data Wallet</strong>
+              <strong class="text-white block mb-1">Perpetual Non-Expiring Data Wallet</strong>
               Every megabyte purchased stays in your personal EcoMesh wallet forever. Rollover is unconditional and perpetual.
             </div>
           </div>
-          <div class="flex items-start space-x-3 p-4 rounded-xl saas-card">
-            <i data-lucide="cpu" class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"></i>
+          <div class="flex items-start space-x-4 p-5 rounded-2xl cyber-card">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0">
+              <i data-lucide="cpu" class="w-5 h-5"></i>
+            </div>
             <div>
-              <strong class="text-slate-900 block mb-1">Dedicated On-Demand Technical Support</strong>
+              <strong class="text-white block mb-1">Dedicated On-Demand Technical Support</strong>
               Certified student engineers can be scheduled on-demand to mount antennas, optimize azimuth alignment, and service solar battery banks.
             </div>
           </div>

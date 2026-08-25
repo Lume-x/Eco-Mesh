@@ -3,41 +3,41 @@
 {% block title %}Technical Services Directory — EcoMesh{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
   
   <!-- Header -->
-  <div class="text-center max-w-3xl mx-auto space-y-3" data-aos="fade-up">
-    <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800">
-      <i data-lucide="wrench" class="w-3.5 h-3.5 text-emerald-600"></i>
+  <div class="text-center max-w-3xl mx-auto space-y-4" data-aos="fade-up">
+    <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-bold text-emerald-400">
+      <i data-lucide="wrench" class="w-3.5 h-3.5 text-emerald-400"></i>
       <span>ON-DEMAND TECHNICAL SUPPORT</span>
     </div>
-    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">EcoMesh Technical Services</h1>
-    <p class="text-slate-600 text-sm sm:text-base">
+    <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight">EcoMesh Technical Services</h1>
+    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
       Certified student field engineers available across campus hostels and nodes. Schedule on-site diagnostics, antenna alignment, or hardware maintenance.
     </p>
   </div>
 
   <!-- Services Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     {% for service in services %}
-      <div class="saas-card saas-card-hover p-7 flex flex-col justify-between space-y-6" data-aos="fade-up">
+      <div class="cyber-card cyber-card-hover p-8 flex flex-col justify-between space-y-6" data-aos="fade-up">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <div class="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
               <i data-lucide="{{ service.icon_name|default:'wrench' }}" class="w-6 h-6"></i>
             </div>
-            <span class="px-2.5 py-1 text-[11px] font-bold font-mono rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+            <span class="px-2.5 py-1 text-[11px] font-bold font-mono rounded-full bg-slate-900 text-emerald-300 border border-emerald-500/30">
               ~{{ service.estimated_duration_minutes }} MINS
             </span>
           </div>
-          <h3 class="text-lg font-bold text-slate-900">{{ service.name }}</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
+          <h3 class="text-xl font-extrabold text-white">{{ service.name }}</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
             {{ service.description }}
           </p>
         </div>
-        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-          <span class="text-xs font-bold text-emerald-700">{{ service.price }}</span>
-          <a href="{% url 'book_service' %}?service={{ service.code }}" class="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition">
+        <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+          <span class="text-xs font-bold text-emerald-400 font-mono">{{ service.price }}</span>
+          <a href="{% url 'book_service' %}?service={{ service.code }}" class="px-4 py-2 text-xs font-extrabold text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl transition shadow-md shadow-emerald-500/20">
             Book Service &rarr;
           </a>
         </div>
@@ -46,13 +46,13 @@
   </div>
 
   <!-- CTA Box -->
-  <div class="saas-card p-8 text-center space-y-4 bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border border-emerald-200" data-aos="fade-up">
-    <h2 class="text-xl font-bold text-slate-900">Need Custom RF Installation or Node Consultation?</h2>
-    <p class="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
+  <div class="cyber-card cyber-card-glow p-10 text-center space-y-4" data-aos="fade-up">
+    <h2 class="text-2xl font-black text-white">Need Custom RF Installation or Node Consultation?</h2>
+    <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
       Our lead software and hardware architects can design custom off-grid solar Wi-Fi clusters for hostels and off-campus zones.
     </p>
     <div class="pt-2">
-      <a href="{% url 'book_service' %}" class="inline-flex items-center space-x-2 px-6 py-3 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm transition">
+      <a href="{% url 'book_service' %}" class="btn-primary-glow text-xs font-extrabold px-7 py-3.5 inline-flex items-center space-x-2">
         <i data-lucide="calendar" class="w-4 h-4"></i>
         <span>Schedule Field Survey</span>
       </a>

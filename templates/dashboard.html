@@ -6,36 +6,36 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
   
   <!-- Header: Welcome back, [User Name] -->
-  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200" data-aos="fade-down">
-    <div class="space-y-1">
-      <div class="flex items-center space-x-2">
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
-          Welcome back, <span class="text-emerald-700">{{ user.username }}</span>
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10" data-aos="fade-down">
+    <div class="space-y-1.5">
+      <div class="flex items-center space-x-3">
+        <h1 class="text-2xl sm:text-4xl font-black text-white">
+          Welcome back, <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">{{ user.username }}</span>
         </h1>
         <span class="badge-status badge-active">
           ● ACTIVE MEMBER
         </span>
       </div>
-      <p class="text-xs text-slate-500">
-        Account: <span class="text-slate-700 font-medium">{{ user.email|default:"Registered Student" }}</span> • EcoMesh Technical Support & Dashboard
+      <p class="text-xs text-slate-400">
+        Account: <span class="text-slate-200 font-medium">{{ user.email|default:"Registered Student" }}</span> • EcoMesh Technical Support & Management Portal
       </p>
     </div>
 
     <!-- Quick CTAs -->
     <div class="flex flex-wrap items-center gap-3">
       {% if is_technician %}
-        <a href="{% url 'technician_portal' %}" class="flex items-center space-x-1.5 px-4 py-2.5 text-xs font-bold text-teal-800 bg-teal-50 hover:bg-teal-100 border border-teal-200 rounded-xl transition">
-          <i data-lucide="hard-hat" class="w-4 h-4 text-teal-600"></i>
+        <a href="{% url 'technician_portal' %}" class="flex items-center space-x-2 px-4 py-2.5 text-xs font-bold text-teal-300 bg-teal-500/10 hover:bg-teal-500/20 border border-teal-500/30 rounded-xl transition">
+          <i data-lucide="hard-hat" class="w-4 h-4 text-teal-400"></i>
           <span>Technician Portal</span>
         </a>
       {% endif %}
 
-      <a href="{% url 'my_appointments' %}" class="flex items-center space-x-1.5 px-4 py-2.5 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-300 rounded-xl shadow-sm transition">
-        <i data-lucide="calendar" class="w-4 h-4 text-slate-500"></i>
+      <a href="{% url 'my_appointments' %}" class="btn-secondary-glass text-xs font-bold px-4 py-2.5">
+        <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
         <span>My Appointments</span>
       </a>
 
-      <a href="{% url 'book_service' %}" class="flex items-center space-x-2 px-5 py-2.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm hover:shadow-md transition">
+      <a href="{% url 'book_service' %}" class="btn-primary-glow text-xs font-extrabold px-5 py-2.5">
         <i data-lucide="calendar-plus" class="w-4 h-4"></i>
         <span>Book a Technician</span>
       </a>
@@ -44,12 +44,12 @@
 
   <!-- System Maintenance Notice if any alerts -->
   {% if system_alerts %}
-    <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-start space-x-3" data-aos="fade-up">
-      <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
+    <div class="p-5 rounded-2xl bg-amber-950/40 border border-amber-500/30 text-amber-300 text-xs flex items-start space-x-3 shadow-lg" data-aos="fade-up">
+      <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-400 shrink-0 mt-0.5"></i>
       <div>
-        <strong class="font-bold text-amber-900 block mb-0.5">Solar Mesh Cluster Advisory</strong>
+        <strong class="font-bold text-amber-200 block mb-1">Solar Mesh Cluster Advisory</strong>
         <span>Some solar nodes are currently undergoing technician diagnostics or battery maintenance:</span>
-        <ul class="list-disc list-inside mt-1 text-[11px] text-amber-800 space-y-0.5">
+        <ul class="list-disc list-inside mt-1.5 text-[11px] text-amber-300/90 space-y-0.5 font-mono">
           {% for alert_node in system_alerts %}
             <li><strong>{{ alert_node.name }}</strong> ({{ alert_node.location_area }}): {{ alert_node.maintenance_note|default:"Standard field inspection in progress." }}</li>
           {% endfor %}
@@ -61,21 +61,21 @@
   <!-- ========================================================================= -->
   <!-- 1. PROMINENT UPCOMING APPOINTMENT HERO CARD                               -->
   <!-- ========================================================================= -->
-  <div class="saas-card p-6 sm:p-8 space-y-6 border border-emerald-200 shadow-md bg-gradient-to-br from-white via-white to-emerald-50/40" data-aos="fade-up">
+  <div class="cyber-card cyber-card-glow p-6 sm:p-8 space-y-6 relative" data-aos="fade-up">
     
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
       <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
-          <i data-lucide="calendar-clock" class="w-5 h-5"></i>
+        <div class="w-11 h-11 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold shadow-md shadow-emerald-500/10">
+          <i data-lucide="calendar-clock" class="w-6 h-6"></i>
         </div>
         <div>
-          <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-800 font-mono block">UPCOMING APPOINTMENT</span>
-          <h2 class="text-xl font-extrabold text-slate-900">Next Scheduled Service</h2>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 font-mono block">UPCOMING APPOINTMENT</span>
+          <h2 class="text-xl sm:text-2xl font-black text-white">Next Scheduled Service</h2>
         </div>
       </div>
 
       <div class="flex items-center space-x-2">
-        <a href="{% url 'my_appointments' %}" class="text-xs font-bold text-emerald-700 hover:text-emerald-800 hover:underline">
+        <a href="{% url 'my_appointments' %}" class="text-xs font-bold text-emerald-400 hover:text-emerald-300 transition">
           View All Appointments ({{ total_appointments_count }}) &rarr;
         </a>
       </div>
@@ -87,70 +87,70 @@
         <!-- Details Column -->
         <div class="md:col-span-8 space-y-4">
           <div class="space-y-1">
-            <span class="text-xs font-mono font-bold text-emerald-700">Ticket #{{ next_upcoming.ticket_number }}</span>
-            <h3 class="text-xl font-extrabold text-slate-900">{{ next_upcoming.get_service_name }}</h3>
+            <span class="text-xs font-mono font-bold text-emerald-400">Ticket #{{ next_upcoming.ticket_number }}</span>
+            <h3 class="text-xl sm:text-2xl font-extrabold text-white">{{ next_upcoming.get_service_name }}</h3>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-            <div class="p-3 rounded-xl bg-white border border-slate-200">
-              <span class="text-slate-500 block text-[11px]">Appointment Date</span>
-              <span class="font-bold text-slate-900 font-mono">{{ next_upcoming.scheduled_date|date:"M d, Y" }}</span>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-white/5">
+              <span class="text-slate-400 block text-[10px] uppercase font-mono">Appointment Date</span>
+              <span class="font-bold text-white font-mono mt-0.5 block">{{ next_upcoming.scheduled_date|date:"M d, Y" }}</span>
             </div>
-            <div class="p-3 rounded-xl bg-white border border-slate-200">
-              <span class="text-slate-500 block text-[11px]">Time Window</span>
-              <span class="font-bold text-emerald-700 font-mono">{{ next_upcoming.scheduled_time|time:"h:i A" }}</span>
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-white/5">
+              <span class="text-slate-400 block text-[10px] uppercase font-mono">Time Window</span>
+              <span class="font-bold text-emerald-400 font-mono mt-0.5 block">{{ next_upcoming.scheduled_time|time:"h:i A" }}</span>
             </div>
-            <div class="p-3 rounded-xl bg-white border border-slate-200">
-              <span class="text-slate-500 block text-[11px]">Assigned Technician</span>
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-white/5">
+              <span class="text-slate-400 block text-[10px] uppercase font-mono">Assigned Technician</span>
               {% if next_upcoming.technician %}
-                <span class="font-bold text-slate-900">{{ next_upcoming.technician.technician_profile.full_name|default:next_upcoming.technician.username }}</span>
+                <span class="font-bold text-cyan-300 mt-0.5 block">{{ next_upcoming.technician.technician_profile.full_name|default:next_upcoming.technician.username }}</span>
               {% else %}
-                <span class="text-slate-500 italic">Assigning Field Engineer...</span>
+                <span class="text-slate-400 italic mt-0.5 block">Assigning Field Engineer...</span>
               {% endif %}
             </div>
           </div>
 
-          <div class="text-xs text-slate-600 bg-white p-3 rounded-xl border border-slate-200">
-            <span class="text-slate-500 block text-[11px]">Room / Hostel Address:</span>
-            <span class="font-semibold text-slate-800">{{ next_upcoming.address }}</span>
+          <div class="text-xs text-slate-300 bg-slate-900/80 p-3.5 rounded-xl border border-white/5 space-y-1">
+            <span class="text-slate-400 block text-[10px] uppercase font-mono">Room / Hostel Address:</span>
+            <span class="font-semibold text-white">{{ next_upcoming.address }}</span>
             {% if next_upcoming.notes %}
-              <p class="text-[11px] text-slate-500 mt-1 italic">Customer Note: "{{ next_upcoming.notes }}"</p>
+              <p class="text-[11px] text-slate-400 italic mt-1">Customer Note: "{{ next_upcoming.notes }}"</p>
             {% endif %}
           </div>
         </div>
 
         <!-- Status & Action Column -->
-        <div class="md:col-span-4 flex flex-col items-start md:items-end justify-between space-y-4 md:border-l md:border-slate-200 md:pl-6">
+        <div class="md:col-span-4 flex flex-col items-start md:items-end justify-between space-y-4 md:border-l md:border-white/10 md:pl-6">
           <div class="space-y-1 text-left md:text-right">
-            <span class="text-[11px] text-slate-500 block">Dispatch Status:</span>
+            <span class="text-[10px] text-slate-400 uppercase font-mono block">Dispatch Status:</span>
             {% if next_upcoming.status == 'PENDING' %}
               <span class="badge-status badge-pending">
-                🟡 PENDING REVIEW
+                ● PENDING REVIEW
               </span>
             {% elif next_upcoming.status == 'CONFIRMED' %}
               <span class="badge-status badge-confirmed">
-                🔵 CONFIRMED & DISPATCHED
+                ● CONFIRMED & DISPATCHED
               </span>
             {% elif next_upcoming.status == 'IN_PROGRESS' %}
               <span class="badge-status badge-progress">
-                🟠 ONSITE / IN PROGRESS
+                ● ONSITE / IN PROGRESS
               </span>
             {% else %}
               <span class="badge-status badge-completed">
-                🟢 COMPLETED
+                ● COMPLETED
               </span>
             {% endif %}
           </div>
 
           <div class="flex items-center space-x-2 w-full md:w-auto">
-            <a href="{% url 'booking_confirmation' next_upcoming.id %}" class="w-full md:w-auto px-4 py-2.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm text-center transition">
+            <a href="{% url 'booking_confirmation' next_upcoming.id %}" class="btn-primary-glow text-xs font-bold px-4 py-2.5 w-full md:w-auto text-center">
               View Details
             </a>
 
             {% if next_upcoming.status in 'PENDING,CONFIRMED' %}
               <form method="POST" action="{% url 'cancel_service' next_upcoming.id %}" onsubmit="return confirm('Are you sure you want to cancel this appointment slot?');">
                 {% csrf_token %}
-                <button type="submit" class="px-3 py-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition">
+                <button type="submit" class="px-3 py-2.5 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 text-xs font-bold transition">
                   Cancel
                 </button>
               </form>
@@ -160,16 +160,18 @@
 
       </div>
     {% else %}
-      <div class="text-center py-10 space-y-3">
-        <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
-          <i data-lucide="calendar" class="w-6 h-6"></i>
+      <div class="text-center py-12 space-y-4">
+        <div class="w-14 h-14 rounded-3xl bg-slate-800/80 text-slate-400 border border-white/10 flex items-center justify-center mx-auto">
+          <i data-lucide="calendar" class="w-7 h-7 text-emerald-400"></i>
         </div>
-        <h3 class="text-base font-bold text-slate-900">No Upcoming Appointments</h3>
-        <p class="text-xs text-slate-500 max-w-md mx-auto">
-          Book a technician to schedule your first EcoMesh service or antenna inspection.
-        </p>
+        <div class="space-y-1">
+          <h3 class="text-lg font-bold text-white">No Upcoming Appointments</h3>
+          <p class="text-xs text-slate-400 max-w-md mx-auto">
+            Book a technician to schedule your first EcoMesh service or antenna inspection.
+          </p>
+        </div>
         <div class="pt-2">
-          <a href="{% url 'book_service' %}" class="inline-flex items-center space-x-2 px-6 py-3 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm transition">
+          <a href="{% url 'book_service' %}" class="btn-primary-glow text-xs font-extrabold px-6 py-3">
             <i data-lucide="calendar-plus" class="w-4 h-4"></i>
             <span>Book a Technician</span>
           </a>
@@ -184,40 +186,40 @@
   <!-- ========================================================================= -->
   <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" data-aos="fade-up">
     
-    <div class="saas-card p-5 space-y-2">
-      <div class="flex items-center justify-between text-slate-500 text-xs font-semibold">
+    <div class="cyber-card p-5 space-y-2">
+      <div class="flex items-center justify-between text-slate-400 text-xs font-semibold">
         <span>Total Appointments</span>
-        <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
+        <i data-lucide="calendar" class="w-4 h-4 text-emerald-400"></i>
       </div>
-      <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-mono">{{ total_appointments_count }}</div>
-      <p class="text-[11px] text-slate-500">All-time service bookings</p>
+      <div class="text-3xl font-black text-white font-mono">{{ total_appointments_count }}</div>
+      <p class="text-[11px] text-slate-400">All-time service bookings</p>
     </div>
 
-    <div class="saas-card p-5 space-y-2">
-      <div class="flex items-center justify-between text-emerald-800 text-xs font-semibold">
+    <div class="cyber-card p-5 space-y-2">
+      <div class="flex items-center justify-between text-emerald-400 text-xs font-semibold">
         <span>Completed Services</span>
-        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
       </div>
-      <div class="text-2xl sm:text-3xl font-extrabold text-emerald-700 font-mono">{{ completed_services_count }}</div>
-      <p class="text-[11px] text-slate-500">Successfully resolved dispatches</p>
+      <div class="text-3xl font-black text-emerald-400 font-mono">{{ completed_services_count }}</div>
+      <p class="text-[11px] text-slate-400">Successfully resolved dispatches</p>
     </div>
 
-    <div class="saas-card p-5 space-y-2">
-      <div class="flex items-center justify-between text-amber-800 text-xs font-semibold">
+    <div class="cyber-card p-5 space-y-2">
+      <div class="flex items-center justify-between text-amber-400 text-xs font-semibold">
         <span>Pending Requests</span>
-        <i data-lucide="clock" class="w-4 h-4 text-amber-600"></i>
+        <i data-lucide="clock" class="w-4 h-4 text-amber-400"></i>
       </div>
-      <div class="text-2xl sm:text-3xl font-extrabold text-amber-700 font-mono">{{ pending_requests_count }}</div>
-      <p class="text-[11px] text-slate-500">Awaiting technician assignment</p>
+      <div class="text-3xl font-black text-amber-400 font-mono">{{ pending_requests_count }}</div>
+      <p class="text-[11px] text-slate-400">Awaiting technician assignment</p>
     </div>
 
-    <div class="saas-card p-5 space-y-2">
-      <div class="flex items-center justify-between text-slate-700 text-xs font-semibold">
+    <div class="cyber-card p-5 space-y-2">
+      <div class="flex items-center justify-between text-cyan-400 text-xs font-semibold">
         <span>Current Data Balance</span>
-        <i data-lucide="wallet" class="w-4 h-4 text-slate-400"></i>
+        <i data-lucide="wallet" class="w-4 h-4 text-cyan-400"></i>
       </div>
-      <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-mono">{{ current_balance_gb }} <span class="text-sm font-bold text-emerald-700">GB</span></div>
-      <p class="text-[11px] text-slate-500">Non-expiring lifetime data</p>
+      <div class="text-3xl font-black text-white font-mono">{{ current_balance_gb }} <span class="text-sm font-bold text-cyan-400">GB</span></div>
+      <p class="text-[11px] text-slate-400">Non-expiring lifetime data</p>
     </div>
 
   </div>
@@ -230,15 +232,15 @@
     <!-- LEFT: Wallet & Wi-Fi PIN (Col 7) -->
     <div class="lg:col-span-7 space-y-6">
       
-      <div class="saas-card p-6 sm:p-7 space-y-5">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-          <div class="flex items-center space-x-2.5">
-            <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+      <div class="cyber-card p-6 sm:p-7 space-y-5">
+        <div class="flex items-center justify-between pb-3 border-b border-white/10">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-bold">
               <i data-lucide="wifi" class="w-4 h-4"></i>
             </div>
             <div>
-              <h3 class="text-sm font-bold text-slate-900">WPA3 Wi-Fi Access Credentials</h3>
-              <p class="text-xs text-slate-500">Use this PIN on the EcoMesh captive portal</p>
+              <h3 class="text-sm font-extrabold text-white">WPA3 Wi-Fi Access Credentials</h3>
+              <p class="text-xs text-slate-400">Use this PIN on the EcoMesh captive portal</p>
             </div>
           </div>
           <span class="badge-status badge-active">
@@ -247,26 +249,26 @@
         </div>
 
         <!-- PIN Box -->
-        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="p-4 rounded-2xl bg-slate-900/90 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-inner">
           <div class="space-y-0.5 text-center sm:text-left">
-            <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">Access Key / PIN</span>
-            <span class="text-xl font-bold font-mono text-emerald-700 tracking-widest">{{ wallet.wifi_access_key }}</span>
+            <span class="text-[10px] font-bold text-slate-400 uppercase font-mono tracking-wider block">Access Key / PIN</span>
+            <span class="text-2xl font-black font-mono text-emerald-400 tracking-widest">{{ wallet.wifi_access_key }}</span>
           </div>
-          <button id="copy-pin-btn" onclick="copyWifiKey('{{ wallet.wifi_access_key }}')" class="w-full sm:w-auto px-4 py-2 text-xs font-bold text-slate-700 bg-white hover:bg-slate-100 rounded-xl border border-slate-300 shadow-sm flex items-center justify-center space-x-1.5 transition">
-            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+          <button id="copy-pin-btn" onclick="copyWifiKey('{{ wallet.wifi_access_key }}')" class="w-full sm:w-auto btn-secondary-glass text-xs font-bold px-4 py-2 flex items-center justify-center space-x-2">
+            <i data-lucide="copy" class="w-3.5 h-3.5 text-emerald-400"></i>
             <span id="copy-pin-text">Copy Key</span>
           </button>
         </div>
 
         <!-- Top-up Form -->
         <div class="pt-2 space-y-2">
-          <span class="text-xs font-bold text-slate-800 block">Redeem Top-Up Voucher</span>
+          <span class="text-xs font-bold text-slate-300 font-mono block">Redeem Top-Up Voucher</span>
           <form method="POST" action="{% url 'redeem_voucher' %}" class="flex flex-col sm:flex-row gap-3">
             {% csrf_token %}
             <div class="flex-grow">
               {{ redeem_form.code }}
             </div>
-            <button type="submit" class="px-6 py-2.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm transition shrink-0 flex items-center justify-center space-x-1.5">
+            <button type="submit" class="btn-primary-glow text-xs font-extrabold px-6 py-3 shrink-0 flex items-center justify-center space-x-2">
               <i data-lucide="plus" class="w-4 h-4"></i>
               <span>Redeem Data</span>
             </button>
@@ -278,16 +280,16 @@
 
     <!-- RIGHT: Connected Node Status (Col 5) -->
     <div class="lg:col-span-5 space-y-6">
-      <div class="saas-card p-6 sm:p-7 space-y-4">
+      <div class="cyber-card p-6 sm:p-7 space-y-4">
         
-        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-          <div class="flex items-center space-x-2.5">
-            <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+        <div class="flex items-center justify-between pb-3 border-b border-white/10">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-xl bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 flex items-center justify-center font-bold">
               <i data-lucide="radio" class="w-4 h-4"></i>
             </div>
             <div>
-              <h3 class="text-sm font-bold text-slate-900">Connected Solar Node</h3>
-              <p class="text-xs text-slate-500 font-mono">{{ wallet.assigned_node.name|default:"Auto-Assign Mesh Gateway" }}</p>
+              <h3 class="text-sm font-extrabold text-white">Connected Solar Node</h3>
+              <p class="text-xs text-slate-400 font-mono">{{ wallet.assigned_node.name|default:"Auto-Assign Mesh Gateway" }}</p>
             </div>
           </div>
           <span class="badge-status badge-active">
@@ -296,28 +298,28 @@
         </div>
 
         {% if wallet.assigned_node %}
-          <div class="space-y-2.5 text-xs">
-            <div class="flex justify-between py-1 border-b border-slate-100">
-              <span class="text-slate-500">Node Location Area:</span>
-              <span class="font-bold text-slate-800">{{ wallet.assigned_node.location_area }}</span>
+          <div class="space-y-3 text-xs">
+            <div class="flex justify-between py-1 border-b border-white/5">
+              <span class="text-slate-400">Node Location Area:</span>
+              <span class="font-bold text-white">{{ wallet.assigned_node.location_area }}</span>
             </div>
-            <div class="flex justify-between py-1 border-b border-slate-100">
-              <span class="text-slate-500">LiFePO4 Battery:</span>
-              <span class="font-mono font-bold text-emerald-700">{{ wallet.assigned_node.battery_level }}%</span>
+            <div class="flex justify-between py-1 border-b border-white/5">
+              <span class="text-slate-400">LiFePO4 Battery:</span>
+              <span class="font-mono font-bold text-emerald-400">{{ wallet.assigned_node.battery_level }}%</span>
             </div>
-            <div class="flex justify-between py-1 border-b border-slate-100">
-              <span class="text-slate-500">Signal Spectrum:</span>
-              <span class="font-mono text-slate-800">{{ wallet.assigned_node.signal_quality }}</span>
+            <div class="flex justify-between py-1 border-b border-white/5">
+              <span class="text-slate-400">Signal Spectrum:</span>
+              <span class="font-mono text-cyan-300 font-bold">{{ wallet.assigned_node.signal_quality }}</span>
             </div>
             <div class="flex justify-between py-1">
-              <span class="text-slate-500">30-Day SLA Uptime:</span>
-              <span class="font-mono font-bold text-slate-900">{{ wallet.assigned_node.uptime_percentage }}%</span>
+              <span class="text-slate-400">30-Day SLA Uptime:</span>
+              <span class="font-mono font-bold text-white">{{ wallet.assigned_node.uptime_percentage }}%</span>
             </div>
           </div>
         {% endif %}
 
-        <a href="{% url 'book_service' %}{% if wallet.assigned_node %}?node={{ wallet.assigned_node.id }}{% endif %}" class="w-full py-2.5 px-4 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-xl transition flex items-center justify-center space-x-1.5">
-          <i data-lucide="wrench" class="w-4 h-4"></i>
+        <a href="{% url 'book_service' %}{% if wallet.assigned_node %}?node={{ wallet.assigned_node.id }}{% endif %}" class="w-full btn-secondary-glass text-xs font-bold py-2.5 px-4 flex items-center justify-center space-x-2 mt-2">
+          <i data-lucide="wrench" class="w-4 h-4 text-emerald-400"></i>
           <span>Schedule Support for this Node</span>
         </a>
 

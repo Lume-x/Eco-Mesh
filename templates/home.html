@@ -4,129 +4,139 @@
 
 {% block content %}
 <!-- ========================================================================= -->
-<!-- 1. HERO SECTION: SAAS SERVICE BOOKING FOCUS                              -->
+<!-- 1. HERO SECTION: CYBER-SOLAR SERVICE BOOKING FOCUS                       -->
 <!-- ========================================================================= -->
-<section class="relative pt-12 pb-20 lg:pt-20 lg:pb-28 overflow-hidden bg-gradient-to-b from-white via-slate-50 to-slate-50 border-b border-slate-200">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section class="relative pt-12 pb-24 lg:pt-20 lg:pb-32 overflow-hidden border-b border-white/10">
+  
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
       
       <!-- Left: Value Proposition & CTAs (Col 7) -->
       <div class="lg:col-span-7 space-y-8" data-aos="fade-up">
         
         <!-- Live Dispatch Status Pill -->
-        <div class="inline-flex items-center space-x-2.5 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800 shadow-sm">
+        <div class="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-bold text-emerald-400 shadow-lg shadow-emerald-500/10">
           <span class="flex h-2.5 w-2.5 relative">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
           </span>
-          <span>Field Engineers On Duty • <span class="text-emerald-900 font-extrabold">Under 24h Response SLA</span></span>
+          <span>Field Engineers On Duty • <span class="text-white font-extrabold font-mono">Under 24h Response SLA</span></span>
         </div>
 
         <!-- Hero Headline -->
         <div class="space-y-4">
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.12]">
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.12]">
             Stay Connected. <br/>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-800">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
               Get Technical Support
             </span>
             <br/>When You Need It.
           </h1>
-          <p class="text-lg sm:text-xl text-slate-600 font-medium leading-relaxed max-w-2xl">
+          <p class="text-lg sm:text-xl text-slate-300 font-normal leading-relaxed max-w-2xl">
             EcoMesh provides reliable community connectivity powered by decentralized solar-powered mesh infrastructure. Schedule technical support whenever your connection needs attention.
           </p>
         </div>
 
         <!-- Primary & Secondary CTAs -->
         <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 pt-2">
-          <a href="{% url 'book_service' %}" class="flex items-center justify-center space-x-2 px-8 py-4 text-base font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-2xl shadow-md hover:shadow-lg hover:scale-[1.01] active:scale-[0.99] transition-all duration-150">
+          <a href="{% url 'book_service' %}" class="btn-primary-glow text-base font-extrabold px-8 py-4">
             <i data-lucide="calendar-plus" class="w-5 h-5"></i>
             <span>Book a Technician</span>
           </a>
           
-          <a href="#about-infra" class="flex items-center justify-center space-x-2 px-7 py-4 text-base font-semibold text-slate-700 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-300 rounded-2xl shadow-sm transition duration-150">
-            <i data-lucide="info" class="w-5 h-5 text-slate-500"></i>
+          <a href="#about-infra" class="btn-secondary-glass text-base font-semibold px-7 py-4">
+            <i data-lucide="info" class="w-5 h-5 text-slate-400"></i>
             <span>Explore EcoMesh</span>
           </a>
         </div>
 
         <!-- Highlights Row -->
-        <div class="pt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-slate-600 font-semibold border-t border-slate-200">
+        <div class="pt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-slate-300 font-semibold border-t border-white/10">
           <div class="flex items-center space-x-2">
-            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+            <div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+              <i data-lucide="check" class="w-3.5 h-3.5"></i>
+            </div>
             <span>Zero Callout Fee for Students</span>
           </div>
           <div class="flex items-center space-x-2">
-            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+            <div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+              <i data-lucide="check" class="w-3.5 h-3.5"></i>
+            </div>
             <span>Slot Collision Prevention</span>
           </div>
           <div class="flex items-center space-x-2">
-            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+            <div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+              <i data-lucide="check" class="w-3.5 h-3.5"></i>
+            </div>
             <span>Live Dispatch Status Tracking</span>
           </div>
         </div>
 
       </div>
 
-      <!-- Right: Modern Visual Representation (Col 5) -->
+      <!-- Right: Cyber-Solar Telemetry Card Stack (Col 5) -->
       <div class="lg:col-span-5" data-aos="fade-left">
-        <div class="saas-hero-card p-6 sm:p-7 space-y-5 relative">
+        <div class="cyber-card cyber-card-glow p-6 sm:p-7 space-y-5 relative">
           
+          <!-- Top Accent Light Bar -->
+          <div class="absolute -top-1 left-1/4 right-1/4 h-1 bg-gradient-to-r from-emerald-500 to-cyan-400 rounded-full blur-sm"></div>
+
           <!-- Card Header -->
-          <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+          <div class="flex items-center justify-between pb-4 border-b border-white/10">
             <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center font-bold">
-                <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600"></i>
+              <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-500/40 flex items-center justify-center font-bold text-emerald-400 shadow-md shadow-emerald-500/10">
+                <i data-lucide="shield-check" class="w-6 h-6"></i>
               </div>
               <div>
-                <h3 class="text-sm font-bold text-slate-900">Technical Dispatch Center</h3>
-                <p class="text-xs text-slate-500">Campus Solar Mesh Support</p>
+                <h3 class="text-sm font-extrabold text-white">Technical Dispatch Center</h3>
+                <p class="text-xs text-slate-400 font-mono">FUTO Campus Solar Mesh Cluster</p>
               </div>
             </div>
-            <span class="px-2.5 py-1 text-xs font-bold font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <span class="badge-status badge-active">
               ● DISPATCH READY
             </span>
           </div>
 
-          <!-- Active Dispatch Preview -->
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-3">
-            <div class="flex items-center justify-between text-xs font-semibold text-slate-700">
-              <span class="flex items-center space-x-1.5">
-                <i data-lucide="hard-hat" class="w-4 h-4 text-emerald-600"></i>
-                <span>Certified Engineer</span>
+          <!-- Active Dispatch Telemetry Card -->
+          <div class="p-4 rounded-2xl bg-slate-900/90 border border-white/10 space-y-3 shadow-inner">
+            <div class="flex items-center justify-between text-xs font-semibold text-slate-200">
+              <span class="flex items-center space-x-2">
+                <i data-lucide="hard-hat" class="w-4 h-4 text-emerald-400"></i>
+                <span>Assigned Field Engineer</span>
               </span>
-              <span class="text-emerald-700 font-mono">Engr. Emeka Okafor</span>
+              <span class="text-emerald-400 font-mono font-bold">Engr. Emeka Okafor</span>
             </div>
 
-            <div class="grid grid-cols-2 gap-2 text-[11px] pt-1">
-              <div class="p-2 rounded-lg bg-white border border-slate-200">
-                <span class="text-slate-500 block">Assigned Node</span>
-                <span class="font-bold text-slate-800">Hostel B Solar Relay</span>
+            <div class="grid grid-cols-2 gap-2 text-xs pt-1">
+              <div class="p-3 rounded-xl bg-slate-950/80 border border-white/5">
+                <span class="text-slate-400 block text-[10px] uppercase font-mono">Assigned Node</span>
+                <span class="font-bold text-white mt-0.5 block">Hostel B Relay</span>
               </div>
-              <div class="p-2 rounded-lg bg-white border border-slate-200">
-                <span class="text-slate-500 block">Battery Telemetry</span>
-                <span class="font-bold text-emerald-600 font-mono">98% (LiFePO4)</span>
+              <div class="p-3 rounded-xl bg-slate-950/80 border border-white/5">
+                <span class="text-slate-400 block text-[10px] uppercase font-mono">Solar Battery</span>
+                <span class="font-bold text-emerald-400 font-mono mt-0.5 block">98% (LiFePO4)</span>
               </div>
             </div>
           </div>
 
           <!-- Standard 90-Min Slots Grid Preview -->
-          <div class="space-y-2">
-            <div class="flex justify-between items-center text-xs font-semibold text-slate-700">
+          <div class="space-y-2.5">
+            <div class="flex justify-between items-center text-xs font-semibold text-slate-300">
               <span>Standard 90-Min Dispatch Slots</span>
-              <span class="text-[10px] text-emerald-700 font-mono">Real-Time Check</span>
+              <span class="text-[10px] text-emerald-400 font-mono">Collision Checked</span>
             </div>
-            <div class="grid grid-cols-3 gap-1.5 text-center text-xs font-mono">
-              <span class="p-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold">09:00 AM</span>
-              <span class="p-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold">10:30 AM</span>
-              <span class="p-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold">12:00 PM</span>
-              <span class="p-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold">02:00 PM</span>
-              <span class="p-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold">03:30 PM</span>
-              <span class="p-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold">05:00 PM</span>
+            <div class="grid grid-cols-3 gap-2 text-center text-xs font-mono">
+              <span class="p-2.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-emerald-300 font-bold hover:border-emerald-400 transition">09:00 AM</span>
+              <span class="p-2.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-emerald-300 font-bold hover:border-emerald-400 transition">10:30 AM</span>
+              <span class="p-2.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-emerald-300 font-bold hover:border-emerald-400 transition">12:00 PM</span>
+              <span class="p-2.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-emerald-300 font-bold hover:border-emerald-400 transition">02:00 PM</span>
+              <span class="p-2.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-emerald-300 font-bold hover:border-emerald-400 transition">03:30 PM</span>
+              <span class="p-2.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-emerald-300 font-bold hover:border-emerald-400 transition">05:00 PM</span>
             </div>
           </div>
 
           <!-- Direct Book CTA inside card -->
-          <a href="{% url 'book_service' %}" class="w-full py-3 px-4 text-xs font-bold text-center text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm transition flex items-center justify-center space-x-1.5">
+          <a href="{% url 'book_service' %}" class="w-full py-3.5 px-4 text-xs font-bold text-center text-slate-950 bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-300 hover:to-teal-300 rounded-xl shadow-lg shadow-emerald-500/20 transition flex items-center justify-center space-x-2">
             <i data-lucide="arrow-right-circle" class="w-4 h-4"></i>
             <span>Select a Service Slot & Book Dispatch</span>
           </a>
@@ -141,162 +151,162 @@
 <!-- ========================================================================= -->
 <!-- 2. TECHNICAL SERVICES SECTION                                            -->
 <!-- ========================================================================= -->
-<section id="services" class="py-20 bg-white border-b border-slate-200">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+<section id="services" class="py-24 border-b border-white/10 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
     
-    <div class="text-center max-w-3xl mx-auto space-y-3" data-aos="fade-up">
-      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800">
-        <i data-lucide="wrench" class="w-3.5 h-3.5 text-emerald-600"></i>
+    <div class="text-center max-w-3xl mx-auto space-y-4" data-aos="fade-up">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-bold text-emerald-400">
+        <i data-lucide="wrench" class="w-3.5 h-3.5 text-emerald-400"></i>
         <span>TECHNICAL SERVICES</span>
       </div>
-      <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Technical Services</h2>
-      <p class="text-slate-600 text-sm sm:text-base">
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Technical Services</h2>
+      <p class="text-slate-400 text-sm sm:text-base">
         Select a specialized technical service below to schedule an on-site visit for your hostel room, office, or solar node hub.
       </p>
     </div>
 
     <!-- Services Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       
       <!-- Service 1: REALIGN -->
-      <div class="saas-card saas-card-hover p-7 flex flex-col justify-between space-y-6" data-aos="fade-up">
+      <div class="cyber-card cyber-card-hover p-8 flex flex-col justify-between space-y-6" data-aos="fade-up">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <div class="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-700">
+            <div class="w-12 h-12 rounded-2xl bg-teal-500/15 border border-teal-500/30 flex items-center justify-center text-teal-400">
               <i data-lucide="activity" class="w-6 h-6"></i>
             </div>
-            <span class="px-2.5 py-1 text-[11px] font-bold font-mono rounded-full bg-teal-50 text-teal-800 border border-teal-200">
+            <span class="px-2.5 py-1 text-[11px] font-bold font-mono rounded-full bg-slate-900 text-teal-300 border border-teal-500/30">
               ~45 MINS
             </span>
           </div>
-          <h3 class="text-lg font-bold text-slate-900">Connection Troubleshooting</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
+          <h3 class="text-xl font-extrabold text-white">Connection Troubleshooting</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
             Get assistance when your EcoMesh connection is experiencing problems. RF spectrum analysis, antenna azimuth optimization, and latency tuning.
           </p>
         </div>
-        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-          <span class="text-xs font-bold text-emerald-700">Free for Students</span>
-          <a href="{% url 'book_service' %}?service=REALIGN" class="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition">
+        <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+          <span class="text-xs font-bold text-emerald-400 font-mono">Free for Students</span>
+          <a href="{% url 'book_service' %}?service=REALIGN" class="px-4 py-2 text-xs font-extrabold text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl transition shadow-md shadow-emerald-500/20">
             Book Service &rarr;
           </a>
         </div>
       </div>
 
       <!-- Service 2: SOLAR_REPAIR -->
-      <div class="saas-card saas-card-hover p-7 flex flex-col justify-between space-y-6" data-aos="fade-up" data-aos-delay="100">
+      <div class="cyber-card cyber-card-hover p-8 flex flex-col justify-between space-y-6" data-aos="fade-up" data-aos-delay="100">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <div class="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700">
+            <div class="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400">
               <i data-lucide="sun" class="w-6 h-6"></i>
             </div>
-            <span class="px-2.5 py-1 text-[11px] font-bold font-mono rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+            <span class="px-2.5 py-1 text-[11px] font-bold font-mono rounded-full bg-slate-900 text-amber-300 border border-amber-500/30">
               ~90 MINS
             </span>
           </div>
-          <h3 class="text-lg font-bold text-slate-900">Mesh Node Maintenance</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
+          <h3 class="text-xl font-extrabold text-white">Mesh Node Maintenance</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
             Schedule maintenance for an EcoMesh network node. LiFePO4 battery cell balancing, MPPT solar controller check, and power health diagnostics.
           </p>
         </div>
-        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-          <span class="text-xs font-bold text-emerald-700">Complimentary</span>
-          <a href="{% url 'book_service' %}?service=SOLAR_REPAIR" class="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition">
+        <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+          <span class="text-xs font-bold text-amber-400 font-mono">Complimentary</span>
+          <a href="{% url 'book_service' %}?service=SOLAR_REPAIR" class="px-4 py-2 text-xs font-extrabold text-slate-950 bg-amber-400 hover:bg-amber-300 rounded-xl transition shadow-md shadow-amber-500/20">
             Book Service &rarr;
           </a>
         </div>
       </div>
 
       <!-- Service 3: INSTALL -->
-      <div class="saas-card saas-card-hover p-7 flex flex-col justify-between space-y-6" data-aos="fade-up" data-aos-delay="200">
+      <div class="cyber-card cyber-card-hover p-8 flex flex-col justify-between space-y-6" data-aos="fade-up" data-aos-delay="200">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <div class="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
               <i data-lucide="radio" class="w-6 h-6"></i>
             </div>
-            <span class="px-2.5 py-1 text-[11px] font-bold font-mono rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+            <span class="px-2.5 py-1 text-[11px] font-bold font-mono rounded-full bg-slate-900 text-emerald-300 border border-emerald-500/30">
               ~60 MINS
             </span>
           </div>
-          <h3 class="text-lg font-bold text-slate-900">Equipment Inspection</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
+          <h3 class="text-xl font-extrabold text-white">Equipment Inspection</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
             Request technical inspection of EcoMesh equipment. Directional receiver antenna mounting on rooftop poles with low-loss cabling and PoE setup.
           </p>
         </div>
-        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-          <span class="text-xs font-bold text-emerald-700">Free for Students</span>
-          <a href="{% url 'book_service' %}?service=INSTALL" class="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition">
+        <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+          <span class="text-xs font-bold text-emerald-400 font-mono">Free for Students</span>
+          <a href="{% url 'book_service' %}?service=INSTALL" class="px-4 py-2 text-xs font-extrabold text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl transition shadow-md shadow-emerald-500/20">
             Book Service &rarr;
           </a>
         </div>
       </div>
 
       <!-- Service 4: EMERGENCY -->
-      <div class="saas-card saas-card-hover p-7 flex flex-col justify-between space-y-6" data-aos="fade-up">
+      <div class="cyber-card cyber-card-hover p-8 flex flex-col justify-between space-y-6" data-aos="fade-up">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <div class="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-700">
+            <div class="w-12 h-12 rounded-2xl bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-400">
               <i data-lucide="zap" class="w-6 h-6"></i>
             </div>
-            <span class="px-2.5 py-1 text-[11px] font-bold font-mono rounded-full bg-rose-50 text-rose-800 border border-rose-200">
+            <span class="px-2.5 py-1 text-[11px] font-bold font-mono rounded-full bg-slate-900 text-rose-300 border border-rose-500/30">
               ~30 MINS
             </span>
           </div>
-          <h3 class="text-lg font-bold text-slate-900">Emergency Offline Repair</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
+          <h3 class="text-xl font-extrabold text-white">Emergency Offline Repair</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
             Fast emergency response dispatch for sudden signal blackouts, router failures, power surge interruptions, or storm damage.
           </p>
         </div>
-        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-          <span class="text-xs font-bold text-rose-700">Priority Dispatch</span>
-          <a href="{% url 'book_service' %}?service=EMERGENCY" class="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition">
+        <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+          <span class="text-xs font-bold text-rose-400 font-mono">Priority Dispatch</span>
+          <a href="{% url 'book_service' %}?service=EMERGENCY" class="px-4 py-2 text-xs font-extrabold text-white bg-rose-600 hover:bg-rose-500 rounded-xl transition shadow-md shadow-rose-500/20">
             Book Service &rarr;
           </a>
         </div>
       </div>
 
       <!-- Service 5: ROUTER_CONFIG -->
-      <div class="saas-card saas-card-hover p-7 flex flex-col justify-between space-y-6" data-aos="fade-up" data-aos-delay="100">
+      <div class="cyber-card cyber-card-hover p-8 flex flex-col justify-between space-y-6" data-aos="fade-up" data-aos-delay="100">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <div class="w-12 h-12 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-700">
+            <div class="w-12 h-12 rounded-2xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
               <i data-lucide="wifi" class="w-6 h-6"></i>
             </div>
-            <span class="px-2.5 py-1 text-[11px] font-bold font-mono rounded-full bg-sky-50 text-sky-800 border border-sky-200">
+            <span class="px-2.5 py-1 text-[11px] font-bold font-mono rounded-full bg-slate-900 text-cyan-300 border border-cyan-500/30">
               ~30 MINS
             </span>
           </div>
-          <h3 class="text-lg font-bold text-slate-900">Captive Portal & Router Setup</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
+          <h3 class="text-xl font-extrabold text-white">Captive Portal & Router Setup</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
             WPA3 Enterprise credentials configuration, captive portal login troubleshooting, device MAC binding, and private in-room Wi-Fi extenders.
           </p>
         </div>
-        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-          <span class="text-xs font-bold text-emerald-700">Free Support</span>
-          <a href="{% url 'book_service' %}?service=ROUTER_CONFIG" class="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition">
+        <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+          <span class="text-xs font-bold text-cyan-400 font-mono">Free Support</span>
+          <a href="{% url 'book_service' %}?service=ROUTER_CONFIG" class="px-4 py-2 text-xs font-extrabold text-slate-950 bg-cyan-400 hover:bg-cyan-300 rounded-xl transition shadow-md shadow-cyan-500/20">
             Book Service &rarr;
           </a>
         </div>
       </div>
 
       <!-- Service 6: REPAIR -->
-      <div class="saas-card saas-card-hover p-7 flex flex-col justify-between space-y-6" data-aos="fade-up" data-aos-delay="200">
+      <div class="cyber-card cyber-card-hover p-8 flex flex-col justify-between space-y-6" data-aos="fade-up" data-aos-delay="200">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <div class="w-12 h-12 rounded-2xl bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-700">
+            <div class="w-12 h-12 rounded-2xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400">
               <i data-lucide="cpu" class="w-6 h-6"></i>
             </div>
-            <span class="px-2.5 py-1 text-[11px] font-bold font-mono rounded-full bg-purple-50 text-purple-800 border border-purple-200">
+            <span class="px-2.5 py-1 text-[11px] font-bold font-mono rounded-full bg-slate-900 text-purple-300 border border-purple-500/30">
               ~60 MINS
             </span>
           </div>
-          <h3 class="text-lg font-bold text-slate-900">Ethernet Cabling & Hardware Drop</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
+          <h3 class="text-xl font-extrabold text-white">Ethernet Cabling & Hardware Drop</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
             RJ45 connector crimping, Cat6 cable drops to study desks, lightning surge protector replacement, and mesh repeater health auditing.
           </p>
         </div>
-        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-          <span class="text-xs font-bold text-emerald-700">Hardware Included</span>
-          <a href="{% url 'book_service' %}?service=REPAIR" class="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition">
+        <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+          <span class="text-xs font-bold text-purple-400 font-mono">Hardware Included</span>
+          <a href="{% url 'book_service' %}?service=REPAIR" class="px-4 py-2 text-xs font-extrabold text-slate-950 bg-purple-400 hover:bg-purple-300 rounded-xl transition shadow-md shadow-purple-500/20">
             Book Service &rarr;
           </a>
         </div>
@@ -308,52 +318,52 @@
 </section>
 
 <!-- ========================================================================= -->
-<!-- 3. HOW BOOKING WORKS (3-Step Professional Workflow)                      -->
+<!-- 3. HOW BOOKING WORKS (3-Step Modern Guide)                               -->
 <!-- ========================================================================= -->
-<section class="py-20 bg-slate-50 border-b border-slate-200">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+<section class="py-24 border-b border-white/10 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
     
-    <div class="text-center max-w-2xl mx-auto space-y-3" data-aos="fade-up">
-      <h2 class="text-3xl font-extrabold text-slate-900">How Booking Works</h2>
-      <p class="text-slate-600 text-sm">3 simple steps to schedule certified on-site technical support for your EcoMesh connection.</p>
+    <div class="text-center max-w-2xl mx-auto space-y-4" data-aos="fade-up">
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white">How Booking Works</h2>
+      <p class="text-slate-400 text-sm">3 simple steps to schedule certified on-site technical support for your EcoMesh connection.</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       
-      <div class="saas-card p-7 space-y-4" data-aos="fade-up">
-        <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white font-extrabold flex items-center justify-center text-base shadow-sm">
+      <div class="cyber-card p-8 space-y-5 relative" data-aos="fade-up">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-slate-950 font-black flex items-center justify-center text-lg shadow-lg shadow-emerald-500/25">
           1
         </div>
-        <h3 class="text-base font-bold text-slate-900">Select Service & Node</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
+        <h3 class="text-lg font-bold text-white">Select Service & Node</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
           Choose the required technical service category and pick your nearest active EcoMesh solar mesh node in your campus area.
         </p>
       </div>
 
-      <div class="saas-card p-7 space-y-4" data-aos="fade-up" data-aos-delay="100">
-        <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white font-extrabold flex items-center justify-center text-base shadow-sm">
+      <div class="cyber-card p-8 space-y-5 relative" data-aos="fade-up" data-aos-delay="100">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-slate-950 font-black flex items-center justify-center text-lg shadow-lg shadow-emerald-500/25">
           2
         </div>
-        <h3 class="text-base font-bold text-slate-900">Pick Date & Time Slot</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
+        <h3 class="text-lg font-bold text-white">Pick Date & Time Slot</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
           Choose your preferred appointment date and standard time slot. Our automated availability engine validates slot availability to prevent double-booking.
         </p>
       </div>
 
-      <div class="saas-card p-7 space-y-4" data-aos="fade-up" data-aos-delay="200">
-        <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white font-extrabold flex items-center justify-center text-base shadow-sm">
+      <div class="cyber-card p-8 space-y-5 relative" data-aos="fade-up" data-aos-delay="200">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-slate-950 font-black flex items-center justify-center text-lg shadow-lg shadow-emerald-500/25">
           3
         </div>
-        <h3 class="text-base font-bold text-slate-900">Instant Confirmation & Dispatch</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
+        <h3 class="text-lg font-bold text-white">Instant Confirmation & Dispatch</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
           Receive your unique booking ticket reference instantly. Track your technician arrival status and view service history on your dashboard.
         </p>
       </div>
 
     </div>
 
-    <div class="text-center pt-2">
-      <a href="{% url 'book_service' %}" class="inline-flex items-center space-x-2 px-8 py-3.5 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm transition">
+    <div class="text-center pt-4">
+      <a href="{% url 'book_service' %}" class="btn-primary-glow text-sm font-extrabold px-8 py-4">
         <i data-lucide="calendar" class="w-4 h-4"></i>
         <span>Start Your Booking Now</span>
       </a>
@@ -363,60 +373,60 @@
 </section>
 
 <!-- ========================================================================= -->
-<!-- 4. ECOMESH INFRASTRUCTURE: Powered by Solar. Connected by Community.       -->
+<!-- 4. ECOMESH INFRASTRUCTURE                                                -->
 <!-- ========================================================================= -->
-<section id="about-infra" class="py-20 bg-white border-b border-slate-200">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+<section id="about-infra" class="py-24 border-b border-white/10 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
     
-    <div class="text-center max-w-3xl mx-auto space-y-3" data-aos="fade-up">
-      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800">
-        <i data-lucide="sun" class="w-3.5 h-3.5 text-emerald-600"></i>
+    <div class="text-center max-w-3xl mx-auto space-y-4" data-aos="fade-up">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-xs font-bold text-amber-400">
+        <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i>
         <span>CLEAN ENERGY NETWORK</span>
       </div>
-      <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Powered by Solar. Connected by Community.</h2>
-      <p class="text-slate-600 text-sm sm:text-base">
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Powered by Solar. Connected by Community.</h2>
+      <p class="text-slate-400 text-sm sm:text-base">
         EcoMesh integrates sustainable clean microgrid energy with distributed mesh networking to deliver non-expiring broadband connectivity.
       </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       
-      <div class="saas-card p-6 space-y-3" data-aos="fade-up">
-        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-700 border border-amber-200 flex items-center justify-center font-bold">
+      <div class="cyber-card p-6 space-y-3" data-aos="fade-up">
+        <div class="w-11 h-11 rounded-2xl bg-amber-500/15 text-amber-400 border border-amber-500/30 flex items-center justify-center font-bold">
           <i data-lucide="sun" class="w-5 h-5"></i>
         </div>
-        <h3 class="text-sm font-bold text-slate-900">Solar-Powered Mesh Nodes</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
+        <h3 class="text-base font-bold text-white">Solar-Powered Mesh Nodes</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
           100% off-grid autonomy using high-efficiency monocrystalline solar panels paired with 2.4kWh LiFePO4 battery banks.
         </p>
       </div>
 
-      <div class="saas-card p-6 space-y-3" data-aos="fade-up" data-aos-delay="100">
-        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center font-bold">
+      <div class="cyber-card p-6 space-y-3" data-aos="fade-up" data-aos-delay="100">
+        <div class="w-11 h-11 rounded-2xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-bold">
           <i data-lucide="radio" class="w-5 h-5"></i>
         </div>
-        <h3 class="text-sm font-bold text-slate-900">Community Connectivity</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
+        <h3 class="text-base font-bold text-white">Community Connectivity</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
           Peer-to-peer 5.8 GHz & 2.4 GHz dual-band mesh links delivering seamless internet access across off-campus student hostels.
         </p>
       </div>
 
-      <div class="saas-card p-6 space-y-3" data-aos="fade-up" data-aos-delay="200">
-        <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-700 border border-teal-200 flex items-center justify-center font-bold">
+      <div class="cyber-card p-6 space-y-3" data-aos="fade-up" data-aos-delay="200">
+        <div class="w-11 h-11 rounded-2xl bg-teal-500/15 text-teal-400 border border-teal-500/30 flex items-center justify-center font-bold">
           <i data-lucide="infinity" class="w-5 h-5"></i>
         </div>
-        <h3 class="text-sm font-bold text-slate-900">Affordable Perpetual Data</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
+        <h3 class="text-base font-bold text-white">Affordable Perpetual Data</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
           Non-expiring data vouchers from ₦100 (1GB). Data balance never expires, stacking permanently on your student wallet.
         </p>
       </div>
 
-      <div class="saas-card p-6 space-y-3" data-aos="fade-up" data-aos-delay="300">
-        <div class="w-10 h-10 rounded-xl bg-sky-50 text-sky-700 border border-sky-200 flex items-center justify-center font-bold">
+      <div class="cyber-card p-6 space-y-3" data-aos="fade-up" data-aos-delay="300">
+        <div class="w-11 h-11 rounded-2xl bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 flex items-center justify-center font-bold">
           <i data-lucide="wrench" class="w-5 h-5"></i>
         </div>
-        <h3 class="text-sm font-bold text-slate-900">Dedicated Technical Maintenance</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
+        <h3 class="text-base font-bold text-white">Dedicated Technical Maintenance</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
           Rapid on-demand technician scheduling ensuring continuous link alignment, hardware health, and uninterrupted uptime.
         </p>
       </div>
@@ -429,75 +439,75 @@
 <!-- ========================================================================= -->
 <!-- 5. LIVE MESH NODES STATUS & COVERAGE GRID                                -->
 <!-- ========================================================================= -->
-<section id="coverage" class="py-20 bg-slate-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+<section id="coverage" class="py-24 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
     
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6" data-aos="fade-up">
-      <div class="space-y-2">
-        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800">
-          <i data-lucide="radio-tower" class="w-3.5 h-3.5 text-emerald-600"></i>
+      <div class="space-y-3">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-bold text-emerald-400">
+          <i data-lucide="radio-tower" class="w-3.5 h-3.5 text-emerald-400"></i>
           <span>LIVE COMMUNITY TOPOLOGY</span>
         </div>
-        <h2 class="text-3xl font-extrabold text-slate-900">Community Mesh Nodes & Coverage</h2>
-        <p class="text-sm text-slate-600">Schedule on-site technical support for any of our active solar hubs.</p>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Community Mesh Nodes & Coverage</h2>
+        <p class="text-sm text-slate-400">Schedule on-site technical support for any of our active solar hubs.</p>
       </div>
       
       <div class="flex items-center space-x-3 text-xs font-mono">
-        <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-slate-700 shadow-sm">
-          Operational: <strong class="text-emerald-700">{{ active_nodes_count }}</strong>
+        <span class="px-3.5 py-2 rounded-xl bg-slate-900 border border-white/10 text-slate-300 shadow-md">
+          Operational: <strong class="text-emerald-400">{{ active_nodes_count }}</strong>
         </span>
-        <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-slate-700 shadow-sm">
-          Total Nodes: <strong class="text-slate-900">{{ total_nodes_count }}</strong>
+        <span class="px-3.5 py-2 rounded-xl bg-slate-900 border border-white/10 text-slate-300 shadow-md">
+          Total Nodes: <strong class="text-white">{{ total_nodes_count }}</strong>
         </span>
       </div>
     </div>
 
     <!-- Nodes Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {% for node in nodes %}
-        <div class="saas-card saas-card-hover p-6 space-y-4" data-aos="fade-up">
+        <div class="cyber-card cyber-card-hover p-7 space-y-5" data-aos="fade-up">
           
-          <div class="flex items-start justify-between pb-3 border-b border-slate-100">
+          <div class="flex items-start justify-between pb-4 border-b border-white/10">
             <div>
-              <h3 class="text-base font-bold text-slate-900">{{ node.name }}</h3>
-              <p class="text-xs text-slate-500 flex items-center space-x-1 mt-0.5">
-                <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i>
+              <h3 class="text-lg font-bold text-white">{{ node.name }}</h3>
+              <p class="text-xs text-slate-400 flex items-center space-x-1 mt-1">
+                <i data-lucide="map-pin" class="w-3 h-3 text-emerald-400"></i>
                 <span>{{ node.location_area }}</span>
               </p>
             </div>
             {% if node.status == 'ACTIVE' %}
               <span class="badge-status badge-active">
-                🟢 ACTIVE
+                ● ACTIVE
               </span>
             {% elif node.status == 'MAINTENANCE' %}
               <span class="badge-status badge-pending">
-                🟡 MAINTENANCE
+                ● MAINTENANCE
               </span>
             {% else %}
               <span class="badge-status badge-cancelled">
-                🔴 OFFLINE
+                ● OFFLINE
               </span>
             {% endif %}
           </div>
 
-          <div class="space-y-2 text-xs">
-            <div class="flex justify-between">
-              <span class="text-slate-500">Solar Battery Level:</span>
-              <span class="font-mono font-bold text-emerald-700">{{ node.battery_level }}% (LiFePO4)</span>
+          <div class="space-y-2.5 text-xs">
+            <div class="flex justify-between py-1 border-b border-white/5">
+              <span class="text-slate-400">Solar Battery Level:</span>
+              <span class="font-mono font-bold text-emerald-400">{{ node.battery_level }}% (LiFePO4)</span>
             </div>
-            <div class="flex justify-between">
-              <span class="text-slate-500">Signal Spectrum:</span>
-              <span class="text-slate-800 font-mono">{{ node.signal_quality }}</span>
+            <div class="flex justify-between py-1 border-b border-white/5">
+              <span class="text-slate-400">Signal Spectrum:</span>
+              <span class="text-slate-200 font-mono">{{ node.signal_quality }}</span>
             </div>
-            <div class="flex justify-between">
-              <span class="text-slate-500">30-Day SLA Uptime:</span>
-              <span class="font-mono font-bold text-slate-900">{{ node.uptime_percentage }}%</span>
+            <div class="flex justify-between py-1">
+              <span class="text-slate-400">30-Day SLA Uptime:</span>
+              <span class="font-mono font-bold text-white">{{ node.uptime_percentage }}%</span>
             </div>
           </div>
 
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
-            <span class="text-[11px] text-slate-400 font-mono">SSID: EcoMesh-{{ node.id }}</span>
-            <a href="{% url 'book_service' %}?node={{ node.id }}" class="px-3 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition">
+          <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+            <span class="text-[11px] text-slate-500 font-mono">SSID: EcoMesh-{{ node.id }}</span>
+            <a href="{% url 'book_service' %}?node={{ node.id }}" class="px-3.5 py-1.5 text-xs font-extrabold text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl transition shadow-md shadow-emerald-500/20">
               Book at Node &rarr;
             </a>
           </div>
