@@ -113,29 +113,72 @@ class Voucher(models.Model):
         return wallet
 
 
+class ServiceType(models.Model):
+    name = models.CharField(max_length=120, help_text="Service title (e.g. New Node Setup & Antenna Mounting)")
+    code = models.CharField(max_length=30, unique=True, help_text="Unique slug code (e.g. INSTALL, REALIGN)")
+    description = models.TextField(help_text="Detailed description of what this service covers")
+    estimated_duration_minutes = models.PositiveIntegerField(default=60, help_text="Estimated time in minutes")
+    price = models.CharField(max_length=50, default="Free for Campus Students", help_text="Cost or billing terms")
+    icon_name = models.CharField(max_length=50, default="wrench", help_text="Lucide icon identifier (wrench, radio, sun, zap, activity, wifi)")
+    badge_color = models.CharField(max_length=30, default="emerald", help_text="Tailwind accent color (emerald, teal, cyan, amber, purple)")
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = "Service Type"
+        verbose_name_plural = "Service Types"
+
+    def __str__(self):
+        return f"{self.name} (~{self.estimated_duration_minutes} mins • {self.price})"
+
+
+class TechnicianProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='technician_profile')
+    full_name = models.CharField(max_length=120)
+    phone_number = models.CharField(max_length=30, help_text="Direct mobile or WhatsApp contact")
+    specialization = models.CharField(max_length=150, default="RF Antenna & Solar Diagnostics", help_text="Technical domain expertise")
+    assigned_zone = models.CharField(max_length=150, default="Campus Zone / Hostels", help_text="Primary service zone")
+    is_available = models.BooleanField(default=True, help_text="Active availability for dispatch")
+
+    class Meta:
+        verbose_name = "Technician Profile"
+        verbose_name_plural = "Technician Profiles"
+
+    def __str__(self):
+        return f"{self.full_name} ({self.specialization}) - {'Available' if self.is_available else 'Busy'}"
+
+
 class ServiceSchedule(models.Model):
     SERVICE_TYPES = [
         ('INSTALL', 'New Node Setup / Antenna Mounting'),
         ('REALIGN', 'Signal Alignment / Range Boost'),
-        ('REPAIR', 'Solar / Battery / Hardware Servicing'),
+        ('SOLAR_REPAIR', 'Solar / Battery Diagnostics'),
+        ('EMERGENCY', 'Emergency Offline Repair'),
+        ('ROUTER_CONFIG', 'Captive Portal / Router Configuration'),
+        ('REPAIR', 'General Hardware Servicing'),
     ]
 
     STATUS_CHOICES = [
-        ('PENDING', 'Pending Technician Review'),
+        ('PENDING', 'Pending Review'),
         ('CONFIRMED', 'Confirmed & Dispatched'),
+        ('IN_PROGRESS', 'In Progress / Onsite'),
         ('COMPLETED', 'Completed'),
         ('CANCELLED', 'Cancelled'),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="schedules")
     node = models.ForeignKey(MeshNode, null=True, blank=True, on_delete=models.SET_NULL, related_name="service_schedules", help_text="Associated or nearest mesh node")
-    service_type = models.CharField(max_length=20, choices=SERVICE_TYPES, default='INSTALL')
+    service_type = models.CharField(max_length=30, choices=SERVICE_TYPES, default='INSTALL')
+    service_type_ref = models.ForeignKey(ServiceType, null=True, blank=True, on_delete=models.SET_NULL, related_name="schedules", help_text="Optional linked dynamic service category")
+    technician = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name="assigned_schedules", help_text="Assigned certified field technician")
     address = models.CharField(max_length=255, help_text="Hostel, room number, or street address")
     scheduled_date = models.DateField()
     scheduled_time = models.TimeField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
-    notes = models.TextField(blank=True, help_text="Specific instructions or issue description for field engineer")
+    notes = models.TextField(blank=True, help_text="Specific instructions or issue description from the student/customer")
+    technician_notes = models.TextField(blank=True, help_text="Findings, diagnostics, or resolution remarks left by the technician")
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['-scheduled_date', '-scheduled_time']
@@ -143,22 +186,66 @@ class ServiceSchedule(models.Model):
         verbose_name_plural = "Service Schedules"
 
     def __str__(self):
-        return f"{self.get_service_type_display()} for {self.user.username} on {self.scheduled_date} at {self.scheduled_time}"
+        return f"Ticket #{self.id}: {self.get_service_name()} for {self.user.username} on {self.scheduled_date} at {self.scheduled_time}"
+
+    @property
+    def ticket_number(self):
+        return f"ECO-{self.id:04d}"
+
+    def get_service_name(self):
+        if self.service_type_ref:
+            return self.service_type_ref.name
+        return self.get_service_type_display()
+
+    @property
+    def is_active(self):
+        return self.status in ['PENDING', 'CONFIRMED', 'IN_PROGRESS']
+
+    @property
+    def status_badge_class(self):
+        mapping = {
+            'PENDING': 'badge-pending',
+            'CONFIRMED': 'badge-confirmed',
+            'IN_PROGRESS': 'badge-progress',
+            'COMPLETED': 'badge-completed',
+            'CANCELLED': 'badge-cancelled',
+        }
+        return mapping.get(self.status, 'badge-pending')
 
     def clean(self):
         super().clean()
-        # Validation: prevent duplicate active bookings for the exact same node/date/time slot
+        # Validation 1: Prevent past dates
+        if self.scheduled_date and self.scheduled_date < timezone.localdate():
+            raise ValidationError({'scheduled_date': "Service appointments cannot be scheduled in the past."})
+
+        # Validation 2: Prevent duplicate active bookings for the exact same node/date/time slot
         if self.node and self.scheduled_date and self.scheduled_time:
             conflicts = ServiceSchedule.objects.filter(
                 node=self.node,
                 scheduled_date=self.scheduled_date,
                 scheduled_time=self.scheduled_time,
-                status__in=['PENDING', 'CONFIRMED']
+                status__in=['PENDING', 'CONFIRMED', 'IN_PROGRESS']
             )
             if self.pk:
                 conflicts = conflicts.exclude(pk=self.pk)
             
             if conflicts.exists():
                 raise ValidationError({
-                    'scheduled_time': f"A technician appointment is already scheduled for '{self.node.name}' on {self.scheduled_date} at {self.scheduled_time.strftime('%H:%M')}. Please choose another time or date."
+                    'scheduled_time': f"Slot conflict: An active appointment is already scheduled for '{self.node.name}' on {self.scheduled_date} at {self.scheduled_time.strftime('%H:%M')}. Please select another time or date."
                 })
+
+        # Validation 3: Prevent double-booking the assigned technician on the same slot
+        if self.technician and self.scheduled_date and self.scheduled_time:
+            tech_conflicts = ServiceSchedule.objects.filter(
+                technician=self.technician,
+                scheduled_date=self.scheduled_date,
+                scheduled_time=self.scheduled_time,
+                status__in=['PENDING', 'CONFIRMED', 'IN_PROGRESS']
+            )
+            if self.pk:
+                tech_conflicts = tech_conflicts.exclude(pk=self.pk)
+            if tech_conflicts.exists():
+                raise ValidationError({
+                    'technician': f"Technician {self.technician.get_full_name() or self.technician.username} already has another dispatch scheduled at {self.scheduled_time.strftime('%H:%M')} on {self.scheduled_date}."
+                })
+

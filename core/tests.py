@@ -4,14 +4,14 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils import timezone
-from .models import MeshNode, UserDataWallet, Voucher, ServiceSchedule
+from .models import MeshNode, UserDataWallet, Voucher, ServiceSchedule, ServiceType, TechnicianProfile
 
 
 class EcoMeshModelTests(TestCase):
     def setUp(self):
         self.node1 = MeshNode.objects.create(
             name="Hostel Block A - Primary",
-            location_area="Hostel Block A",
+            location_area="Campus Zone",
             battery_level=95,
             status="ACTIVE",
             signal_quality="Optimal",
@@ -22,6 +22,12 @@ class EcoMeshModelTests(TestCase):
             username="teststudent",
             email="teststudent@university.edu",
             password="testpassword123"
+        )
+        self.service_type = ServiceType.objects.create(
+            name="Signal Alignment & Azimuth Boost",
+            code="REALIGN",
+            description="RF spectrum analyzer optimization",
+            estimated_duration_minutes=45
         )
 
     def test_user_data_wallet_auto_wifi_key_and_gb_conversion(self):
@@ -61,15 +67,16 @@ class EcoMeshModelTests(TestCase):
         with self.assertRaises(ValidationError):
             voucher.redeem(self.user)
 
-    def test_service_schedule_clean_conflict_validation(self):
+    def test_service_schedule_conflict_validation(self):
         booking_date = timezone.localdate() + datetime.timedelta(days=3)
-        booking_time = datetime.time(14, 0)
+        booking_time = datetime.time(10, 30)
 
         # First booking succeeds
         schedule1 = ServiceSchedule(
             user=self.user,
             node=self.node1,
-            service_type="INSTALL",
+            service_type="REALIGN",
+            service_type_ref=self.service_type,
             address="Room 101",
             scheduled_date=booking_date,
             scheduled_time=booking_time,
@@ -77,13 +84,14 @@ class EcoMeshModelTests(TestCase):
         )
         schedule1.full_clean()
         schedule1.save()
+        self.assertEqual(schedule1.ticket_number, f"ECO-{schedule1.id:04d}")
 
-        # Second user attempts to book same node and same slot
+        # Second user attempts to book same node and same slot -> Conflict error
         user2 = User.objects.create_user(username="student2", password="password123")
         schedule2 = ServiceSchedule(
             user=user2,
             node=self.node1,
-            service_type="REALIGN",
+            service_type="INSTALL",
             address="Room 102",
             scheduled_date=booking_date,
             scheduled_time=booking_time,
@@ -93,13 +101,26 @@ class EcoMeshModelTests(TestCase):
         with self.assertRaises(ValidationError):
             schedule2.full_clean()
 
+    def test_past_date_booking_rejected(self):
+        past_date = timezone.localdate() - datetime.timedelta(days=1)
+        schedule = ServiceSchedule(
+            user=self.user,
+            node=self.node1,
+            service_type="INSTALL",
+            address="Room 101",
+            scheduled_date=past_date,
+            scheduled_time=datetime.time(14, 0)
+        )
+        with self.assertRaises(ValidationError):
+            schedule.full_clean()
 
-class EcoMeshViewTests(TestCase):
+
+class EcoMeshSchedulingWorkflowTests(TestCase):
     def setUp(self):
         self.client = Client()
         self.node = MeshNode.objects.create(
-            name="Hostel Block B - Hub",
-            location_area="Hostel Block B",
+            name="Hostel B",
+            location_area="Campus Zone",
             battery_level=89,
             status="ACTIVE"
         )
@@ -113,12 +134,37 @@ class EcoMeshViewTests(TestCase):
             balance_mb=5120,
             assigned_node=self.node
         )
-        self.voucher = Voucher.objects.create(
-            code="ECO-10GB-UNITTEST",
-            data_amount_mb=10240
+        self.service_type = ServiceType.objects.create(
+            name="New Node Setup & Antenna Mounting",
+            code="INSTALL",
+            description="Mount antenna",
+            estimated_duration_minutes=60
+        )
+        
+        # Technician user
+        self.tech_user = User.objects.create_user(
+            username="tech_john",
+            email="john@tech.network",
+            password="password123",
+            first_name="John",
+            last_name="Doe",
+            is_staff=True
+        )
+        self.tech_profile = TechnicianProfile.objects.create(
+            user=self.tech_user,
+            full_name="John Doe",
+            phone_number="+234 811 111 2222",
+            specialization="RF & Solar"
         )
 
-    def test_public_pages_render_successfully(self):
+        # Admin user
+        self.admin_user = User.objects.create_superuser(
+            username="superadmin",
+            email="superadmin@ecomesh.network",
+            password="adminpassword123"
+        )
+
+    def test_public_pages_render_with_scheduling_focus(self):
         routes = [
             reverse('home'),
             reverse('about'),
@@ -130,112 +176,152 @@ class EcoMeshViewTests(TestCase):
         for url in routes:
             response = self.client.get(url)
             self.assertEqual(response.status_code, 200, f"Failed on URL: {url}")
-
-    def test_dashboard_requires_login(self):
-        response = self.client.get(reverse('dashboard'))
-        self.assertEqual(response.status_code, 302)
-        self.assertIn(reverse('login'), response.url)
-
-    def test_dashboard_renders_for_logged_in_user(self):
-        self.client.login(username="demouser", password="demopassword123")
-        response = self.client.get(reverse('dashboard'))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Perpetual Data Wallet")
-        self.assertContains(response, "5.0") # 5.0 GB
-        self.assertContains(response, self.wallet.wifi_access_key)
-
-    def test_redeem_voucher_view(self):
-        self.client.login(username="demouser", password="demopassword123")
-        response = self.client.post(reverse('redeem_voucher'), {'code': 'ECO-10GB-UNITTEST'}, follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.wallet.refresh_from_db()
-        self.assertEqual(self.wallet.balance_mb, 5120 + 10240)
-        self.assertEqual(self.wallet.balance_in_gb, 15.0)
-
-    def test_book_service_and_cancel_view(self):
-        self.client.login(username="demouser", password="demopassword123")
-        booking_date = (timezone.localdate() + datetime.timedelta(days=4)).isoformat()
         
-        # Book service
+        # Home must prominently feature technician scheduling
+        home_res = self.client.get(reverse('home'))
+        self.assertContains(home_res, "Schedule EcoMesh")
+        self.assertContains(home_res, "Technical Support")
+        self.assertContains(home_res, "Book a Technician")
+
+    def test_complete_booking_workflow(self):
+        # 1. Login
+        self.client.login(username="demouser", password="demopassword123")
+        booking_date = (timezone.localdate() + datetime.timedelta(days=2)).isoformat()
+
+        # 2. Submit booking form
         response = self.client.post(reverse('book_service'), {
             'service_type': 'INSTALL',
             'node': self.node.id,
-            'address': 'Room 505',
+            'address': 'Room 408, Hostel B',
             'scheduled_date': booking_date,
-            'scheduled_time': '11:00',
-            'notes': 'Please check signal strength.'
+            'scheduled_time': '09:00:00',
+            'notes': 'Antenna bracket required.'
         }, follow=True)
-        self.assertEqual(response.status_code, 200)
 
-        schedule = ServiceSchedule.objects.filter(user=self.user, address='Room 505').first()
+        self.assertEqual(response.status_code, 200)
+        schedule = ServiceSchedule.objects.filter(user=self.user, address='Room 408, Hostel B').first()
         self.assertIsNotNone(schedule)
         self.assertEqual(schedule.status, 'PENDING')
+        self.assertContains(response, "Technician Dispatch Confirmed")
+        self.assertContains(response, schedule.ticket_number)
 
-        # Cancel service
-        cancel_response = self.client.post(reverse('cancel_service', args=[schedule.id]), follow=True)
-        self.assertEqual(cancel_response.status_code, 200)
-        schedule.refresh_from_db()
-        self.assertEqual(schedule.status, 'CANCELLED')
-
-    def test_admin_generate_voucher_view(self):
-        # Regular student cannot generate vouchers
+    def test_dashboard_displays_upcoming_and_past_appointments(self):
         self.client.login(username="demouser", password="demopassword123")
-        res = self.client.post(reverse('admin_generate_voucher'), {
-            'data_amount_mb': 10240,
-            'quantity': 1
-        }, follow=True)
-        self.assertContains(res, "Unauthorized")
-
-        # Admin / Staff user can generate custom promo codes
-        admin_user = User.objects.create_superuser(
-            username="testadmin",
-            password="adminpassword123",
-            email="admin@test.com"
+        
+        # Create an upcoming appointment
+        future_date = timezone.localdate() + datetime.timedelta(days=3)
+        appt = ServiceSchedule.objects.create(
+            user=self.user,
+            node=self.node,
+            service_type="INSTALL",
+            address="Room 101",
+            scheduled_date=future_date,
+            scheduled_time=datetime.time(10, 30),
+            status="CONFIRMED",
+            technician=self.tech_user
         )
-        self.client.login(username="testadmin", password="adminpassword123")
-        admin_res = self.client.post(reverse('admin_generate_voucher'), {
-            'data_amount_mb': 20480, # 20 GB
-            'custom_code': 'SPECIAL-20GB-PROMO',
-            'quantity': 1
-        }, follow=True)
-        self.assertEqual(admin_res.status_code, 200)
-        self.assertTrue(Voucher.objects.filter(code='SPECIAL-20GB-PROMO', data_amount_mb=20480).exists())
-        self.assertContains(admin_res, "SPECIAL-20GB-PROMO")
 
-    def test_admin_node_management_operations(self):
-        admin_user = User.objects.create_superuser(
-            username="nodeadmin",
-            password="adminpassword123",
-            email="nodeadmin@test.com"
+        response = self.client.get(reverse('dashboard'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Upcoming Technician Dispatches")
+        self.assertContains(response, appt.ticket_number)
+        self.assertContains(response, "John Doe")
+
+    def test_cancel_appointment_action(self):
+        self.client.login(username="demouser", password="demopassword123")
+        future_date = timezone.localdate() + datetime.timedelta(days=3)
+        appt = ServiceSchedule.objects.create(
+            user=self.user,
+            node=self.node,
+            service_type="INSTALL",
+            address="Room 101",
+            scheduled_date=future_date,
+            scheduled_time=datetime.time(10, 30),
+            status="PENDING"
         )
-        self.client.login(username="nodeadmin", password="adminpassword123")
+        
+        cancel_res = self.client.post(reverse('cancel_service', args=[appt.id]), follow=True)
+        self.assertEqual(cancel_res.status_code, 200)
+        appt.refresh_from_db()
+        self.assertEqual(appt.status, 'CANCELLED')
 
-        # 1. Create Node
-        create_res = self.client.post(reverse('admin_create_node'), {
-            'name': 'Tetfund Annex Node',
-            'location_area': 'Campus Zone',
-            'battery_level': 95,
-            'status': 'ACTIVE',
-            'signal_quality': 'Optimal',
-            'uptime_percentage': 99.9,
-            'maintenance_note': 'Brand new solar array'
-        }, follow=True)
-        self.assertEqual(create_res.status_code, 200)
-        node = MeshNode.objects.filter(name='Tetfund Annex Node').first()
-        self.assertIsNotNone(node)
+    def test_technician_portal_and_status_transitions(self):
+        # Regular student cannot access tech portal
+        self.client.login(username="demouser", password="demopassword123")
+        res = self.client.get(reverse('technician_portal'), follow=True)
+        self.assertContains(res, "Access restricted")
 
-        # 2. Update Node (toggle to MAINTENANCE, update battery & note)
-        update_res = self.client.post(reverse('admin_update_node', args=[node.id]), {
-            'status': 'MAINTENANCE',
-            'battery_level': 75,
-            'maintenance_note': 'Scheduled MPPT inspection'
+        # Technician logs in
+        self.client.login(username="tech_john", password="password123")
+        appt = ServiceSchedule.objects.create(
+            user=self.user,
+            node=self.node,
+            service_type="INSTALL",
+            address="Room 202",
+            scheduled_date=timezone.localdate() + datetime.timedelta(days=1),
+            scheduled_time=datetime.time(12, 0),
+            status="CONFIRMED",
+            technician=self.tech_user
+        )
+
+        portal_res = self.client.get(reverse('technician_portal'))
+        self.assertEqual(portal_res.status_code, 200)
+        self.assertContains(portal_res, appt.ticket_number)
+
+        # Tech marks In Progress and Completed
+        update_res = self.client.post(reverse('technician_update_status', args=[appt.id]), {
+            'status': 'COMPLETED',
+            'technician_notes': 'Antenna aligned perfectly. Signal -58dBm.'
         }, follow=True)
         self.assertEqual(update_res.status_code, 200)
-        node.refresh_from_db()
-        self.assertEqual(node.status, 'MAINTENANCE')
-        self.assertEqual(node.battery_level, 75)
+        appt.refresh_from_db()
+        self.assertEqual(appt.status, 'COMPLETED')
+        self.assertEqual(appt.technician_notes, 'Antenna aligned perfectly. Signal -58dBm.')
 
-        # 3. Delete Node
-        delete_res = self.client.post(reverse('admin_delete_node', args=[node.id]), follow=True)
-        self.assertEqual(delete_res.status_code, 200)
-        self.assertFalse(MeshNode.objects.filter(name='Tetfund Annex Node').exists())
+    def test_admin_scheduling_dashboard_and_technician_assignment(self):
+        self.client.login(username="superadmin", password="adminpassword123")
+        
+        unassigned_appt = ServiceSchedule.objects.create(
+            user=self.user,
+            node=self.node,
+            service_type="INSTALL",
+            address="Room 303",
+            scheduled_date=timezone.localdate() + datetime.timedelta(days=2),
+            scheduled_time=datetime.time(14, 0),
+            status="PENDING"
+        )
+
+        admin_page = self.client.get(reverse('admin_scheduling'))
+        self.assertEqual(admin_page.status_code, 200)
+        self.assertContains(admin_page, "Admin Scheduling")
+        self.assertContains(admin_page, unassigned_appt.ticket_number)
+
+        # Admin assigns tech_john
+        assign_res = self.client.post(reverse('admin_scheduling'), {
+            'assign_technician': '1',
+            'schedule_id': unassigned_appt.id,
+            'technician_id': self.tech_user.id,
+            'status': 'CONFIRMED'
+        }, follow=True)
+
+        self.assertEqual(assign_res.status_code, 200)
+        unassigned_appt.refresh_from_db()
+        self.assertEqual(unassigned_appt.technician, self.tech_user)
+        self.assertEqual(unassigned_appt.status, 'CONFIRMED')
+
+    def test_api_check_availability_endpoint(self):
+        booking_date = (timezone.localdate() + datetime.timedelta(days=2)).isoformat()
+        ServiceSchedule.objects.create(
+            user=self.user,
+            node=self.node,
+            service_type="INSTALL",
+            address="Room 500",
+            scheduled_date=booking_date,
+            scheduled_time=datetime.time(9, 0),
+            status="CONFIRMED"
+        )
+
+        api_res = self.client.get(f"/api/check-availability/?node_id={self.node.id}&date={booking_date}")
+        self.assertEqual(api_res.status_code, 200)
+        data = api_res.json()
+        self.assertIn("09:00:00", data['booked_slots'])

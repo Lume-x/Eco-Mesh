@@ -112,7 +112,28 @@ class VoucherRedeemForm(forms.Form):
         return code
 
 
+from .models import ServiceSchedule, Voucher, MeshNode, UserDataWallet, ServiceType, TechnicianProfile
+
+
+TIME_SLOT_CHOICES = [
+    ('09:00:00', '09:00 AM (Morning Slot 1)'),
+    ('10:30:00', '10:30 AM (Morning Slot 2)'),
+    ('12:00:00', '12:00 PM (Midday Slot)'),
+    ('14:00:00', '02:00 PM (Afternoon Slot 1)'),
+    ('15:30:00', '03:30 PM (Afternoon Slot 2)'),
+    ('17:00:00', '05:00 PM (Evening Slot)'),
+]
+
+
 class ServiceScheduleForm(forms.ModelForm):
+    scheduled_time = forms.ChoiceField(
+        choices=TIME_SLOT_CHOICES,
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200 font-mono'
+        }),
+        help_text="Choose from our standard 90-minute field dispatch slots."
+    )
+
     class Meta:
         model = ServiceSchedule
         fields = ['service_type', 'node', 'address', 'scheduled_date', 'scheduled_time', 'notes']
@@ -125,28 +146,75 @@ class ServiceScheduleForm(forms.ModelForm):
             }),
             'address': forms.TextInput(attrs={
                 'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200',
-                'placeholder': 'e.g. Room 402, Sunshine Hostel, South Campus'
+                'placeholder': 'e.g. Room 304, Hostel B Annex, South Campus'
             }),
             'scheduled_date': forms.DateInput(attrs={
                 'type': 'date',
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200'
-            }),
-            'scheduled_time': forms.TimeInput(attrs={
-                'type': 'time',
-                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200'
+                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200 font-mono'
             }),
             'notes': forms.Textarea(attrs={
                 'rows': 3,
                 'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200',
-                'placeholder': 'Provide any helpful context for the technician (e.g. 3rd floor rooftop access, weak signal in back bedroom).'
+                'placeholder': 'Provide any helpful context (e.g. weak Wi-Fi in room corner, 3rd floor balcony access, inverter blinking red).'
             }),
         }
 
     def clean_scheduled_date(self):
         scheduled_date = self.cleaned_data.get('scheduled_date')
         if scheduled_date and scheduled_date < timezone.localdate():
-            raise ValidationError("Appointments cannot be scheduled in the past.")
+            raise ValidationError("Service appointments cannot be scheduled in the past.")
         return scheduled_date
+
+
+class TechnicianStatusUpdateForm(forms.ModelForm):
+    class Meta:
+        model = ServiceSchedule
+        fields = ['status', 'technician_notes']
+        widgets = {
+            'status': forms.Select(attrs={
+                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200'
+            }),
+            'technician_notes': forms.Textarea(attrs={
+                'rows': 3,
+                'class': 'w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition duration-200',
+                'placeholder': 'Log work summary, antenna alignment readings (RSSI/SNR), or hardware replacement details.'
+            })
+        }
+
+
+class AdminAssignTechnicianForm(forms.ModelForm):
+    technician = forms.ModelChoiceField(
+        queryset=User.objects.filter(technician_profile__isnull=False),
+        required=False,
+        empty_label="-- Unassigned (Assign Later) --",
+        widget=forms.Select(attrs={
+            'class': 'w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 focus:border-emerald-500 text-xs'
+        })
+    )
+
+    class Meta:
+        model = ServiceSchedule
+        fields = ['technician', 'status']
+        widgets = {
+            'status': forms.Select(attrs={
+                'class': 'w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 focus:border-emerald-500 text-xs'
+            })
+        }
+
+
+class AdminServiceTypeForm(forms.ModelForm):
+    class Meta:
+        model = ServiceType
+        fields = ['name', 'code', 'description', 'estimated_duration_minutes', 'price', 'icon_name', 'badge_color', 'is_active']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100'}),
+            'code': forms.TextInput(attrs={'class': 'w-full uppercase font-mono px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100'}),
+            'description': forms.Textarea(attrs={'rows': 2, 'class': 'w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100'}),
+            'estimated_duration_minutes': forms.NumberInput(attrs={'class': 'w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100'}),
+            'price': forms.TextInput(attrs={'class': 'w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100'}),
+            'icon_name': forms.TextInput(attrs={'class': 'w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100'}),
+            'badge_color': forms.TextInput(attrs={'class': 'w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100'}),
+        }
 
 
 class AdminGenerateVoucherForm(forms.Form):

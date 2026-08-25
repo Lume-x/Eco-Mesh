@@ -2,20 +2,22 @@ import datetime
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from django.utils import timezone
-from core.models import MeshNode, UserDataWallet, Voucher, ServiceSchedule
+from core.models import MeshNode, UserDataWallet, Voucher, ServiceSchedule, ServiceType, TechnicianProfile
 
 
 class Command(BaseCommand):
-    help = 'Seeds initial data for EcoMesh: demo nodes, vouchers, demo student, and admin user'
+    help = 'Seeds initial data for EcoMesh: service types, technicians, demo appointments, nodes, vouchers, and admin'
 
     def handle(self, *args, **options):
-        self.stdout.write(self.style.NOTICE("[*] Seeding EcoMesh database..."))
+        self.stdout.write(self.style.NOTICE("[*] Seeding EcoMesh Technical Service & Scheduling database..."))
 
         # 1. Admin Superuser
         admin_user, created = User.objects.get_or_create(
             username='admin',
             defaults={
                 'email': 'admin@ecomesh.network',
+                'first_name': 'Admin',
+                'last_name': 'Operations',
                 'is_staff': True,
                 'is_superuser': True,
             }
@@ -27,7 +29,68 @@ class Command(BaseCommand):
         else:
             self.stdout.write("  [.] Superuser 'admin' already exists.")
 
-        # 2. Sample Mesh Nodes with updated names & locations
+        # 2. Service Types
+        services_data = [
+            {
+                'name': 'New Node Setup & Antenna Mounting',
+                'code': 'INSTALL',
+                'description': 'Mount high-gain directional receiver antenna aligned to nearest solar mast with low-loss RF cabling.',
+                'estimated_duration_minutes': 60,
+                'price': 'Free for Active Students',
+                'icon_name': 'radio',
+                'badge_color': 'emerald',
+            },
+            {
+                'name': 'Signal Alignment & Azimuth Range Boost',
+                'code': 'REALIGN',
+                'description': 'RF spectrum analysis, antenna azimuth optimization, and interference elimination for ultra-low latency.',
+                'estimated_duration_minutes': 45,
+                'price': 'Free for Active Students',
+                'icon_name': 'activity',
+                'badge_color': 'teal',
+            },
+            {
+                'name': 'Solar Battery & Inverter Servicing',
+                'code': 'SOLAR_REPAIR',
+                'description': 'LiFePO4 battery cell balancing, MPPT solar controller check, and microgrid power health diagnostics.',
+                'estimated_duration_minutes': 90,
+                'price': 'Complimentary',
+                'icon_name': 'sun',
+                'badge_color': 'amber',
+            },
+            {
+                'name': 'Emergency Offline Diagnostics & Repair',
+                'code': 'EMERGENCY',
+                'description': 'Rapid on-site emergency dispatch for sudden signal drops, router failures, or weather damage.',
+                'estimated_duration_minutes': 30,
+                'price': 'Priority Dispatch',
+                'icon_name': 'zap',
+                'badge_color': 'rose',
+            },
+            {
+                'name': 'Captive Portal & Router Configuration',
+                'code': 'ROUTER_CONFIG',
+                'description': 'Custom SSID setup, WPA3 enterprise key configuration, and multi-device connection troubleshooting.',
+                'estimated_duration_minutes': 30,
+                'price': 'Free Support',
+                'icon_name': 'wifi',
+                'badge_color': 'cyan',
+            },
+            {
+                'name': 'General Hardware Servicing & Cable Drop',
+                'code': 'REPAIR',
+                'description': 'RJ45 connector crimping, Cat6 cable drops to study desks, and hardware health auditing.',
+                'estimated_duration_minutes': 60,
+                'price': 'Hardware Included',
+                'icon_name': 'cpu',
+                'badge_color': 'purple',
+            },
+        ]
+        for s in services_data:
+            ServiceType.objects.update_or_create(code=s['code'], defaults=s)
+        self.stdout.write(self.style.SUCCESS(f"  [+] Configured {len(services_data)} Service Types."))
+
+        # 3. Sample Mesh Nodes
         nodes_data = [
             {
                 'name': 'Hostel B',
@@ -77,18 +140,61 @@ class Command(BaseCommand):
                 'maintenance_note': 'Battery reserve depleted due to tree shading; field dispatch scheduled.',
             },
         ]
-
-        # Clear legacy node names if needed and recreate
         created_nodes = []
         for n in nodes_data:
-            node, _ = MeshNode.objects.update_or_create(
-                name=n['name'],
-                defaults=n
-            )
+            node, _ = MeshNode.objects.update_or_create(name=n['name'], defaults=n)
             created_nodes.append(node)
         self.stdout.write(self.style.SUCCESS(f"  [+] Configured {len(created_nodes)} Mesh Nodes."))
 
-        # 3. Demo Student User
+        # 4. Certified Field Technicians
+        tech1_user, t1_created = User.objects.get_or_create(
+            username='tech_emeka',
+            defaults={
+                'email': 'emeka.tech@ecomesh.network',
+                'first_name': 'Emeka',
+                'last_name': 'Okafor',
+                'is_staff': True,
+            }
+        )
+        if t1_created:
+            tech1_user.set_password('password123')
+            tech1_user.save()
+        TechnicianProfile.objects.update_or_create(
+            user=tech1_user,
+            defaults={
+                'full_name': 'Engr. Emeka Okafor',
+                'phone_number': '+234 812 345 6789',
+                'specialization': 'RF Azimuth Alignment & Solar Microgrids',
+                'assigned_zone': 'Campus Hostels & North Zone',
+                'is_available': True,
+            }
+        )
+
+        tech2_user, t2_created = User.objects.get_or_create(
+            username='tech_fatima',
+            defaults={
+                'email': 'fatima.tech@ecomesh.network',
+                'first_name': 'Fatima',
+                'last_name': 'Bello',
+                'is_staff': True,
+            }
+        )
+        if t2_created:
+            tech2_user.set_password('password123')
+            tech2_user.save()
+        TechnicianProfile.objects.update_or_create(
+            user=tech2_user,
+            defaults={
+                'full_name': 'Engr. Fatima Bello',
+                'phone_number': '+234 803 987 6543',
+                'specialization': 'Network Infrastructure & Router Diagnostics',
+                'assigned_zone': 'ICT & South Campus Hostels',
+                'is_available': True,
+            }
+        )
+        self.stdout.write(self.style.SUCCESS("  [+] Field Technicians initialized: tech_emeka, tech_fatima (pwd: password123)"))
+
+        # 5. Demo Student User
         student_user, s_created = User.objects.get_or_create(
             username='student1',
             defaults={
@@ -100,69 +206,79 @@ class Command(BaseCommand):
         if s_created:
             student_user.set_password('password123')
             student_user.save()
-            self.stdout.write(self.style.SUCCESS("  [+] Demo Student created: student1 / password123"))
 
-        # Initialize student data wallet with 12.5 GB (12800 MB)
-        wallet, w_created = UserDataWallet.objects.get_or_create(
+        # Seed Student Wallet with 12.5 GB
+        wallet, _ = UserDataWallet.objects.get_or_create(
             user=student_user,
             defaults={
                 'balance_mb': 12800,
                 'assigned_node': created_nodes[0],
             }
         )
-        if not w_created and wallet.balance_mb == 0:
-            wallet.balance_mb = 12800
-            wallet.assigned_node = created_nodes[0]
-            wallet.save()
-        self.stdout.write(self.style.SUCCESS(f"  [+] Initialized Data Wallet for {student_user.username} (Key: {wallet.wifi_access_key})"))
 
-        # 4. Ready-to-Redeem Vouchers
-        vouchers_data = [
-            ('ECO-10GB-SUN', 10240),
-            ('ECO-25GB-PWR', 25600),
-            ('ECO-05GB-MESH', 5120),
-            ('ECO-50GB-MEGA', 51200),
-            ('ECO-15GB-SCHOLAR', 15360),
-            ('ECO-05GB-TEST1', 5120),
-            ('ECO-10GB-TEST2', 10240),
-            ('ECO-20GB-SOLAR', 20480),
-        ]
+        # 6. Sample Scheduled Appointments for student1
+        tomorrow = timezone.localdate() + datetime.timedelta(days=1)
+        next_week = timezone.localdate() + datetime.timedelta(days=4)
+        last_week = timezone.localdate() - datetime.timedelta(days=7)
 
-        v_count = 0
-        for code, mb in vouchers_data:
-            _, created_v = Voucher.objects.get_or_create(
-                code=code,
-                defaults={'data_amount_mb': mb, 'is_redeemed': False}
-            )
-            if created_v:
-                v_count += 1
-        self.stdout.write(self.style.SUCCESS(f"  [+] Created {v_count} fresh unredeemed vouchers."))
+        # Clear existing sample schedules for student1 to avoid conflicts
+        ServiceSchedule.objects.filter(user=student_user).delete()
 
-        # 5. Sample Service Schedules for Demo
-        ServiceSchedule.objects.get_or_create(
+        # Upcoming appointment 1 (Confirmed)
+        ServiceSchedule.objects.create(
             user=student_user,
             node=created_nodes[0],
-            service_type='INSTALL',
-            scheduled_date=timezone.localdate() + datetime.timedelta(days=2),
-            scheduled_time=datetime.time(14, 30),
-            defaults={
-                'address': 'Room 312, Hostel B',
-                'status': 'CONFIRMED',
-                'notes': 'Need high-gain directional antenna installed facing Hostel B Hub for lowest gaming latency.',
-            }
-        )
-
-        ServiceSchedule.objects.get_or_create(
-            user=student_user,
-            node=created_nodes[3],
             service_type='REALIGN',
-            scheduled_date=timezone.localdate() + datetime.timedelta(days=5),
-            scheduled_time=datetime.time(10, 0),
-            defaults={
-                'address': 'SEET Complex Room 14',
-                'status': 'PENDING',
-                'notes': 'Checking signal strength after renovation.',
-            }
+            service_type_ref=ServiceType.objects.filter(code='REALIGN').first(),
+            technician=tech1_user,
+            address='Room 304, Hostel B Annex, South Campus',
+            scheduled_date=tomorrow,
+            scheduled_time=datetime.time(10, 30),
+            status='CONFIRMED',
+            notes='Signal strength dropped to 2 bars during heavy rain.',
+            technician_notes='Dispatch confirmed. Engineer will carry spectrum analyzer and 5GHz replacement feedhorn.'
         )
 
-        self.stdout.write(self.style.SUCCESS("[OK] EcoMesh database seeding completed successfully!"))
+        # Upcoming appointment 2 (Pending Review)
+        ServiceSchedule.objects.create(
+            user=student_user,
+            node=created_nodes[1],
+            service_type='INSTALL',
+            service_type_ref=ServiceType.objects.filter(code='INSTALL').first(),
+            address='Futo Market Shop 14 Plaza',
+            scheduled_date=next_week,
+            scheduled_time=datetime.time(14, 0),
+            status='PENDING',
+            notes='Requesting high-gain directional receiver antenna mounted on shop roof.',
+        )
+
+        # Past appointment 3 (Completed)
+        ServiceSchedule.objects.create(
+            user=student_user,
+            node=created_nodes[0],
+            service_type='ROUTER_CONFIG',
+            service_type_ref=ServiceType.objects.filter(code='ROUTER_CONFIG').first(),
+            technician=tech2_user,
+            address='Room 304, Hostel B Annex',
+            scheduled_date=last_week,
+            scheduled_time=datetime.time(12, 0),
+            status='COMPLETED',
+            notes='Need captive portal assistance for laptop and iPad.',
+            technician_notes='Successfully provisioned WPA3 enterprise credentials and verified 45Mbps throughput.'
+        )
+
+        self.stdout.write(self.style.SUCCESS("  [+] Sample appointments created for demo student."))
+
+        # 7. Promo Vouchers
+        vouchers_data = [
+            {'code': 'ECO-10GB-SUN', 'data_amount_mb': 10240},
+            {'code': 'ECO-25GB-PWR', 'data_amount_mb': 25600},
+            {'code': 'ECO-05GB-MESH', 'data_amount_mb': 5120},
+            {'code': 'ECO-50GB-MEGA', 'data_amount_mb': 51200},
+            {'code': 'ECO-15GB-SCHOLAR', 'data_amount_mb': 15360},
+        ]
+        for v in vouchers_data:
+            Voucher.objects.get_or_create(code=v['code'], defaults=v)
+        self.stdout.write(self.style.SUCCESS("  [+] Promotional Vouchers initialized."))
+
+        self.stdout.write(self.style.SUCCESS("\n[OK] EcoMesh database seeded successfully! Ready for SEN 310 assignment demonstration."))

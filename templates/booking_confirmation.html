@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Booking Confirmed — Ticket #{{ schedule.ticket_number }}{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  
+  <!-- Confirmation Glass Card -->
+  <div class="glass-panel rounded-3xl p-8 sm:p-12 border border-emerald-500/40 shadow-2xl space-y-8 text-center" data-aos="zoom-in">
+    
+    <!-- Success Icon -->
+    <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 p-1 mx-auto shadow-xl shadow-emerald-500/30">
+      <div class="w-full h-full bg-slate-950 rounded-[22px] flex items-center justify-center text-emerald-400">
+        <i data-lucide="check-circle-2" class="w-10 h-10"></i>
+      </div>
+    </div>
+
+    <!-- Title & Ticket Ref -->
+    <div class="space-y-2">
+      <span class="px-3 py-1 text-xs font-bold font-mono rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+        APPOINTMENT BOOKED SUCCESSFULLY
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white">Technician Dispatch Confirmed</h1>
+      <p class="text-xs sm:text-sm text-slate-400">
+        Your service request has been logged. A certified student technician has been notified.
+      </p>
+    </div>
+
+    <!-- Ticket Summary Box -->
+    <div class="p-6 rounded-2xl bg-slate-950/80 border border-slate-800 text-left space-y-4 font-mono text-xs">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <span class="text-slate-400 font-sans">Ticket Reference:</span>
+        <span class="text-base font-bold text-emerald-400">{{ schedule.ticket_number }}</span>
+      </div>
+
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <span class="text-slate-400 font-sans">Service Category:</span>
+        <span class="font-bold text-white">{{ schedule.get_service_name }}</span>
+      </div>
+
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <span class="text-slate-400 font-sans">Scheduled Date & Time:</span>
+        <span class="font-bold text-emerald-300">{{ schedule.scheduled_date|date:"l, M d, Y" }} at {{ schedule.scheduled_time|time:"h:i A" }}</span>
+      </div>
+
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <span class="text-slate-400 font-sans">Target Mesh Node / Zone:</span>
+        <span class="text-white">{{ schedule.node.name|default:"General Campus Zone" }}</span>
+      </div>
+
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <span class="text-slate-400 font-sans">Destination Address:</span>
+        <span class="text-white">{{ schedule.address }}</span>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <span class="text-slate-400 font-sans">Dispatch Status:</span>
+        <span class="px-2.5 py-1 text-[11px] font-bold rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+          {{ schedule.get_status_display }}
+        </span>
+      </div>
+
+    </div>
+
+    <!-- What Happens Next Instructions -->
+    <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-left space-y-2 text-xs text-slate-300">
+      <strong class="text-emerald-400 flex items-center space-x-1.5 font-bold">
+        <i data-lucide="info" class="w-4 h-4"></i>
+        <span>What Happens Next?</span>
+      </strong>
+      <ul class="list-disc list-inside space-y-1 text-slate-400">
+        <li>Our certified field engineer will review your room location and arrive with necessary RF tools/cables.</li>
+        <li>Please ensure someone is available at your room/hostel during the 90-minute window.</li>
+        <li>You can track or cancel this appointment anytime from your dashboard.</li>
+      </ul>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+      <a href="{% url 'dashboard' %}" class="w-full sm:w-auto px-8 py-3.5 text-xs font-bold text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl transition flex items-center justify-center space-x-2">
+        <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+        <span>View My Appointments</span>
+      </a>
+      <a href="{% url 'book_service' %}" class="w-full sm:w-auto px-6 py-3.5 text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 rounded-xl border border-slate-700 transition flex items-center justify-center space-x-2">
+        <i data-lucide="plus" class="w-4 h-4"></i>
+        <span>Book Another Dispatch</span>
+      </a>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

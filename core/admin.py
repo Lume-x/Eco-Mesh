@@ -1,7 +1,21 @@
 import secrets
 from django.contrib import admin
 from django.utils import timezone
-from .models import MeshNode, UserDataWallet, Voucher, ServiceSchedule
+from .models import MeshNode, UserDataWallet, Voucher, ServiceSchedule, ServiceType, TechnicianProfile
+
+
+@admin.register(ServiceType)
+class ServiceTypeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'code', 'estimated_duration_minutes', 'price', 'icon_name', 'badge_color', 'is_active')
+    list_filter = ('is_active',)
+    search_fields = ('name', 'code', 'description')
+
+
+@admin.register(TechnicianProfile)
+class TechnicianProfileAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'user', 'phone_number', 'specialization', 'assigned_zone', 'is_available')
+    list_filter = ('is_available', 'assigned_zone')
+    search_fields = ('full_name', 'user__username', 'phone_number', 'specialization')
 
 
 @admin.register(MeshNode)
@@ -70,15 +84,20 @@ class VoucherAdmin(admin.ModelAdmin):
 
 @admin.register(ServiceSchedule)
 class ServiceScheduleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'service_type', 'node', 'scheduled_date', 'scheduled_time', 'status', 'created_at')
-    list_filter = ('status', 'service_type', 'scheduled_date')
-    search_fields = ('user__username', 'address', 'notes', 'node__name')
-    actions = ['mark_confirmed', 'mark_completed', 'mark_cancelled']
+    list_display = ('ticket_number', 'user', 'service_type', 'node', 'technician', 'scheduled_date', 'scheduled_time', 'status', 'created_at')
+    list_filter = ('status', 'service_type', 'scheduled_date', 'technician')
+    search_fields = ('user__username', 'address', 'notes', 'node__name', 'technician_notes')
+    actions = ['mark_confirmed', 'mark_in_progress', 'mark_completed', 'mark_cancelled']
 
     @admin.action(description="Mark selected appointments as CONFIRMED")
     def mark_confirmed(self, request, queryset):
         count = queryset.update(status='CONFIRMED')
         self.message_user(request, f"Marked {count} appointment(s) as Confirmed.")
+
+    @admin.action(description="Mark selected appointments as IN PROGRESS")
+    def mark_in_progress(self, request, queryset):
+        count = queryset.update(status='IN_PROGRESS')
+        self.message_user(request, f"Marked {count} appointment(s) as In Progress.")
 
     @admin.action(description="Mark selected appointments as COMPLETED")
     def mark_completed(self, request, queryset):
