@@ -87,22 +87,19 @@
           </div>
         </a>
 
-        <!-- Desktop Navigation Links -->
+        <!-- Desktop Navigation Links (Clean Center Links) -->
         <nav class="hidden md:flex items-center space-x-1">
           <a href="{% url 'home' %}" class="px-3.5 py-2 text-sm font-semibold text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition duration-150">Home</a>
           <a href="{% url 'services' %}" class="px-3.5 py-2 text-sm font-semibold text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition duration-150">Services</a>
-          <a href="{% url 'book_service' %}" class="px-4 py-2 text-sm font-extrabold text-slate-950 bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-300 hover:to-teal-300 rounded-xl shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/35 transition duration-150 flex items-center space-x-1.5 transform active:scale-95">
-            <i data-lucide="calendar-plus" class="w-4 h-4 text-slate-950"></i>
-            <span>Book a Technician</span>
-          </a>
+          <a href="{% url 'pricing' %}" class="px-3.5 py-2 text-sm font-semibold text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition duration-150">Vouchers</a>
+          <a href="{% url 'team' %}" class="px-3.5 py-2 text-sm font-semibold text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition duration-150">Team</a>
+          <a href="{% url 'about' %}" class="px-3.5 py-2 text-sm font-semibold text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition duration-150">About</a>
           {% if user.is_authenticated %}
             <a href="{% url 'my_appointments' %}" class="px-3.5 py-2 text-sm font-semibold text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition duration-150">My Appointments</a>
           {% endif %}
-          <a href="{% url 'pricing' %}" class="px-3.5 py-2 text-sm font-semibold text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition duration-150">Vouchers</a>
-          <a href="{% url 'about' %}" class="px-3.5 py-2 text-sm font-semibold text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition duration-150">About</a>
         </nav>
 
-        <!-- Dynamic Auth Actions -->
+        <!-- Dynamic Auth Actions & Primary Single CTA -->
         <div class="hidden md:flex items-center space-x-3">
           {% if user.is_authenticated %}
             
@@ -125,6 +122,12 @@
               <span>Dashboard</span>
             </a>
 
+            <!-- Single Primary Booking CTA for Logged-In Users -->
+            <a href="{% url 'book_service' %}" class="btn-primary-glow text-xs font-extrabold px-4 py-2 flex items-center space-x-1.5">
+              <i data-lucide="calendar-plus" class="w-3.5 h-3.5"></i>
+              <span>Book Technician</span>
+            </a>
+
             <a href="{% url 'profile' %}" class="w-9 h-9 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-bold text-xs hover:border-emerald-400 transition" title="My Account Profile">
               {{ user.username|slice:":1"|upper }}
             </a>
@@ -135,7 +138,7 @@
             </a>
           {% else %}
             <a href="{% url 'login' %}" class="px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white transition duration-150">Sign In</a>
-            <a href="{% url 'book_service' %}" class="flex items-center space-x-2 px-5 py-2.5 text-sm font-extrabold text-slate-950 bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-300 hover:to-teal-300 rounded-xl shadow-lg shadow-emerald-500/25 transition-all duration-150 transform hover:-translate-y-0.5">
+            <a href="{% url 'book_service' %}" class="btn-primary-glow text-sm font-extrabold px-5 py-2.5 flex items-center space-x-2">
               <i data-lucide="calendar" class="w-4 h-4"></i>
               <span>Book a Technician</span>
             </a>
@@ -154,9 +157,9 @@
     <!-- Mobile Navigation Drawer -->
     <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-slate-950/95 backdrop-blur-2xl px-4 pt-3 pb-6 space-y-2 shadow-2xl">
       <a href="{% url 'home' %}" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:bg-white/5">Home</a>
-      <a href="{% url 'book_service' %}" class="block px-3 py-2.5 rounded-xl text-sm font-extrabold text-slate-950 bg-gradient-to-r from-emerald-400 to-teal-400">📅 Book a Technician</a>
       <a href="{% url 'services' %}" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:bg-white/5">Technical Services</a>
       <a href="{% url 'pricing' %}" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:bg-white/5">Perpetual Vouchers</a>
+      <a href="{% url 'team' %}" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:bg-white/5">Team & Leadership</a>
       <a href="{% url 'about' %}" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:bg-white/5">About & Mission</a>
       
       <div class="pt-4 border-t border-white/10 space-y-2">
@@ -169,10 +172,11 @@
           {% if user.is_staff or user.is_superuser %}
             <a href="{% url 'admin_scheduling' %}" class="block w-full text-center px-4 py-2.5 text-sm font-bold text-emerald-300 bg-emerald-500/10 rounded-xl border border-emerald-500/30">Admin Console</a>
           {% endif %}
+          <a href="{% url 'book_service' %}" class="block w-full text-center px-4 py-2.5 text-sm font-black text-slate-950 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-xl shadow-lg">📅 Book a Technician</a>
           <a href="{% url 'logout' %}" class="block w-full text-center px-4 py-2.5 text-sm font-bold text-rose-400 hover:text-rose-300 bg-rose-500/10 rounded-xl">Log Out ({{ user.username }})</a>
         {% else %}
           <a href="{% url 'login' %}" class="block w-full text-center px-4 py-2.5 text-sm font-semibold text-slate-300 hover:bg-white/5 rounded-xl">Sign In</a>
-          <a href="{% url 'book_service' %}" class="block w-full text-center px-4 py-2.5 text-sm font-bold text-slate-950 bg-emerald-400 rounded-xl">Book a Technician</a>
+          <a href="{% url 'book_service' %}" class="block w-full text-center px-4 py-2.5 text-sm font-black text-slate-950 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-xl shadow-lg">📅 Book a Technician</a>
         {% endif %}
       </div>
     </div>
@@ -225,11 +229,11 @@
               <span>SDG 4 Education</span>
             </span>
             <span class="px-2.5 py-1 rounded-lg bg-slate-900 border border-white/10 text-[10px] font-bold text-slate-300 flex items-center space-x-1">
-              <i data-lucide="sun" class="w-3 h-3 text-amber-400"></i>
+              <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i>
               <span>SDG 7 Clean Energy</span>
             </span>
             <span class="px-2.5 py-1 rounded-lg bg-slate-900 border border-white/10 text-[10px] font-bold text-slate-300 flex items-center space-x-1">
-              <i data-lucide="cpu" class="w-3 h-3 text-cyan-400"></i>
+              <i data-lucide="cpu" class="w-3.5 h-3.5 text-cyan-400"></i>
               <span>SDG 9 Infrastructure</span>
             </span>
           </div>
@@ -237,12 +241,13 @@
 
         <!-- Quick Links -->
         <div>
-          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 font-mono">Technical Services</h4>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 font-mono">Company & Architecture</h4>
           <ul class="space-y-2.5 text-xs text-slate-400">
-            <li><a href="{% url 'book_service' %}?service=REALIGN" class="hover:text-emerald-400 transition">Connection Troubleshooting</a></li>
-            <li><a href="{% url 'book_service' %}?service=SOLAR_REPAIR" class="hover:text-emerald-400 transition">Mesh Node Maintenance</a></li>
-            <li><a href="{% url 'book_service' %}?service=INSTALL" class="hover:text-emerald-400 transition">Equipment Inspection</a></li>
-            <li><a href="{% url 'book_service' %}?service=EMERGENCY" class="hover:text-emerald-400 transition">Emergency Diagnostics</a></li>
+            <li><a href="{% url 'home' %}" class="hover:text-emerald-400 transition">Home</a></li>
+            <li><a href="{% url 'services' %}" class="hover:text-emerald-400 transition">Technical Services</a></li>
+            <li><a href="{% url 'pricing' %}" class="hover:text-emerald-400 transition">Perpetual Vouchers</a></li>
+            <li><a href="{% url 'team' %}" class="text-emerald-400 font-bold hover:underline transition">Team & Leadership</a></li>
+            <li><a href="{% url 'about' %}" class="hover:text-emerald-400 transition">About & Solar Manifesto</a></li>
           </ul>
         </div>
 

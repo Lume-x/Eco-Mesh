@@ -56,6 +56,15 @@ def home_view(request):
     total_dispatches_completed = ServiceSchedule.objects.filter(status='COMPLETED').count() + 128
     active_technicians_count = TechnicianProfile.objects.filter(is_available=True).count() or 4
 
+    founder = {
+        'name': 'Obi Chiagozie.A',
+        'role': 'Founder & Lead Software Architect',
+        'sub': 'Department of Software Engineering, FUTO',
+        'bio': 'Austin is a software engineer leading the architecture and deployment of EcoMesh, an off-grid, clean energy network platform. He focuses on decentralized routing, embedded telemetry, and sustainable infrastructure to provide resilient, non-expiring broadband access to communities overlooked by traditional telecommunications providers.',
+        'badge': 'Founder & Lead Architect',
+        'avatar': '/static/images/founder.png',
+    }
+
     context = {
         'nodes': nodes,
         'active_nodes_count': active_nodes_count,
@@ -68,6 +77,7 @@ def home_view(request):
         'services': default_services,
         'total_dispatches_completed': total_dispatches_completed,
         'active_technicians_count': active_technicians_count,
+        'founder': founder,
     }
     return render(request, 'home.html', context)
 

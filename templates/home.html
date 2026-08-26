@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}EcoMesh — Stay Connected. Get Technical Support When You Need It.{% endblock %}
 
@@ -437,7 +438,98 @@
 </section>
 
 <!-- ========================================================================= -->
-<!-- 5. LIVE MESH NODES STATUS & COVERAGE GRID                                -->
+<!-- 5. TEAM & LEADERSHIP SPOTLIGHT SECTION                                    -->
+<!-- ========================================================================= -->
+<section id="team" class="py-24 border-b border-white/10 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+    
+    <div class="text-center max-w-3xl mx-auto space-y-4" data-aos="fade-up">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-bold text-emerald-400">
+        <i data-lucide="cpu" class="w-3.5 h-3.5 text-emerald-400"></i>
+        <span>LEADERSHIP & ARCHITECTURE</span>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Meet the Architect Behind EcoMesh</h2>
+      <p class="text-slate-400 text-sm sm:text-base">
+        Engineering decentralized solar mesh networks to solve persistent broadband accessibility across off-campus communities.
+      </p>
+    </div>
+
+    <!-- Spotlight Founder Card -->
+    <div class="cyber-card cyber-card-glow p-8 sm:p-12 max-w-5xl mx-auto relative overflow-hidden" data-aos="fade-up">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
+        
+        <!-- Left: Founder Photo -->
+        <div class="md:col-span-5">
+          <div class="relative w-full aspect-[3/4] rounded-2xl overflow-hidden bg-slate-900 border-2 border-emerald-500/40 shadow-2xl shadow-emerald-500/20 group">
+            <img src="{% static 'images/founder.png' %}" alt="{{ founder.name|default:'Obi Chiagozie.A' }}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+            <span class="absolute bottom-4 left-4 px-3 py-1 text-xs font-bold font-mono rounded-lg bg-slate-950/90 backdrop-blur-md text-emerald-400 border border-emerald-500/40 shadow-lg">
+              {{ founder.badge|default:'Founder & Lead Architect' }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Right: Bio & Credentials -->
+        <div class="md:col-span-7 space-y-6">
+          <div class="space-y-2">
+            <div class="inline-flex items-center space-x-2 px-2.5 py-1 rounded bg-emerald-500/15 text-emerald-300 text-xs font-bold font-mono border border-emerald-500/30">
+              <span>FOUNDER</span>
+            </div>
+            <h3 class="text-3xl sm:text-4xl font-black text-white tracking-tight">{{ founder.name|default:'Obi Chiagozie.A' }}</h3>
+            <p class="text-sm font-bold text-emerald-400">{{ founder.role|default:'Founder & Lead Software Architect' }}</p>
+            <p class="text-xs text-slate-400 font-mono">{{ founder.sub|default:'Department of Software Engineering, FUTO' }}</p>
+          </div>
+
+          <div class="border-t border-white/10 pt-4">
+            <p class="text-sm text-slate-300 leading-relaxed">
+              {{ founder.bio|default:'Austin is a software engineer leading the architecture and deployment of EcoMesh, an off-grid, clean energy network platform. He focuses on decentralized routing, embedded telemetry, and sustainable infrastructure to provide resilient, non-expiring broadband access to communities overlooked by traditional telecommunications providers.' }}
+            </p>
+          </div>
+
+          <!-- Focus Area Badges -->
+          <div class="space-y-2.5 pt-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono block">Core Architectural Domains:</span>
+            <div class="flex flex-wrap gap-2 text-xs">
+              <span class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-300 flex items-center space-x-1.5 font-medium">
+                <i data-lucide="git-merge" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Decentralized Mesh Routing</span>
+              </span>
+              <span class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-300 flex items-center space-x-1.5 font-medium">
+                <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span>Embedded Solar Telemetry</span>
+              </span>
+              <span class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-300 flex items-center space-x-1.5 font-medium">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-cyan-400"></i>
+                <span>Perpetual Data Wallets</span>
+              </span>
+              <span class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-300 flex items-center space-x-1.5 font-medium">
+                <i data-lucide="zap" class="w-3.5 h-3.5 text-teal-400"></i>
+                <span>Off-Grid Microgrid Resilience</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="pt-4 border-t border-white/10 flex flex-wrap items-center gap-4 text-xs font-bold">
+            <a href="{% url 'team' %}" class="btn-primary-glow px-5 py-2.5 text-xs">
+              <span>View Full Leadership Profile &rarr;</span>
+            </a>
+            <a href="{% url 'book_service' %}" class="btn-secondary-glass px-5 py-2.5 text-xs">
+              <i data-lucide="calendar" class="w-4 h-4 text-emerald-400"></i>
+              <span>Book Consultation</span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- 6. LIVE MESH NODES STATUS & COVERAGE GRID                                -->
 <!-- ========================================================================= -->
 <section id="coverage" class="py-24 relative">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
